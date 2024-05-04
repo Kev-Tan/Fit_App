@@ -62,6 +62,24 @@ class Home extends StatelessWidget {
               ),
             ),
           ),
+          Expanded(
+            flex: 1,
+            child: Container(),
+          ),
+          Expanded(
+            flex: 16,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(246, 245, 245, 0.922),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40.0),
+                    topRight: Radius.circular(40.0)),
+              ),
+
+              alignment: Alignment.center, // Aligns child at the center
+              child: Text("Hello there", style: TextStyle(color: Colors.white)),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
