@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-//Testing how it really works commit in homepage ***9x2
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,8 +14,7 @@ class Home extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: Center(
               child: Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.center, // Aligns children horizontally
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
                     flex: 8,
@@ -38,7 +34,7 @@ class Home extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 fontSize: 24,
                                 color: Colors.white)),
-                        Text("Snday April 20",
+                        Text("Sunday April 20",
                             style: GoogleFonts.lato(
                                 fontWeight: FontWeight.w800,
                                 fontSize: 24,
@@ -65,21 +61,64 @@ class Home extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 1,
-            child: Container(),
-          ),
-          Expanded(
-            flex: 16,
             child: Container(
               decoration: BoxDecoration(
                 color: Color.fromRGBO(246, 245, 245, 0.922),
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40.0),
-                    topRight: Radius.circular(40.0)),
+                  topLeft: Radius.circular(40.0),
+                  topRight: Radius.circular(40.0),
+                ),
               ),
-
-              alignment: Alignment.center, // Aligns child at the center
-              child: Text("Hello there", style: TextStyle(color: Colors.white)),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 60.0,
+                  bottom: 30.0,
+                  left: 20.0,
+                  right: 20.0,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Flexible(
+                            flex: 1,
+                            child: Container(
+                              height: 275,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Container(
+                                height: 275,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        height: 250,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         ],
