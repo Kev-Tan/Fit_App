@@ -1,6 +1,11 @@
+import 'package:fit_app/pages/userCreation/forgot_password_page.dart';
+import 'package:fit_app/pages/userCreation/login_page.dart';
+import 'package:fit_app/pages/userCreation/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_app/pages/home/home.dart';
 import 'package:fit_app/pages/home/home.dart';
+
+//to homepage commit 222
 
 void main() {
   runApp(MainApp());
@@ -11,6 +16,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: Home());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Home(),
+    );
   }
 }
