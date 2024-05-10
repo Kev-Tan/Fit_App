@@ -1,8 +1,7 @@
+import 'package:fit_app/pages/profile/profile.dart';
+import 'package:flutter/material.dart';
 import 'package:fit_app/pages/home/widgets/home_content.dart';
 import 'package:fit_app/pages/home/widgets/top_bar.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -29,18 +28,29 @@ class Home extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.fitness_center),
+            label: 'Workout',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
+            icon: Icon(Icons.message),
+            label: 'Chat',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
         ],
+        onTap: (index) {
+          if (index == 3) {
+            // Index 3 corresponds to the "Profile" item
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ProfilePage()), // Navigate to the profile page
+            );
+          }
+        },
       ),
       backgroundColor: Color.fromRGBO(112, 150, 209, 1.0),
     );
