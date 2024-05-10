@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+//new may 10 update
 
 class TopBar extends StatefulWidget {
   const TopBar({super.key});
@@ -12,6 +15,9 @@ class TopBar extends StatefulWidget {
 class _TopBarState extends State<TopBar> {
   @override
   Widget build(BuildContext context) {
+    final DateTime now = DateTime.now();
+    final dateFormatter = DateFormat('yyyy-MM-dd');
+    final formattedDate = dateFormatter.format(now);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -33,7 +39,7 @@ class _TopBarState extends State<TopBar> {
                       fontWeight: FontWeight.w400,
                       fontSize: 24,
                       color: Colors.white)),
-              Text("Sunday April 20",
+              Text(formattedDate,
                   style: GoogleFonts.lato(
                       fontWeight: FontWeight.w800,
                       fontSize: 24,
