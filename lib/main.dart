@@ -10,6 +10,7 @@ import 'package:fit_app/pages/home/home.dart';
 
 //Here we go
 
+
 void main() {
   runApp(MainApp());
 }
