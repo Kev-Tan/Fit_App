@@ -9,6 +9,7 @@ import 'package:fit_app/pages/home/home.dart';
 //bruhh kevin is awesome
 
 //Here we go
+//trial
 
 
 void main() {
