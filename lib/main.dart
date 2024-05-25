@@ -1,19 +1,17 @@
 import 'package:fit_app/pages/userCreation/forgot_password_page.dart';
 import 'package:fit_app/pages/userCreation/login_page.dart';
+import 'package:fit_app/pages/userCreation/pages/auth_page.dart';
 import 'package:fit_app/pages/userCreation/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_app/pages/home/home.dart';
 import 'package:fit_app/pages/home/home.dart';
-//ROWAN IS AWESOME1
-//to homepage commit 222 (new, alongside the updated userCreation Page)x
-//bruhh kevin is awesome
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-//angie was heresssssss  
-  //Here we go
-//trial
-
-
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MainApp());
 }
 
@@ -24,7 +22,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: Authpage(),
     );
   }
 }

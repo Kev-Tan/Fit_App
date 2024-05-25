@@ -55,19 +55,19 @@ class _HomeContentState extends State<HomeContent> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          child: Center(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Navigate to another page when the button is pressed
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginPage()),
-                                );
-                              },
-                              child: Text('Go to Login Page (for testing)'),
-                            ),
-                          ),
+                          // child: Center(
+                          //   child: ElevatedButton(
+                          //     onPressed: () {
+                          //       // Navigate to another page when the button is pressed
+                          //       Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //             builder: (context) => LoginPage()),
+                          //       );
+                          //     },
+                          //     child: Text('Go to Login Page (for testing)'),
+                          //   ),
+                          // ),
                         ),
                       ),
                     ),

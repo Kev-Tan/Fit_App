@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_app/pages/userCreation/forgot_password_page.dart';
 import 'package:fit_app/pages/userCreation/signup_page.dart';
 import 'package:fit_app/pages/userCreation/widgets/email_textfield.dart';
@@ -13,7 +14,12 @@ class LoginPage extends StatelessWidget {
   final passwordController = TextEditingController();
 
   //sign user in method
-  void signUserIn() {}
+  void signUserIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +137,7 @@ class LoginPage extends StatelessWidget {
                   style: TextStyle(
                     color: Color.fromRGBO(8, 31, 92, 1),
                     fontWeight: FontWeight.bold,
-                    fontSize: 22,
+                    fontSize: 16,
                   ),
                 ),
                 const SizedBox(width: 5),
@@ -151,7 +157,7 @@ class LoginPage extends StatelessWidget {
                     style: TextStyle(
                       color: Color.fromRGBO(112, 150, 209, 1),
                       fontWeight: FontWeight.bold,
-                      fontSize: 22,
+                      fontSize: 16,
                     ),
                   ),
                 ),
