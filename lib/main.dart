@@ -7,8 +7,11 @@ import 'package:fit_app/pages/home/home.dart';
 import 'package:fit_app/pages/home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:fit_app/utilities/bottom_navigation_bar_height_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -20,9 +23,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Authpage(),
+    return ChangeNotifierProvider(
+      create: (_) => BottomNavigationBarHeightProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Authpage(),
+      ),
     );
   }
 }

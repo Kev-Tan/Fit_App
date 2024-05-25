@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:fit_app/utilities/bottom_navigation_bar_height_provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key});
@@ -58,6 +60,9 @@ class _ProfilePageState extends State<ProfilePage> {
     double containerWidth = 90.0; // Width of the green container
     double containerHeight = 180.0; // Height of the green container
 
+    final bottomBarHeightProvider = Provider.of<BottomNavigationBarHeightProvider>(context);
+    final bottomBarHeight = bottomBarHeightProvider.height;
+
     return Scaffold(
       body: Stack(
         clipBehavior: Clip.none,
@@ -75,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
               width: containerWidth * 4, // Adjusted width for centering
               height: 700,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: const Color.fromARGB(255, 255, 249, 240),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
@@ -87,11 +92,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
               child: Padding(
-                padding: const EdgeInsets.only(
+                padding: EdgeInsets.only(
                   top: 100.0,
                   left: 8.0,
                   right: 8.0,
-                  //bottom: 10.0,
+                  bottom: bottomBarHeight + 10.0,
                   ),
                 child: SingleChildScrollView(
                       child: Column(
@@ -114,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           Center(
                             child: ElevatedButton(
                               onPressed: (){
-                            
+                               //the edit profile LOGIC HERE
                               },
                               child: Text(
                                 "Edit Profile",
@@ -122,6 +127,27 @@ class _ProfilePageState extends State<ProfilePage> {
                                   fontWeight: FontWeight.w400,
                                   fontSize: 24,
                                   color: const Color.fromARGB(255, 0, 0, 0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 10),
+
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: (){
+                                //the logout LOGIC here
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red, // Change the button color to red
+                              ),
+                              child: Text(
+                                "Logout",
+                                style: GoogleFonts.lato(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 24,
+                                  color: const Color.fromARGB(255, 255, 255, 255),
                                 ),
                               ),
                             ),
