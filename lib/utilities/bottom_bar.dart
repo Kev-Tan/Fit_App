@@ -1,3 +1,4 @@
+import 'package:fit_app/pages/chat/chat.dart';
 import 'package:fit_app/pages/home/home.dart';
 import 'package:fit_app/pages/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,13 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             context,
             MaterialPageRoute(
               builder: (context) => Home(),
+            ),
+          );
+        } else if (index == 2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatPage(),
             ),
           );
         } else if (index == 3) {
