@@ -16,7 +16,7 @@ class _HomeContentState extends State<HomeContent> {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: Color.fromRGBO(246, 245, 245, 0.922),
+          color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40.0),
             topRight: Radius.circular(40.0),
@@ -42,6 +42,10 @@ class _HomeContentState extends State<HomeContent> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10.0),
+                          border: Border.all(
+                            color: Colors.black, // specify the border color
+                            width: 2.0, // specify the border width
+                          ),
                         ),
                       ),
                     ),
@@ -54,6 +58,10 @@ class _HomeContentState extends State<HomeContent> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                              color: Colors.black, // specify the border color
+                              width: 2.0, // specify the border width
+                            ),
                           ),
                           // child: Center(
                           //   child: ElevatedButton(
@@ -79,6 +87,10 @@ class _HomeContentState extends State<HomeContent> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(
+                      color: Colors.black, // specify the border color
+                      width: 2.0, // specify the border width
+                    ),
                   ),
                 ),
               ],

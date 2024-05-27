@@ -21,10 +21,10 @@ class Home extends StatelessWidget {
           HomeContent(),
         ],
       ),
-      bottomNavigationBar: MyBottomNavigationBar(
-        activeIndex: 0,
-      ),
-      backgroundColor: Color.fromRGBO(112, 150, 209, 1),
+      // bottomNavigationBar: MyBottomNavigationBar(
+      //   activeIndex: 0,
+      // ),
+      backgroundColor: Color.fromARGB(255, 8, 31, 92),
     );
   }
 }
