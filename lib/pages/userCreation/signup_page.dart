@@ -23,6 +23,27 @@ class SignupPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 50),
+
+            // back button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.arrow_back, 
+                      color: Color.fromRGBO(8, 31, 92, 1),
+                      size: 25.0,
+                      ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+
             //sign up
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
