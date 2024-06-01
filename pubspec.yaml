@@ -1,10 +1,10 @@
 name: fit_app
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.3.4 <4.0.0'
+  sdk: ">=3.3.4 <4.0.0"
 
 dependencies:
   animated_notch_bottom_bar: ^1.0.3
@@ -20,6 +20,7 @@ dependencies:
   image_picker: ^1.1.2
   intl: ^0.19.0
   provider: ^6.1.2
+  smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -28,3 +29,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - lib/assets/

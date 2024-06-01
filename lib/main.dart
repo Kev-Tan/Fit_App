@@ -1,6 +1,7 @@
 import 'package:fit_app/pages/userCreation/forgot_password_page.dart';
 import 'package:fit_app/pages/userCreation/login_page.dart';
 import 'package:fit_app/pages/userCreation/pages/auth_page.dart';
+import 'package:fit_app/pages/userCreation/pages/form.dart';
 import 'package:fit_app/pages/userCreation/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_app/pages/home/home.dart';
@@ -26,7 +27,7 @@ class MainApp extends StatelessWidget {
       create: (_) => BottomNavigationBarHeightProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Authpage(),
+        home: FormPage(),
       ),
     );
   }
