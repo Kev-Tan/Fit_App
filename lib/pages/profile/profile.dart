@@ -60,8 +60,8 @@ class _ProfilePageState extends State<ProfilePage> {
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.8),
-                spreadRadius: 2,
-                blurRadius: 6,
+                spreadRadius: 1,
+                blurRadius: 7,
                 offset: Offset(0, 5), // changes position of shadow
               ),
             ],
@@ -119,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 5,
                     blurRadius: 7,
-                    //offset: Offset(0, 3), // changes position of shadow
+                    offset: Offset(0, 80), // changes position of shadow
                   ),
                 ],
               ),
