@@ -2,6 +2,7 @@ import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Confirmation.d
 import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Question2.dart';
 import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Question3.dart';
 import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Question4.dart';
+// import 'package:fit_app/service/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
