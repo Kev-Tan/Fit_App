@@ -1,12 +1,15 @@
+import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fit_app/utilities/bottom_bar.dart';
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+//import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_app/utilities/bottom_navigation_bar_height_provider.dart';
+import 'package:image_picker/image_picker.dart';
+//import 'package:flutter/foundation.dart';
+//import 'dart.io';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key});
@@ -16,6 +19,17 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  int CanEdit = 1;
+  File ? _selectedImage;
+
+  Future<void> _pickImageFromGallery() async{
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if(pickedImage == null) return;
+    setState(() {
+      _selectedImage = File(pickedImage.path);
+    });
+  }
+
   void signUserOut() {
     FirebaseAuth.instance.signOut();
   }
@@ -29,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
           style: GoogleFonts.lato(
             fontWeight: FontWeight.w400,
             fontSize: 24,
-            color: const Color.fromARGB(255, 0, 0, 0),
+            color: const Color.fromARGB(255, 112, 150, 209),
           ),
         ),
         const SizedBox(height: 5),
@@ -37,8 +51,20 @@ class _ProfilePageState extends State<ProfilePage> {
           height: 40,
           width: 334,
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 255, 0, 0),
+            color: const Color.fromARGB(255, 255, 249, 240),
             borderRadius: BorderRadius.circular(20.0),
+            border: Border.all(
+              //color: Colors.black,
+              width: 1.0,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.8),
+                spreadRadius: 1,
+                blurRadius: 7,
+                offset: Offset(0, 5), // changes position of shadow
+              ),
+            ],
           ),
           child: Container(
             margin: const EdgeInsets.symmetric(
@@ -50,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
               style: GoogleFonts.lato(
                 fontWeight: FontWeight.w400,
                 fontSize: 24,
-                color: Colors.white,
+                color: const Color.fromARGB(255, 0, 0, 0),
               ),
             ),
           ),
@@ -76,12 +102,11 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: 150 + containerHeight / 2,
-            color: Color.fromRGBO(112, 150, 209, 1),
+            color: Color.fromRGBO(8, 31, 92, 1),
           ),
           Positioned(
             top: 150,
-            left: (MediaQuery.of(context).size.width - (containerWidth * 4)) /
-                2, // Center horizontally
+            left: (MediaQuery.of(context).size.width - (containerWidth * 4)) / 2, // Center horizontally
             //left: MediaQuery.of(context).size.width / 8,
             child: Container(
               width: containerWidth * 4, // Adjusted width for centering
@@ -94,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 5,
                     blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: Offset(0, 80), // changes position of shadow
                   ),
                 ],
               ),
@@ -126,6 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: ElevatedButton(
                           onPressed: () {
                             //the edit profile LOGIC HERE
+                            //CanEdit = 1;
                           },
                           child: Text(
                             "Edit Profile",
@@ -137,6 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       ),
+
                       const SizedBox(height: 10),
                       Center(
                         child: ElevatedButton(
@@ -157,6 +184,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       ),
+                      
+                      const SizedBox(height: 20),
+                                        
                       const SizedBox(height: 110),
                     ],
                   ),
@@ -164,22 +194,75 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
+          // Positioned(
+          //   left: (MediaQuery.of(context).size.width - 180) / 2,
+          //   top: 150 + (containerHeight / 2) - 180,
+          //   child: Flexible(
+          //     flex: 5,
+          //     child: Container(
+          //       //margin: EdgeInsets.only(top: ((containerHeight - 180) / 2) - 10.0),
+          //       width: 180,
+          //       height: 180,
+          //       decoration: BoxDecoration(
+          //         color: Color.fromARGB(255, 0, 0, 0),
+          //         shape: BoxShape.circle,
+          //       ),
+          //       // Center(
+          //       //         child: _selectedImagePath != null
+          //       //             ? Image.file(_selectedImagePath!)
+          //       //             : Text('Please select an image'),
+          //       //       ),
+          //     ),
+          //   ),
+          // ),
           Positioned(
             left: (MediaQuery.of(context).size.width - 180) / 2,
             top: 150 + (containerHeight / 2) - 180,
-            child: Flexible(
-              flex: 5,
+            child: GestureDetector(
+              // onTap: () {
+              //   _pickImageFromGallery;
+              //   //if(CanEdit == 1) _pickImageFromGallery;
+              //   //CanEdit != 0 ? CanEdit = 1 : CanEdit = 0;
+              // },
+              onTap: _pickImageFromGallery,
               child: Container(
-                //margin: EdgeInsets.only(top: ((containerHeight - 180) / 2) - 10.0),
                 width: 180,
                 height: 180,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 0, 0, 0),
+                  color: Colors.black, // Background color black
                   shape: BoxShape.circle,
+                  border: Border.all(
+                    //color: Colors.black,
+                    width: 2.0,
+                  ),
+                ),
+                child: ClipOval(
+                  child: _selectedImage != null
+                      ? Image.file(
+                          _selectedImage!,
+                          fit: BoxFit.cover,
+                          width: 180,
+                          height: 180,
+                        )
+                      : Center(
+                          child: Container(
+                            color: Colors.black, // Background color black
+                            child: Text(
+                              'Please select an image',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.lato(
+                                fontWeight: FontWeight.w400,
+                                //fontSize: 25,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            ),
+                          ),
+                  ),
                 ),
               ),
             ),
           ),
+
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -190,9 +273,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: GoogleFonts.lato(
                       fontWeight: FontWeight.bold,
                       fontSize: 36,
-                      color: Color.fromRGBO(255, 255, 255, 0.612)),
+                      color: Color.fromRGBO(255, 255, 255, 0.612),
+                  ),
                   //presetFontSizes: [40, 20, 14],
-                  //maxLines: 1,
+                  maxLines: 1,
                 ),
               ],
             ),

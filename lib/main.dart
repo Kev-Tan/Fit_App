@@ -5,7 +5,6 @@ import 'package:fit_app/pages/userCreation/pages/form.dart';
 import 'package:fit_app/pages/userCreation/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_app/pages/home/home.dart';
-import 'package:fit_app/pages/home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:fit_app/utilities/bottom_navigation_bar_height_provider.dart';
@@ -28,7 +27,7 @@ class MainApp extends StatelessWidget {
       create: (_) => BottomNavigationBarHeightProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: FormPage(),
+        home: Authpage(), //FormPage to open the Fill In Data page, Authpage to go to the main user page
       ),
     );
   }
