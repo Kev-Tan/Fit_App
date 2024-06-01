@@ -28,7 +28,7 @@ class MainApp extends StatelessWidget {
       create: (_) => BottomNavigationBarHeightProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Authpage(),
+        home: FormPage(),
       ),
     );
   }

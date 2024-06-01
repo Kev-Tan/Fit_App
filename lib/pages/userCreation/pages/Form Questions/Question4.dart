@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class QuestionTwo extends StatelessWidget {
+class QuestionFour extends StatelessWidget {
   final TextEditingController controller;
 
-  const QuestionTwo({Key? key, required this.controller}) : super(key: key);
+  const QuestionFour({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class QuestionTwo extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "How old are you?",
+                    "What is your weight?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily:
@@ -41,7 +41,7 @@ class QuestionTwo extends StatelessWidget {
                 ),
 
                 SizedBox(height: 50), // Add some spacing
-                Image.asset('lib/assets/question2_image.png'),
+                Image.asset('lib/assets/question4_image.png'),
                 SizedBox(height: 50), // Add some spacing
 
                 TextField(
@@ -52,7 +52,7 @@ class QuestionTwo extends StatelessWidget {
                           color: Color.fromARGB(
                               255, 8, 31, 92)), // Change border color here
                     ),
-                    labelText: 'Enter your age',
+                    labelText: 'Enter your weight',
                   ),
                   keyboardType: TextInputType.number,
                 ),
