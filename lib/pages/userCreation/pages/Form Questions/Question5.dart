@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ConfirmationPage extends StatelessWidget {
-  final VoidCallback onPressed;
+class QuestionFive extends StatelessWidget {
+  final TextEditingController controller;
 
-  const ConfirmationPage({Key? key, required this.onPressed}) : super(key: key);
+  const QuestionFive({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class ConfirmationPage extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "Submit?",
+                    "What is your neck circumference?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily:
@@ -39,10 +39,22 @@ class ConfirmationPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20), // Add spacing below the text
-                ElevatedButton(
-                  onPressed: onPressed,
-                  child: Text('Submit Data'), // Customize the button text here
+
+                SizedBox(height: 50), // Add some spacing
+                Image.asset('lib/assets/question5_image.png'),
+                SizedBox(height: 50), // Add some spacing
+
+                TextField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Color.fromARGB(
+                              255, 8, 31, 92)), // Change border color here
+                    ),
+                    labelText: 'Enter your neck circumference',
+                  ),
+                  keyboardType: TextInputType.number,
                 ),
               ],
             ),

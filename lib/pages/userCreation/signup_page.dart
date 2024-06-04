@@ -16,11 +16,13 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  //text editing controllers
+  // Text editing controllers
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final reconfirmPasswordController = TextEditingController();
+
+  var userID;
 
   // Method to show loading dialog
   void _showLoadingDialog() {
@@ -40,7 +42,7 @@ class _SignupPageState extends State<SignupPage> {
     Navigator.of(context).pop();
   }
 
-  //sign user up method
+  // Sign user up method
   void signUserUp() async {
     print("Signup tapped");
     try {
@@ -48,29 +50,43 @@ class _SignupPageState extends State<SignupPage> {
 
       // Check if passwords are the same when reconfirming
       if (passwordController.text == reconfirmPasswordController.text) {
+        // Create user with email and password
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
         );
-        _closeLoadingDialog();
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => FormPage()),
-        );
+        // Get the current user's UID
+        User? firebaseUser = FirebaseAuth.instance.currentUser;
+        if (firebaseUser != null) {
+          userID = firebaseUser.uid;
 
-        // Navigator.pop(context);
+          // Immediately sign the user out
+          await FirebaseAuth.instance.signOut();
 
-        // // Navigate to another page or show success message
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(
-        //     content: Text('Sign up successful!'),
-        //     backgroundColor: Colors.green,
-        //   ),
-        // );
+          _closeLoadingDialog();
 
-        // Optionally, navigate to another page, e.g.:
-        // Navigator.pushReplacementNamed(context, '/home');
+          // Navigate to the FormPage
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FormPage(
+                usernameController: usernameController,
+                emailController: emailController,
+                passwordController: passwordController,
+                UID: userID,
+              ),
+            ),
+          );
+        } else {
+          _closeLoadingDialog();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Failed to get user information'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       } else {
         _closeLoadingDialog();
         ScaffoldMessenger.of(context).showSnackBar(
@@ -103,28 +119,28 @@ class _SignupPageState extends State<SignupPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 50),
-  
-            // back button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.arrow_back, 
-                      color: Color.fromRGBO(8, 31, 92, 1),
-                      size: 25.0,
-                      ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
 
-            // Sign up
+              // Back button
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Color.fromRGBO(8, 31, 92, 1),
+                        size: 25.0,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+
+              // Sign up
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -142,30 +158,35 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
               const SizedBox(height: 25),
+
               // Username textfield
               UsernameTextField(
                 controller: usernameController,
                 hintText: 'Username',
               ),
               const SizedBox(height: 10),
+
               // Email textfield
               EmailTextField(
                 controller: emailController,
                 hintText: 'Email',
               ),
               const SizedBox(height: 10),
+
               // Password textfield
               PasswordTextField(
                 controller: passwordController,
                 hintText: 'Password',
               ),
               const SizedBox(height: 10),
+
               // Reconfirm password
               PasswordTextField(
                 controller: reconfirmPasswordController,
                 hintText: 'Re-enter Password',
               ),
               const SizedBox(height: 50),
+
               // Sign up button
               SignupButton(
                 onTap: signUserUp,

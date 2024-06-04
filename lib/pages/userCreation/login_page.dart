@@ -14,12 +14,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  //text editing controllers
+  // Text editing controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  //sign user in method
+  // Sign user in method
   void signUserIn() async {
+    final userEmail = emailController.text;
+    final userPassword = passwordController.text;
+
     try {
       showDialog(
         context: context,
@@ -31,8 +34,8 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
+        email: userEmail,
+        password: userPassword,
       );
 
       Navigator.pop(context); // Close the loading dialog
@@ -59,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 50),
-              //welcome
+              // Welcome
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -78,18 +81,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 25),
 
-              //email textfield
+              // Email textfield
               EmailTextField(controller: emailController, hintText: 'Email'),
 
               const SizedBox(height: 10),
 
-              //password textfield
+              // Password textfield
               PasswordTextField(
                   controller: passwordController, hintText: 'Password'),
 
               const SizedBox(height: 10),
 
-              //forgot password
+              // Forgot password
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -118,14 +121,14 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 50),
 
-              //sign in button
+              // Sign in button
               SigninButton(
                 onTap: signUserIn,
               ),
 
               const SizedBox(height: 50),
 
-              //divider
+              // Divider
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -159,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 25),
 
-              //dont have an account, sign up
+              // Don't have an account, sign up
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

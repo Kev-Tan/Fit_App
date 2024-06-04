@@ -27,7 +27,8 @@ class MainApp extends StatelessWidget {
       create: (_) => BottomNavigationBarHeightProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Authpage(),
+        home:
+            Authpage(), //FormPage to open the Fill In Data page, Authpage to go to the main user page
       ),
     );
   }
