@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Confirmation.dart';
+import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Question1.dart';
 import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Question2.dart';
 import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Question3.dart';
 import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Question4.dart';
 import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Question5.dart';
+import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Question6.dart';
+import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Question7.dart';
+import 'package:fit_app/pages/userCreation/pages/Form%20Questions/Question8.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -29,21 +33,27 @@ class FormPage extends StatefulWidget {
 class _FormPageState extends State<FormPage> {
   int _currentPageIndex = 0;
   final PageController _controller = PageController();
+  String? _selectedGender; 
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _neckController = TextEditingController();
+  final TextEditingController _waistController = TextEditingController();
+  final TextEditingController _hipController = TextEditingController();
 
-  Future<void> addUserDetails(int age, int height, int weight, String username,
-      String email, int neck) async {
+  Future<void> addUserDetails(String gender, int age, int height, int weight, String username,
+      String email, int neck, int waist, int hip) async {
     try {
       await FirebaseFirestore.instance.collection('users').doc(widget.UID).set({
+        'gender': gender,
         'username': username,
         'email': email,
         'age': age,
         'height': height,
         'weight': weight,
         'neck': neck,
+        'waist': waist,
+        'hips': hip,
       });
     } catch (error) {
       print('Error adding user details: $error');
@@ -51,20 +61,26 @@ class _FormPageState extends State<FormPage> {
   }
 
   void handleConfirmation() async {
+    final gender = _selectedGender;
     final age = int.tryParse(_ageController.text);
     final height = int.tryParse(_heightController.text);
     final weight = int.tryParse(_weightController.text);
     final neck = int.tryParse(_neckController.text);
+    final waist = int.tryParse(_waistController.text);
+    final hip = int.tryParse(_hipController.text);
     final username = widget.usernameController.text;
     final email = widget.emailController.text;
 
-    if (age != null &&
+    if (gender != null &&
+        age != null &&
         height != null &&
         weight != null &&
         username.isNotEmpty &&
         email.isNotEmpty &&
-        neck != null) {
-      await addUserDetails(age, height, weight, username, email, neck);
+        neck != null &&
+        waist != null &&
+        hip != null) {
+      await addUserDetails(gender, age, height, weight, username, email, neck, waist, hip);
 
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -86,10 +102,28 @@ class _FormPageState extends State<FormPage> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final questionsArr = [
+      QuestionOne(
+        onGenderSelected: (gender) {
+          setState(() {
+            _selectedGender = gender;
+          });
+        },
+      ),
       QuestionTwo(controller: _ageController),
       QuestionThree(controller: _heightController),
       QuestionFour(controller: _weightController),
       QuestionFive(controller: _neckController),
+      QuestionSix(controller: _waistController),
+      QuestionSeven(controller: _hipController),
+      QuestionEight(
+        ageController: _ageController,
+        heightController: _heightController,
+        weightController: _weightController,
+        neckController: _neckController,
+        waistController: _waistController,
+        hipController: _hipController,
+        genderController: TextEditingController(text: _selectedGender),
+      ),
       ConfirmationPage(
         onPressed: handleConfirmation,
       ),
