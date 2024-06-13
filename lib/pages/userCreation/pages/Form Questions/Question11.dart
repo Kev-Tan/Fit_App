@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class QuestionOne extends StatefulWidget {
-  final ValueChanged<String> onGenderSelected;
+class QuestionEleven extends StatefulWidget {
+  final ValueChanged<String> onFrequencySelected;
 
-  const QuestionOne({Key? key, required this.onGenderSelected}) : super(key: key);
+  const QuestionEleven({Key? key, required this.onFrequencySelected}) : super(key: key);
 
   @override
-  _QuestionOneState createState() => _QuestionOneState();
+  _QuestionElevenState createState() => _QuestionElevenState();
 }
 
-class _QuestionOneState extends State<QuestionOne> {
-  String? _selectedGender;
+class _QuestionElevenState extends State<QuestionEleven> {
+  String? _selectedFrequency;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _QuestionOneState extends State<QuestionOne> {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "What is your gender?",
+                    "How often do you want to workout?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Lato',
@@ -48,8 +48,8 @@ class _QuestionOneState extends State<QuestionOne> {
                 ),
                 SizedBox(height: 50),
                 DropdownButtonFormField<String>(
-                  value: _selectedGender,
-                  items: ['Male', 'Female'].map((String value) {
+                  value: _selectedFrequency,
+                  items: ['1-2 times a week', '3-4 times a week', '5-6 times a week'].map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -57,15 +57,15 @@ class _QuestionOneState extends State<QuestionOne> {
                   }).toList(),
                   onChanged: (String? newValue) {
                     setState(() {
-                      _selectedGender = newValue;
+                      _selectedFrequency = newValue;
                     });
-                    widget.onGenderSelected(newValue!);
+                    widget.onFrequencySelected(newValue!);
                   },
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Color.fromARGB(255, 8, 31, 92)),
                     ),
-                    labelText: 'Select your gender',
+                    labelText: 'Select your workout frequency',
                   ),
                 ),
               ],

@@ -55,6 +55,12 @@ class _QuestionEightState extends State<QuestionEight> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    calculateBodyFatPercentage(); // Calculate body fat percentage when the widget is initialized
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(40.0),
@@ -64,7 +70,7 @@ class _QuestionEightState extends State<QuestionEight> {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: Color.fromARGB(255, 8, 31, 92),
-            width: 2,
+            width: 2, // Adjust the border width as needed
           ),
         ),
         child: ClipRRect(
@@ -78,18 +84,22 @@ class _QuestionEightState extends State<QuestionEight> {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "Your Body Fat Percentage is:",
+                    "Your Body Fat Percentage is",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: 'Lato',
+                      fontFamily:
+                          'Lato', // Ensure you have added the Lato font to your project
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
+                      color:  Color.fromARGB(255, 8, 31, 92),
                     ),
                   ),
                 ),
+
                 SizedBox(height: 50),
                 Image.asset('lib/assets/question8_image.png'),
                 SizedBox(height: 50),
+
                 Container(
                   padding: const EdgeInsets.all(25),
                   margin: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -100,7 +110,7 @@ class _QuestionEightState extends State<QuestionEight> {
                   child: Center(
                     child: Text(
                       _bodyFatPercentage == 0.0
-                          ? 'Body Fat Percentage'
+                          ? 'Calculating'
                           : '${_bodyFatPercentage.toStringAsFixed(2)}%',
                       style: TextStyle(
                         color: Color.fromRGBO(247, 242, 235, 1),
@@ -111,24 +121,6 @@ class _QuestionEightState extends State<QuestionEight> {
                   ),
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: calculateBodyFatPercentage,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(8, 31, 92, 1),
-                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: const Text(
-                    "Calculate",
-                    style: TextStyle(
-                      color: Color.fromRGBO(247, 242, 235, 1),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

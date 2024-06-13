@@ -36,6 +36,7 @@ class QuestionTwo extends StatelessWidget {
                           'Lato', // Ensure you have added the Lato font to your project
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
+                      color:  Color.fromARGB(255, 8, 31, 92),
                     ),
                   ),
                 ),

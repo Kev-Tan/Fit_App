@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class QuestionOne extends StatefulWidget {
-  final ValueChanged<String> onGenderSelected;
+class QuestionNine extends StatefulWidget {
+  final ValueChanged<String> onGoalSelected;
 
-  const QuestionOne({Key? key, required this.onGenderSelected}) : super(key: key);
+  const QuestionNine({Key? key, required this.onGoalSelected}) : super(key: key);
 
   @override
-  _QuestionOneState createState() => _QuestionOneState();
+  _QuestionNineState createState() => _QuestionNineState();
 }
 
-class _QuestionOneState extends State<QuestionOne> {
-  String? _selectedGender;
+class _QuestionNineState extends State<QuestionNine> {
+  String? _selectedGoal;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _QuestionOneState extends State<QuestionOne> {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "What is your gender?",
+                    "What are your fitness goals?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Lato',
@@ -48,8 +48,8 @@ class _QuestionOneState extends State<QuestionOne> {
                 ),
                 SizedBox(height: 50),
                 DropdownButtonFormField<String>(
-                  value: _selectedGender,
-                  items: ['Male', 'Female'].map((String value) {
+                  value: _selectedGoal,
+                  items: ['Lose Weight', 'Gain Weight', 'Get Fit'].map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -57,15 +57,15 @@ class _QuestionOneState extends State<QuestionOne> {
                   }).toList(),
                   onChanged: (String? newValue) {
                     setState(() {
-                      _selectedGender = newValue;
+                      _selectedGoal = newValue;
                     });
-                    widget.onGenderSelected(newValue!);
+                    widget.onGoalSelected(newValue!);
                   },
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Color.fromARGB(255, 8, 31, 92)),
                     ),
-                    labelText: 'Select your gender',
+                    labelText: 'Select your fitness goals',
                   ),
                 ),
               ],

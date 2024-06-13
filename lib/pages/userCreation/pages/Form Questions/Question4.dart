@@ -36,6 +36,7 @@ class QuestionFour extends StatelessWidget {
                           'Lato', // Ensure you have added the Lato font to your project
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
+                      color:  Color.fromARGB(255, 8, 31, 92),
                     ),
                   ),
                 ),
@@ -52,7 +53,7 @@ class QuestionFour extends StatelessWidget {
                           color: Color.fromARGB(
                               255, 8, 31, 92)), // Change border color here
                     ),
-                    labelText: 'Enter your weight',
+                    labelText: 'Enter your weight (kg)',
                   ),
                   keyboardType: TextInputType.number,
                 ),
