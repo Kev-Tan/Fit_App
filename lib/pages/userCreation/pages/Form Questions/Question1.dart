@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class QuestionOne extends StatefulWidget {
   final ValueChanged<String> onGenderSelected;
+  final String? selectedGender; 
 
-  const QuestionOne({Key? key, required this.onGenderSelected}) : super(key: key);
+  const QuestionOne({Key? key, required this.onGenderSelected, this.selectedGender}) : super(key: key); 
 
   @override
   _QuestionOneState createState() => _QuestionOneState();
@@ -11,6 +12,12 @@ class QuestionOne extends StatefulWidget {
 
 class _QuestionOneState extends State<QuestionOne> {
   String? _selectedGender;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedGender = widget.selectedGender; 
+  }
 
   @override
   Widget build(BuildContext context) {

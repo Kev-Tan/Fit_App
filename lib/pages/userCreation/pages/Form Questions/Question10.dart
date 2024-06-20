@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class QuestionTen extends StatefulWidget {
   final ValueChanged<String> onLevelSelected;
+  final String? selectedLevel;
 
-  const QuestionTen({Key? key, required this.onLevelSelected}) : super(key: key);
+  const QuestionTen({Key? key, required this.onLevelSelected, this.selectedLevel}) : super(key: key);
 
   @override
   _QuestionTenState createState() => _QuestionTenState();
@@ -11,6 +12,12 @@ class QuestionTen extends StatefulWidget {
 
 class _QuestionTenState extends State<QuestionTen> {
   String? _selectedLevel;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedLevel = widget.selectedLevel;
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -38,7 +38,7 @@ class FormPage extends StatefulWidget {
 class _FormPageState extends State<FormPage> {
   int _currentPageIndex = 0;
   final PageController _controller = PageController();
-  String? _selectedGender; 
+  String? _selectedGender;
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
@@ -51,8 +51,21 @@ class _FormPageState extends State<FormPage> {
   String? _selectedDuration;
   String? _selectedTime;
 
-  Future<void> addUserDetails(String username, String email, String gender, int age, int height, int weight, int neck, 
-  int waist, int hip, String goal, String level, String frequency, String duration, String time) async {
+  Future<void> addUserDetails(
+      String username,
+      String email,
+      String gender,
+      int age,
+      int height,
+      int weight,
+      int neck,
+      int waist,
+      int hip,
+      String goal,
+      String level,
+      String frequency,
+      String duration,
+      String time) async {
     try {
       await FirebaseFirestore.instance.collection('users').doc(widget.UID).set({
         'username': username,
@@ -92,14 +105,14 @@ class _FormPageState extends State<FormPage> {
     final time = _selectedTime;
 
     if (username.isNotEmpty &&
-        email.isNotEmpty && 
+        email.isNotEmpty &&
         gender != null &&
         age != null &&
         height != null &&
         weight != null &&
         neck != null &&
         waist != null &&
-        (gender == 'Female' ? hip != null : true) && 
+        (gender == 'Female' ? hip != null : true) &&
         goal != null &&
         level != null &&
         frequency != null &&
@@ -129,9 +142,9 @@ class _FormPageState extends State<FormPage> {
         onGenderSelected: (gender) {
           setState(() {
             _selectedGender = gender;
-            // Rebuild the PageView with the new gender selection
           });
         },
+        selectedGender: _selectedGender,
       ),
       QuestionTwo(controller: _ageController),
       QuestionThree(controller: _heightController),
@@ -140,7 +153,8 @@ class _FormPageState extends State<FormPage> {
         controller: _neckController,
         onSkip: () {
           _controller.jumpToPage(8);
-        },),
+        },
+      ),
     ];
 
     if (_selectedGender == 'Female') {
@@ -148,18 +162,21 @@ class _FormPageState extends State<FormPage> {
         controller: _waistController,
         onSkip: () {
           _controller.jumpToPage(8);
-        },));
+        },
+      ));
       questions.add(QuestionSeven(
         controller: _hipController,
         onSkip: () {
           _controller.jumpToPage(8);
-        },));
+        },
+      ));
     } else {
       questions.add(QuestionSix(
         controller: _waistController,
         onSkip: () {
           _controller.jumpToPage(8);
-        },));
+        },
+      ));
     }
 
     questions.add(QuestionEight(
@@ -179,6 +196,7 @@ class _FormPageState extends State<FormPage> {
             _selectedGoal = goal;
           });
         },
+        selectedGoal: _selectedGoal,
       ),
       QuestionTen(
         onLevelSelected: (level) {
@@ -186,6 +204,7 @@ class _FormPageState extends State<FormPage> {
             _selectedLevel = level;
           });
         },
+        selectedLevel: _selectedLevel,
       ),
       QuestionEleven(
         onFrequencySelected: (frequency) {
@@ -193,6 +212,7 @@ class _FormPageState extends State<FormPage> {
             _selectedFrequency = frequency;
           });
         },
+        selectedFrequency: _selectedFrequency,
       ),
       QuestionTwelve(
         onDurationSelected: (duration) {
@@ -200,6 +220,7 @@ class _FormPageState extends State<FormPage> {
             _selectedDuration = duration;
           });
         },
+        selectedDuration: _selectedDuration,
       ),
       QuestionThirteen(
         onTimeSelected: (time) {
@@ -207,6 +228,7 @@ class _FormPageState extends State<FormPage> {
             _selectedTime = time;
           });
         },
+        selectedTime: _selectedTime,
       ),
       ConfirmationPage(
         onPressed: handleConfirmation,
@@ -257,7 +279,7 @@ class _FormPageState extends State<FormPage> {
                   count: questionsArr.length,
                   effect: WormEffect(
                     dotColor: Color.fromRGBO(186, 214, 235, 1),
-                    activeDotColor: Color.fromRGBO(8, 31, 92, 1), 
+                    activeDotColor: Color.fromRGBO(8, 31, 92, 1),
                     dotHeight: 12.0,
                     dotWidth: 12.0,
                   ),

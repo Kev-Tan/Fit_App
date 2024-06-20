@@ -47,10 +47,10 @@ class _QuestionEightState extends State<QuestionEight> {
 
     if (gender == 'Male') {
       bodyFatPercentage =
-          86.010 * log(waist - neck) - 70.041 * log(height) + 36.76;
+          (495 / (1.0324 - 0.19077 * log(waist - neck) + 0.15456 * log(height))) - 450;
     } else if (gender == 'Female') {
       bodyFatPercentage =
-          163.205 * log(waist + hip - neck) - 97.684 * log(height) - 78.387;
+        (495 / (1.29579 - 0.35004 * log(waist + hip - neck) + 0.22100 * log(height))) - 450;
     } else {
       return; // Return if gender is invalid
     }

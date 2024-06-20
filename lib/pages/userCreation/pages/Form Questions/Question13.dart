@@ -2,32 +2,45 @@ import 'package:flutter/material.dart';
 
 class QuestionThirteen extends StatefulWidget {
   final ValueChanged<String> onTimeSelected;
+  final String? selectedTime;
 
-  const QuestionThirteen({Key? key, required this.onTimeSelected}) : super(key: key);
+  const QuestionThirteen({Key? key, required this.onTimeSelected, this.selectedTime}) : super(key: key);
 
   @override
   _QuestionThirteenState createState() => _QuestionThirteenState();
 }
 
 class _QuestionThirteenState extends State<QuestionThirteen> {
-  TimeOfDay? _selectedTime;
+  String? _selectedTime;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedTime = widget.selectedTime;
+  }
 
   Future<void> _selectTime(BuildContext context) async {
+    final initialTime = _selectedTime != null
+        ? TimeOfDay(
+            hour: int.parse(_selectedTime!.split(":")[0]),
+            minute: int.parse(_selectedTime!.split(":")[1]),
+          )
+        : TimeOfDay.now();
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: initialTime,
       builder: (BuildContext context, Widget? child) {
         return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false), // Set to true for 24 hour format
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
           child: child!,
         );
       },
     );
-    if (picked != null && picked != _selectedTime) {
+    if (picked != null) {
       setState(() {
-        _selectedTime = picked;
+        _selectedTime = picked.format(context);
       });
-      widget.onTimeSelected(_selectedTime!.format(context));
+      widget.onTimeSelected(_selectedTime!);
     }
   }
 
@@ -60,7 +73,7 @@ class _QuestionThirteenState extends State<QuestionThirteen> {
                     style: TextStyle(
                       fontFamily: 'Lato',
                       fontSize: 26,
-                      color:  Color.fromARGB(255, 8, 31, 92),
+                      color: Color.fromARGB(255, 8, 31, 92),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -69,7 +82,7 @@ class _QuestionThirteenState extends State<QuestionThirteen> {
                 ElevatedButton(
                   onPressed: () => _selectTime(context),
                   child: Text(
-                    _selectedTime == null ? 'Select Time' : _selectedTime!.format(context),
+                    _selectedTime == null ? 'Select Time' : _selectedTime!,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,

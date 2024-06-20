@@ -22,7 +22,7 @@ class QuestionFive extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: SingleChildScrollView(
+          child: Container(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -56,7 +56,6 @@ class QuestionFive extends StatelessWidget {
                   ),
                   keyboardType: TextInputType.number,
                 ),
-                SizedBox(height: 20),
               ],
             ),
           ),

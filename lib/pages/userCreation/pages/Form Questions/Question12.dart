@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class QuestionTwelve extends StatefulWidget {
   final ValueChanged<String> onDurationSelected;
+  final String? selectedDuration;
 
-  const QuestionTwelve({Key? key, required this.onDurationSelected}) : super(key: key);
+  const QuestionTwelve({Key? key, required this.onDurationSelected, this.selectedDuration}) : super(key: key);
 
   @override
   _QuestionTwelveState createState() => _QuestionTwelveState();
@@ -11,6 +12,12 @@ class QuestionTwelve extends StatefulWidget {
 
 class _QuestionTwelveState extends State<QuestionTwelve> {
   String? _selectedDuration;
+
+  @override 
+  void initState() {
+    super.initState();
+    _selectedDuration = widget.selectedDuration;
+  }
 
   @override
   Widget build(BuildContext context) {
