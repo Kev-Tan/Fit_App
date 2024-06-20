@@ -28,7 +28,8 @@ class _ChatPageState extends State<ChatPage> {
   Future<void> _loadChatHistory() async {
     UserModel? user = widget.userProvider.user;
     if (user != null) {
-      List<Map<String, String>> messages = await widget.userProvider.loadMessages(user.uid);
+      List<Map<String, String>> messages =
+          await widget.userProvider.loadMessages(user.uid);
       setState(() {
         _messages = messages;
       });
@@ -43,7 +44,7 @@ class _ChatPageState extends State<ChatPage> {
       _messages.add({'role': 'user', 'content': _controller.text});
     });
 
-    const apiKey = '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';
+    const apiKey = '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';
     final url = Uri.parse('https://api.openai.com/v1/chat/completions');
     final headers = {
       'Content-Type': 'application/json',
@@ -62,12 +63,16 @@ class _ChatPageState extends State<ChatPage> {
 
       final response = await request.send();
 
-      response.stream.transform(utf8.decoder).transform(const LineSplitter()).listen(
+      response.stream
+          .transform(utf8.decoder)
+          .transform(const LineSplitter())
+          .listen(
         (line) {
           if (line.startsWith('data: ')) {
             try {
               final jsonResponse = jsonDecode(line.substring(6));
-              if (jsonResponse['choices'] != null && jsonResponse['choices'].isNotEmpty) {
+              if (jsonResponse['choices'] != null &&
+                  jsonResponse['choices'].isNotEmpty) {
                 final content = jsonResponse['choices'][0]['delta']['content'];
                 if (content != null) {
                   setState(() {
@@ -115,7 +120,8 @@ class _ChatPageState extends State<ChatPage> {
     if (user != null) {
       String recipientId = user.uid;
       for (final message in _messages) {
-        await widget.userProvider.saveMessage(message['content']!, message['role']!, recipientId);
+        await widget.userProvider
+            .saveMessage(message['content']!, message['role']!, recipientId);
       }
     }
   }
@@ -190,7 +196,8 @@ class _ChatPageState extends State<ChatPage> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
                   ),
                   onSubmitted: (_) => _sendMessage(),
                 ),

@@ -25,7 +25,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
       _workoutPlan = "";
     });
 
-    const apiKey = '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';
+    const apiKey = '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';
     final url = Uri.parse('https://api.openai.com/v1/chat/completions');
     final headers = {
       'Content-Type': 'application/json',
@@ -36,8 +36,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
       'messages': [
         {
           'role': 'user',
-          'content': "Please create a workout plan for a person with the following details: "
-              "Age: ${user.age}, Weight: ${user.weight}kg, Height: ${user.height}cm, Neck circumference: ${user.neck}cm. with these are the parameters :  The available body parts are back, cardio, chest, lower arms, lower legs, neck, shoulders, upper arms, upper legs, waist. The available targets are abductors, abs, adductors, biceps, calves, cardiovascular system, delts, forearms, glutes, hamstrings, lats, levator scapulae, pectorals, quads, serratus anterior, spine, traps, triceps, upper back. The available equipment are assisted, band, barbell, body weight, bosu ball, cable, dumbbell, elliptical machine, ez barbell, hammer, kettlebell, leverage machine, medicine ball, olympic barbell, resistance band, roller, rope, skierg machine, sled machine, smith machine, stability ball, stationary bike, stepmill machine, tire, trap bar, upper body ergometer, weighted, wheel roller., and when you gives the answer, please put it in a format like : [Day 1[Upper Body Strength Training[Bench Press, Target : Pectorals, Equipment : Dumbbell, 3 sets of 12 reps], Bicep Curls...]], because I want to use another AI to generate the gif"
+          'content':
+              "Please create a workout plan for a person with the following details: "
+                  "Age: ${user.age}, Weight: ${user.weight}kg, Height: ${user.height}cm, Neck circumference: ${user.neck}cm. with these are the parameters :  The available body parts are back, cardio, chest, lower arms, lower legs, neck, shoulders, upper arms, upper legs, waist. The available targets are abductors, abs, adductors, biceps, calves, cardiovascular system, delts, forearms, glutes, hamstrings, lats, levator scapulae, pectorals, quads, serratus anterior, spine, traps, triceps, upper back. The available equipment are assisted, band, barbell, body weight, bosu ball, cable, dumbbell, elliptical machine, ez barbell, hammer, kettlebell, leverage machine, medicine ball, olympic barbell, resistance band, roller, rope, skierg machine, sled machine, smith machine, stability ball, stationary bike, stepmill machine, tire, trap bar, upper body ergometer, weighted, wheel roller., and when you gives the answer, please put it in a format like : [Day 1[Upper Body Strength Training[Bench Press, Target : Pectorals, Equipment : Dumbbell, 3 sets of 12 reps], Bicep Curls...]], because I want to use another AI to generate the gif"
         }
       ],
       'stream': true,
@@ -50,12 +51,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
       final response = await request.send();
 
-      response.stream.transform(utf8.decoder).transform(const LineSplitter()).listen(
+      response.stream
+          .transform(utf8.decoder)
+          .transform(const LineSplitter())
+          .listen(
         (line) {
           if (line.startsWith('data: ')) {
             try {
               final jsonResponse = jsonDecode(line.substring(6));
-              if (jsonResponse['choices'] != null && jsonResponse['choices'].isNotEmpty) {
+              if (jsonResponse['choices'] != null &&
+                  jsonResponse['choices'].isNotEmpty) {
                 final content = jsonResponse['choices'][0]['delta']['content'];
                 if (content != null) {
                   setState(() {
@@ -94,8 +99,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
       'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
     };
 
-    var uri = Uri.https(
-        'exercisedb.p.rapidapi.com', '/exercises/bodyPart/$bodyPart', {'limit': limit});
+    var uri = Uri.https('exercisedb.p.rapidapi.com',
+        '/exercises/bodyPart/$bodyPart', {'limit': limit});
 
     var response = await http.get(uri, headers: headers);
 
@@ -193,7 +198,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
               itemBuilder: (context, index) {
                 var exercise = exercisesData[index];
                 return ExerciseDetailCard(
-                  number: index + 1,  // Add numbering
+                  number: index + 1, // Add numbering
                   exerciseName: exercise['name'],
                   bodyPart: exercise['bodyPart'],
                   target: exercise['target'],
