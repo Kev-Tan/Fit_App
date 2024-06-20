@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 
-class QuestionFive extends StatelessWidget {
-  final TextEditingController controller;
-  final VoidCallback onSkip;
+class QuestionOne extends StatefulWidget {
+  final ValueChanged<String> onGenderSelected;
+  final String? selectedGender; 
 
-  const QuestionFive({Key? key, required this.controller, required this.onSkip})
-      : super(key: key);
+  const QuestionOne({Key? key, required this.onGenderSelected, this.selectedGender}) : super(key: key); 
+
+  @override
+  _QuestionOneState createState() => _QuestionOneState();
+}
+
+class _QuestionOneState extends State<QuestionOne> {
+  String? _selectedGender;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedGender = widget.selectedGender; 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,30 +43,37 @@ class QuestionFive extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "What is your neck circumference?",
+                    "What is your gender?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Lato',
                       fontSize: 26,
+                      color:  Color.fromARGB(255, 8, 31, 92),
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 8, 31, 92),
                     ),
                   ),
                 ),
                 SizedBox(height: 50),
-                Image.asset('lib/assets/question5_image.png'),
-                SizedBox(height: 50),
-                TextField(
-                  controller: controller,
+                DropdownButtonFormField<String>(
+                  value: _selectedGender,
+                  items: ['Male', 'Female'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedGender = newValue;
+                    });
+                    widget.onGenderSelected(newValue!);
+                  },
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(255, 8, 31, 92),
-                      ),
+                      borderSide: BorderSide(color: Color.fromARGB(255, 8, 31, 92)),
                     ),
-                    labelText: 'Enter your neck circumference (cm)',
+                    labelText: 'Select your gender',
                   ),
-                  keyboardType: TextInputType.number,
                 ),
               ],
             ),

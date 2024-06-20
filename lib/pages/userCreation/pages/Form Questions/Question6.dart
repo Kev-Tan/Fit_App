@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-class QuestionTwo extends StatelessWidget {
+class QuestionSix extends StatelessWidget {
   final TextEditingController controller;
+  final VoidCallback onSkip;
 
-  const QuestionTwo({Key? key, required this.controller}) : super(key: key);
+  const QuestionSix({Key? key, required this.controller, required this.onSkip})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class QuestionTwo extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: Color.fromARGB(255, 8, 31, 92),
-            width: 2, // Adjust the border width as needed
+            width: 2,
           ),
         ),
         child: ClipRRect(
@@ -29,31 +31,28 @@ class QuestionTwo extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "How old are you?",
+                    "What is your waist circumference?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily:
-                          'Lato', // Ensure you have added the Lato font to your project
+                      fontFamily: 'Lato',
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
-                      color:  Color.fromARGB(255, 8, 31, 92),
+                      color: Color.fromARGB(255, 8, 31, 92),
                     ),
                   ),
                 ),
-
-                SizedBox(height: 50), // Add some spacing
-                Image.asset('lib/assets/question2_image.png'),
-                SizedBox(height: 50), // Add some spacing
-
+                SizedBox(height: 50),
+                Image.asset('lib/assets/question6_image.png'),
+                SizedBox(height: 50),
                 TextField(
                   controller: controller,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                          color: Color.fromARGB(
-                              255, 8, 31, 92)), // Change border color here
+                        color: Color.fromARGB(255, 8, 31, 92),
+                      ),
                     ),
-                    labelText: 'Enter your age',
+                    labelText: 'Enter your waist circumference (cm)',
                   ),
                   keyboardType: TextInputType.number,
                 ),
@@ -65,4 +64,3 @@ class QuestionTwo extends StatelessWidget {
     );
   }
 }
-

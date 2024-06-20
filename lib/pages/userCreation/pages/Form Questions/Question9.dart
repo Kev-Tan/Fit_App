@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 
-class QuestionFive extends StatelessWidget {
-  final TextEditingController controller;
-  final VoidCallback onSkip;
+class QuestionNine extends StatefulWidget {
+  final ValueChanged<String> onGoalSelected;
+  final String? selectedGoal; 
 
-  const QuestionFive({Key? key, required this.controller, required this.onSkip})
-      : super(key: key);
+  const QuestionNine({Key? key, required this.onGoalSelected, this.selectedGoal}) : super(key: key);
+
+  @override
+  _QuestionNineState createState() => _QuestionNineState();
+}
+
+class _QuestionNineState extends State<QuestionNine> {
+  String? _selectedGoal;
+
+  @override 
+  void initState() {
+    super.initState();
+    _selectedGoal = widget.selectedGoal;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,30 +43,37 @@ class QuestionFive extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "What is your neck circumference?",
+                    "What are your fitness goals?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Lato',
                       fontSize: 26,
+                      color:  Color.fromARGB(255, 8, 31, 92),
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 8, 31, 92),
                     ),
                   ),
                 ),
                 SizedBox(height: 50),
-                Image.asset('lib/assets/question5_image.png'),
-                SizedBox(height: 50),
-                TextField(
-                  controller: controller,
+                DropdownButtonFormField<String>(
+                  value: _selectedGoal,
+                  items: ['Lose Weight', 'Gain Weight', 'Get Fit'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedGoal = newValue;
+                    });
+                    widget.onGoalSelected(newValue!);
+                  },
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(255, 8, 31, 92),
-                      ),
+                      borderSide: BorderSide(color: Color.fromARGB(255, 8, 31, 92)),
                     ),
-                    labelText: 'Enter your neck circumference (cm)',
+                    labelText: 'Select your fitness goals',
                   ),
-                  keyboardType: TextInputType.number,
                 ),
               ],
             ),

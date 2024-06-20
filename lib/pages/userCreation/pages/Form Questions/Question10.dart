@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 
-class QuestionFive extends StatelessWidget {
-  final TextEditingController controller;
-  final VoidCallback onSkip;
+class QuestionTen extends StatefulWidget {
+  final ValueChanged<String> onLevelSelected;
+  final String? selectedLevel;
 
-  const QuestionFive({Key? key, required this.controller, required this.onSkip})
-      : super(key: key);
+  const QuestionTen({Key? key, required this.onLevelSelected, this.selectedLevel}) : super(key: key);
+
+  @override
+  _QuestionTenState createState() => _QuestionTenState();
+}
+
+class _QuestionTenState extends State<QuestionTen> {
+  String? _selectedLevel;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedLevel = widget.selectedLevel;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,30 +43,37 @@ class QuestionFive extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "What is your neck circumference?",
+                    "What is your fitness level?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Lato',
                       fontSize: 26,
+                      color:  Color.fromARGB(255, 8, 31, 92),
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 8, 31, 92),
                     ),
                   ),
                 ),
                 SizedBox(height: 50),
-                Image.asset('lib/assets/question5_image.png'),
-                SizedBox(height: 50),
-                TextField(
-                  controller: controller,
+                DropdownButtonFormField<String>(
+                  value: _selectedLevel,
+                  items: ['Beginner', 'Intermediate', 'Advanced'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedLevel = newValue;
+                    });
+                    widget.onLevelSelected(newValue!);
+                  },
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(255, 8, 31, 92),
-                      ),
+                      borderSide: BorderSide(color: Color.fromARGB(255, 8, 31, 92)),
                     ),
-                    labelText: 'Enter your neck circumference (cm)',
+                    labelText: 'Select your fitness level',
                   ),
-                  keyboardType: TextInputType.number,
                 ),
               ],
             ),

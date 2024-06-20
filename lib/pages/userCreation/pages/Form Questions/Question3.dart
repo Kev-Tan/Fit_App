@@ -36,6 +36,7 @@ class QuestionThree extends StatelessWidget {
                           'Lato', // Ensure you have added the Lato font to your project
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
+                      color:  Color.fromARGB(255, 8, 31, 92),
                     ),
                   ),
                 ),
@@ -52,7 +53,7 @@ class QuestionThree extends StatelessWidget {
                           color: Color.fromARGB(
                               255, 8, 31, 92)), // Change border color here
                     ),
-                    labelText: 'Enter your height',
+                    labelText: 'Enter your height (cm)',
                   ),
                   keyboardType: TextInputType.number,
                 ),
@@ -64,3 +65,4 @@ class QuestionThree extends StatelessWidget {
     );
   }
 }
+
