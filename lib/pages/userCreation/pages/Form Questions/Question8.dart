@@ -35,16 +35,22 @@ class _QuestionEightState extends State<QuestionEight> {
     final waist = double.tryParse(widget.waistController.text) ?? 0.0;
     final hip = double.tryParse(widget.hipController.text) ?? 0.0;
 
-    if (gender.isEmpty || height == 0.0 || neck == 0.0 || waist == 0.0 || (gender == 'Female' && hip == 0.0)) {
+    if (gender.isEmpty ||
+        height == 0.0 ||
+        neck == 0.0 ||
+        waist == 0.0 ||
+        (gender == 'Female' && hip == 0.0)) {
       return; // Return if any required field is missing
     }
 
     double bodyFatPercentage;
 
     if (gender == 'Male') {
-      bodyFatPercentage = 495 / (1.0324 - 0.19077 * log(waist - neck) + 0.15456 * log(height)) - 450;
+      bodyFatPercentage =
+          86.010 * log(waist - neck) - 70.041 * log(height) + 36.76;
     } else if (gender == 'Female') {
-      bodyFatPercentage = 495 / (1.29579 - 0.35004 * log(waist + hip - neck) + 0.22100 * log(height)) - 450;
+      bodyFatPercentage =
+          163.205 * log(waist + hip - neck) - 97.684 * log(height) - 78.387;
     } else {
       return; // Return if gender is invalid
     }
@@ -91,21 +97,22 @@ class _QuestionEightState extends State<QuestionEight> {
                           'Lato', // Ensure you have added the Lato font to your project
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
-                      color:  Color.fromARGB(255, 8, 31, 92),
+                      color: Color.fromARGB(255, 8, 31, 92),
                     ),
                   ),
                 ),
-
                 SizedBox(height: 50),
-                Image.asset('lib/assets/question8_image.png'),
+                Image.asset('lib/assets/question8_image.png',
+                    height: 180, width: 180),
                 SizedBox(height: 50),
-
                 Container(
-                  padding: const EdgeInsets.all(25),
-                  margin: const EdgeInsets.symmetric(horizontal: 25.0),
+                  padding: const EdgeInsets.all(15), // Adjusted padding
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 25.0), // Adjusted margin
                   decoration: BoxDecoration(
                     color: Color.fromRGBO(8, 31, 92, 1),
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius:
+                        BorderRadius.circular(20), // Adjusted border radius
                   ),
                   child: Center(
                     child: Text(
@@ -115,7 +122,7 @@ class _QuestionEightState extends State<QuestionEight> {
                       style: TextStyle(
                         color: Color.fromRGBO(247, 242, 235, 1),
                         fontWeight: FontWeight.bold,
-                        fontSize: 24,
+                        fontSize: 18, // Adjusted font size
                       ),
                     ),
                   ),

@@ -1,10 +1,10 @@
+import 'package:fit_app/pages/workout/workoutHome.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_app/models/user_provider.dart';
 import 'package:fit_app/pages/home/home.dart';
 import 'package:fit_app/pages/chat/chat.dart';
 import 'package:fit_app/pages/profile/profile.dart';
-import 'package:fit_app/pages/workout.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 
