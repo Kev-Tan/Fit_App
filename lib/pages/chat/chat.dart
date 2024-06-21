@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_app/models/user_provider.dart';
 
 class ChatPage extends StatefulWidget {
-  final UserProvider userProvider; // Add UserProvider parameter
+  final UserProvider userProvider;
   const ChatPage({Key? key, required this.userProvider}) : super(key: key);
 
   @override
@@ -94,7 +94,6 @@ class _ChatPageState extends State<ChatPage> {
             }
           });
 
-          // Save messages to Firestore after chat completes
           await _saveMessagesToFirestore();
         },
         onError: (error) {
@@ -114,7 +113,6 @@ class _ChatPageState extends State<ChatPage> {
     _controller.clear();
   }
 
-  // Save messages to Firestore
   Future<void> _saveMessagesToFirestore() async {
     UserModel? user = widget.userProvider.user;
     if (user != null) {
@@ -126,15 +124,31 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  // Build chat message UI
   Widget _buildChatMessage(Map<String, String> message) {
-    return ListTile(
-      title: Text(
-        message['content']!,
-        style: TextStyle(
-          color: message['role'] == 'user' ? Colors.black : Colors.blue,
+    bool isUser = message['role'] == 'user';
+    return Align(
+      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+        padding: EdgeInsets.all(12.0),
+        decoration: BoxDecoration(
+          color: isUser ? Color.fromRGBO(8, 31, 92, 1) : Color.fromRGBO(112, 150, 209, 1),
+          borderRadius: isUser
+              ? BorderRadius.only(
+                  topLeft: Radius.circular(12.0),
+                  bottomLeft: Radius.circular(12.0),
+                  topRight: Radius.circular(12.0),
+                )
+              : BorderRadius.only(
+                  topRight: Radius.circular(12.0),
+                  bottomRight: Radius.circular(12.0),
+                  topLeft: Radius.circular(12.0),
+                ),
         ),
-        textAlign: message['role'] == 'user' ? TextAlign.right : TextAlign.left,
+        child: Text(
+          message['content']!,
+          style: TextStyle(color: Color.fromRGBO(255, 249, 240, 1)),
+        ),
       ),
     );
   }
@@ -148,74 +162,80 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              'Ask me please!',
-              style: TextStyle(
-                fontSize: 24.0,
-                color: Color(0xFF00008B),
-              ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Hi, I am ActiveAI. How can I help you today?',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Color(0xFF00008B),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: Colors.white,
-      ),
-      body: Stack(
+      backgroundColor: Color.fromRGBO(255, 249, 240, 1),
+      body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          Container(
+            padding: const EdgeInsets.all(40.0),
             child: Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: _messages.length,
-                    itemBuilder: (context, index) {
-                      final message = _messages[index];
-                      return _buildChatMessage(message);
-                    },
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'Chat with me',
+                  style: TextStyle(
+                    fontSize: 36.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(8, 31, 92, 1),
                   ),
                 ),
-                if (_isLoading) const CircularProgressIndicator(),
-                const SizedBox(height: 24),
-                TextField(
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    labelText: 'Enter your message',
-                    labelStyle: const TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 15),
+                SizedBox(height: 8),
+                Text(
+                  'Hi, I am _____. How can I help you today?',
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    color: Color.fromRGBO(112, 150, 209, 1),
                   ),
-                  onSubmitted: (_) => _sendMessage(),
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: _sendMessage,
-                  child: const Text('Send'),
                 ),
               ],
             ),
           ),
-          if (_isLoading)
-            Container(
-              color: Colors.black54,
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                final message = _messages[index];
+                return _buildChatMessage(message);
+              },
             ),
+          ),
+          if (_isLoading)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              child: CircularProgressIndicator(),
+            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 100.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    labelText: 'Type your message here',
+                    labelStyle: const TextStyle(color: Color.fromRGBO(8, 31, 92, 1)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  ),
+                  onSubmitted: (_) => _sendMessage(),
+                ),
+                const SizedBox(height: 8),
+                // ElevatedButton(
+                //   onPressed: _sendMessage,
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: Colors.blue,
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(20.0),
+                //     ),
+                //     padding: const EdgeInsets.symmetric(
+                //         horizontal: 24.0, vertical: 12.0),
+                //   ),
+                //   child: const Text('Send'),
+                // ),
+              ],
+            ),
+          ),
         ],
       ),
     );
