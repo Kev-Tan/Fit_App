@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:fit_app/models/user_provider.dart';
 
 class WorkoutPage extends StatefulWidget {
-  const WorkoutPage({Key? key}) : super(key: key);
+  final UserProvider userProvider;
+  const WorkoutPage({Key? key, required this.userProvider}) : super(key: key);
 
   @override
   _WorkoutPageState createState() => _WorkoutPageState();
@@ -117,8 +118,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = Provider.of<UserProvider>(context);
-    UserModel? user = userProvider.user;
+    // UserProvider userProvider = Provider.of<UserProvider>(context);
+    UserModel? user = widget.userProvider.user;
 
     return Scaffold(
       appBar: AppBar(
@@ -273,13 +274,13 @@ class ExerciseDetailCard extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => UserProvider(),
-      child: MaterialApp(
-        home: WorkoutPage(),
-      ),
-    ),
-  );
-}
+// void main() {
+//   runApp(
+//     ChangeNotifierProvider(
+//       create: (context) => UserProvider(),
+//       child: MaterialApp(
+//         home: WorkoutPage(),
+//       ),
+//     ),
+//   );
+// }

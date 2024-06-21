@@ -20,9 +20,9 @@ class _MainScreenState extends State<MainScreen> {
 
   final screens = [
     Home(),
-    WorkoutHomePage(),
+    WorkoutHomePage(userProvider: UserProvider()),
     ChatPage(userProvider: UserProvider()),
-    ProfilePage()
+    ProfilePage(),
   ];
 
   @override
