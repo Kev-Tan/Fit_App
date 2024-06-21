@@ -44,7 +44,7 @@ class _ChatPageState extends State<ChatPage> {
       _messages.add({'role': 'user', 'content': _controller.text});
     });
 
-    const apiKey = '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';
+    const apiKey = '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';
     final url = Uri.parse('https://api.openai.com/v1/chat/completions');
     final headers = {
       'Content-Type': 'application/json',
@@ -132,7 +132,9 @@ class _ChatPageState extends State<ChatPage> {
         margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
         padding: EdgeInsets.all(12.0),
         decoration: BoxDecoration(
-          color: isUser ? Color.fromRGBO(8, 31, 92, 1) : Color.fromRGBO(112, 150, 209, 1),
+          color: isUser
+              ? Color.fromRGBO(8, 31, 92, 1)
+              : Color.fromRGBO(200, 200, 200, 1),
           borderRadius: isUser
               ? BorderRadius.only(
                   topLeft: Radius.circular(12.0),
@@ -147,7 +149,10 @@ class _ChatPageState extends State<ChatPage> {
         ),
         child: Text(
           message['content']!,
-          style: TextStyle(color: Color.fromRGBO(255, 249, 240, 1)),
+          style: TextStyle(
+              color: isUser
+                  ? Color.fromRGBO(255, 249, 240, 1)
+                  : Color.fromRGBO(8, 31, 92, 1)),
         ),
       ),
     );
@@ -166,7 +171,7 @@ class _ChatPageState extends State<ChatPage> {
       body: Column(
         children: [
           Container(
-            padding: const EdgeInsets.all(40.0),
+            padding: const EdgeInsets.all(50.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
@@ -205,18 +210,21 @@ class _ChatPageState extends State<ChatPage> {
               child: CircularProgressIndicator(),
             ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 100.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 100.0),
             child: Column(
               children: [
                 TextField(
                   controller: _controller,
                   decoration: InputDecoration(
                     labelText: 'Type your message here',
-                    labelStyle: const TextStyle(color: Color.fromRGBO(8, 31, 92, 1)),
+                    labelStyle:
+                        const TextStyle(color: Color.fromRGBO(8, 31, 92, 1)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 16.0),
                   ),
                   onSubmitted: (_) => _sendMessage(),
                 ),

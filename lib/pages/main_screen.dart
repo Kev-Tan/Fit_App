@@ -1,3 +1,4 @@
+import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:fit_app/pages/workout/pages/workout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,8 +7,6 @@ import 'package:fit_app/pages/home/home.dart';
 import 'package:fit_app/pages/chat/chat.dart';
 import 'package:fit_app/pages/profile/profile.dart';
 import 'package:fit_app/pages/workout/pages/workoutHome.dart';
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'workout/pages/workoutHome.dart';
 
 class MainScreen extends StatefulWidget {
@@ -17,60 +16,78 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
+  late UserProvider userProvider; // Declare userProvider here
+
   final screens = [
     Home(),
-    WorkoutPage(),
+    WorkoutHomePage(),
     ChatPage(userProvider: UserProvider()),
     ProfilePage()
-  ]; //////
+  ];
 
-  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+  @override
+  void initState() {
+    super.initState();
+    userProvider = UserProvider(); // Initialize userProvider in initState
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => userProvider),
       ],
       child: Scaffold(
         extendBody: true,
         body: screens[currentIndex],
-        bottomNavigationBar: CurvedNavigationBar(
-          key: _navigatorKey,
+        bottomNavigationBar: FlashyTabBar(
           animationDuration: Duration(milliseconds: 300),
-          backgroundColor: Colors.white,
-          color: Color.fromARGB(255, 8, 31, 92),
-          index: currentIndex,
+          backgroundColor: Color.fromRGBO(8, 31, 92, 1),
+          //color: Color.fromARGB(255, 8, 31, 92),
+          selectedIndex: currentIndex,
           items: [
-            CurvedNavigationBarItem(
-              child: Icon(
+            FlashyTabBarItem(
+              icon: Icon(
                 Icons.home,
-                color: Colors.white,
+                color: Color.fromRGBO(255, 249, 240, 1),
               ),
-              // label: 'Home',
+              title: Text(
+                'Home',
+                style: TextStyle(color: Color.fromRGBO(255, 249, 240, 1)),
+              ),
             ),
-            CurvedNavigationBarItem(
-              child: Icon(
+            FlashyTabBarItem(
+              icon: Icon(
                 Icons.fitness_center,
-                color: Colors.white,
+                color: Color.fromRGBO(255, 249, 240, 1),
               ),
-              // label: 'Workout',
+              title: Text(
+                'Workout',
+                style: TextStyle(color: Color.fromRGBO(255, 249, 240, 1)),
+              ),
             ),
-            CurvedNavigationBarItem(
-              child: Icon(
+            FlashyTabBarItem(
+              icon: Icon(
                 Icons.chat,
-                color: Colors.white,
+                color: Color.fromRGBO(255, 249, 240, 1),
               ),
-              // label: 'Chat',
+              title: Text(
+                'Chat',
+                style: TextStyle(color: Color.fromRGBO(255, 249, 240, 1)),
+              ),
             ),
-            CurvedNavigationBarItem(
-              child: Icon(
+            FlashyTabBarItem(
+              icon: Icon(
                 Icons.person,
-                color: Colors.white,
+                color: Color.fromRGBO(255, 249, 240, 1),
+              ),
+              title: Text(
+                'Profile',
+                style: TextStyle(color: Color.fromRGBO(255, 249, 240, 1)),
               ),
             ),
           ],
-          onTap: (index) {
+          onItemSelected: (index) {
             setState(() {
               currentIndex = index;
             });

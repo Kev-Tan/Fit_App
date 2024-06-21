@@ -25,7 +25,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
       _workoutPlan = "";
     });
 
-    const apiKey = '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';
+    const apiKey = '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';
     final url = Uri.parse('https://api.openai.com/v1/chat/completions');
     final headers = {
       'Content-Type': 'application/json',
@@ -148,7 +148,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
               child: TextField(
                 controller: bodyPartController,
                 decoration: const InputDecoration(
-                  labelText: 'Enter Body Part',
+                  labelText: 'Enter Body Part~~',
                 ),
               ),
             ),
