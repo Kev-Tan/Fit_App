@@ -1,4 +1,5 @@
 import 'package:fit_app/pages/workout/pages/filter.dart';
+import 'package:fit_app/pages/workout/pages/library.dart';
 import 'package:fit_app/pages/workout/pages/workout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -209,31 +210,42 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 6),
-      padding: EdgeInsets.only(top: 25, bottom: 25),
-      width: 100,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: Colors.black,
-          width: 2,
-        ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              color: Color(0xFF081F5C),
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
+    return GestureDetector(
+      onTap: () {
+        // Navigate to the desired page when the category item is tapped
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ExerciseLibraryPage(exercisesData: [],),
           ),
-        ],
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 6),
+        padding: EdgeInsets.only(top: 25, bottom: 25),
+        width: 100,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: Colors.black,
+            width: 2,
+          ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: Color(0xFF081F5C),
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

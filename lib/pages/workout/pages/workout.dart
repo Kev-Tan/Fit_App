@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:fit_app/pages/workout/pages/library.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -78,6 +79,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
           setState(() {
             _isLoading = false;
           });
+          Navigator.push(
+            context, 
+            MaterialPageRoute(builder: (context) => ExerciseLibraryPage(exercisesData: [],)),
+          );
         },
         onError: (error) {
           print('Error: $error');
@@ -165,7 +170,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
             const SizedBox(height: 10),
             // Button to trigger data fetching
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 fetchData(bodyPartController.text, limitController.text);
               },
               child: const Text('Fetch Exercises'),
