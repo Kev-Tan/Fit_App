@@ -1,32 +1,81 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'dart:typed_data';
+  import 'package:cloud_firestore/cloud_firestore.dart';
+  import 'package:firebase_auth/firebase_auth.dart';
+  //import 'package:fit_app/models/user_model.dart';
+  import 'package:flutter/material.dart';
+  import 'package:firebase_storage/firebase_storage.dart';
+  //import 'package:shared_preferences/shared_preferences.dart';
 
-class UserProvider with ChangeNotifier {
-  UserModel? _user;
+  class UserProvider with ChangeNotifier {
+    UserModel? _user;
 
-  UserModel? get user => _user;
+    UserModel? get user => _user;
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    final FirebaseStorage _storage = FirebaseStorage.instance;
+    
+    Future<String> uploadImageToStorage(String ChildName, Uint8List file, String nameForTheUser) async{
+      print('Username for file: $nameForTheUser');
+      Reference ref = _storage.ref().child(ChildName).child('ImageOf$nameForTheUser');
+      UploadTask uploadTask = ref.putData(file);
 
-  UserProvider() {
-    _loadUser();
-  }
+      // Listen to task state changes
+      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
+        print('Progress: ${snapshot.bytesTransferred}/${snapshot.totalBytes}');
+        // Update UI or perform other actions based on snapshot data
+      }, onError: (error) {
+        print('Error during upload: $error');
+      });
 
-  Future<void> _loadUser() async {
-    User? currentUser = _auth.currentUser;
-    if (currentUser != null) {
-      DocumentSnapshot doc = await _firestore.collection('users').doc(currentUser.uid).get();
-      _user = UserModel.fromMap(doc.data() as Map<String, dynamic>, currentUser.uid);
-      notifyListeners();
+      // Wait for completion
+      TaskSnapshot snapshot = await uploadTask;
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+      print('Download URL: $downloadUrl');
+      return downloadUrl;
     }
-  }
+
+    Future<String> saveData(/*required*/ Uint8List file, String NameOfTheUser) async{
+      String resp = "Some error occured";
+      try{
+        String imageUrl = await uploadImageToStorage('ProfileImage', file, NameOfTheUser);
+        
+        // Update user's Firestore document with the new image URL
+        User? currentUser = _auth.currentUser;
+        
+        if (currentUser != null) {
+          await _firestore.collection('users').doc(currentUser.uid).update({
+            'profileImageUrl': imageUrl,
+          });
+        }
+        
+        resp = 'success';
+        return imageUrl;
+
+      } catch(err){
+        resp = err.toString();
+        print("Error uploading image: $err");
+        return resp;
+      }
+      
+    }
+
+    UserProvider() {
+      _loadUser();
+    }
+
+    Future<void> _loadUser() async {
+      User? currentUser = _auth.currentUser;
+      if (currentUser != null) {
+        DocumentSnapshot doc = await _firestore.collection('users').doc(currentUser.uid).get();
+        _user = UserModel.fromMap(doc.data() as Map<String, dynamic>, currentUser.uid);
+        notifyListeners();
+      }
+    }
 
   Future<void> updateUser(UserModel user) async {
     _user = user;
     await _firestore.collection('users').doc(user.uid).set(user.toMap());
-    notifyListeners();
   }
 
   Future<void> refreshUser() async {
@@ -101,11 +150,13 @@ class UserProvider with ChangeNotifier {
     }
     return messages;
   }
+  
 }
 
 class UserModel {
   final String uid;
   final String username;
+  final String? profileImageUrl;
   final String email;
   final int age;
   final int height;
@@ -115,6 +166,7 @@ class UserModel {
   UserModel({
     required this.uid,
     required this.username,
+    this.profileImageUrl,
     required this.email,
     required this.age,
     required this.height,
@@ -126,6 +178,7 @@ class UserModel {
     return UserModel(
       uid: uid,
       username: map['username'],
+      profileImageUrl: map['profileImageUrl'],
       email: map['email'],
       age: map['age'],
       height: map['height'],
@@ -137,6 +190,7 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       'username': username,
+      'profileImageUrl': profileImageUrl,
       'email': email,
       'age': age,
       'height': height,
@@ -144,4 +198,16 @@ class UserModel {
       'neck': neck,
     };
   }
+
+  // UserModel copyWith({
+  //   String? profileImageUrl,
+  //   // Add other fields
+  // }) {
+  //   return UserModel(
+  //     uid: uid,
+  //     profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+  //     // Copy other fields
+  //   );
+  // }
+
 }
