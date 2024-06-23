@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_app/utilities/bottom_navigation_bar_height_provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -37,7 +38,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void SaveProfile(String NameOfUser) async {
-    String newImageUrl = await widget.userProvider.saveData(_image!, NameOfUser);
+    String newImageUrl =
+        await widget.userProvider.saveData(_image!, NameOfUser);
 
     setState(() {
       _profileImageUrl = newImageUrl;
@@ -46,7 +48,10 @@ class _ProfilePageState extends State<ProfilePage> {
     await widget.userProvider.refreshUser();
   }
 
-  void signUserOut() {
+  void signUserOut() async {
+    if (await GoogleSignIn().isSignedIn()) {
+      GoogleSignIn().signOut();
+    }
     FirebaseAuth.instance.signOut();
   }
 
@@ -113,7 +118,8 @@ class _ProfilePageState extends State<ProfilePage> {
     double containerWidth = 90.0;
     double containerHeight = 180.0;
 
-    final bottomBarHeightProvider = Provider.of<BottomNavigationBarHeightProvider>(context);
+    final bottomBarHeightProvider =
+        Provider.of<BottomNavigationBarHeightProvider>(context);
     final bottomBarHeight = bottomBarHeightProvider.height;
 
     return Scaffold(
@@ -125,8 +131,10 @@ class _ProfilePageState extends State<ProfilePage> {
           final age = user?.age ?? "Undefined Age";
           final weight = user?.weight ?? "Undefined Weight";
           final height = user?.height ?? "Undefined Height";
-          final neckCircumference = user?.neck ?? "Undefined Neck Circumference";
-          final waistCircumference = user?.waist ?? "Undefined Waist Circumference";
+          final neckCircumference =
+              user?.neck ?? "Undefined Neck Circumference";
+          final waistCircumference =
+              user?.waist ?? "Undefined Waist Circumference";
           final hipCircumference = user?.hips ?? "Undefined Hip Circumference";
           final goals = user?.goal ?? "Undefined Goal";
           final level = user?.level ?? "Undefined Level";
@@ -163,7 +171,9 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Positioned(
                 top: 150,
-                left: (MediaQuery.of(context).size.width - (containerWidth * 4)) / 2,
+                left:
+                    (MediaQuery.of(context).size.width - (containerWidth * 4)) /
+                        2,
                 child: Container(
                   width: containerWidth * 4,
                   height: 700,
@@ -195,9 +205,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           _buildInfoField("Age", age.toString()),
                           _buildInfoField("Weight", "$weight kg"),
                           _buildInfoField("Height", "$height cm"),
-                          _buildInfoField("Neck Circumference", "$neckCircumference cm"),
-                          _buildInfoField("Waist Circumference", "$waistCircumference cm"),
-                          _buildInfoField("Hip Circumference", "$hipCircumference cm"),
+                          _buildInfoField(
+                              "Neck Circumference", "$neckCircumference cm"),
+                          _buildInfoField(
+                              "Waist Circumference", "$waistCircumference cm"),
+                          _buildInfoField(
+                              "Hip Circumference", "$hipCircumference cm"),
                           _buildInfoField("Fitness Goals", goals),
                           _buildInfoField("Fitness Level", level),
                           _buildInfoField("Workout Frequency", frequency),
@@ -210,7 +223,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => EditProfile(userProvider: widget.userProvider),
+                                    builder: (context) => EditProfile(
+                                        userProvider: widget.userProvider),
                                   ),
                                 );
                               },
@@ -273,8 +287,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       backgroundImage: _image != null
                           ? MemoryImage(_image!)
                           : _profileImageUrl.isNotEmpty
-                              ? CachedNetworkImageProvider(_profileImageUrl) as ImageProvider
-                              : NetworkImage('https://static-00.iconduck.com/assets.00/user-icon-1024x1024-dtzturco.png'),
+                              ? CachedNetworkImageProvider(_profileImageUrl)
+                                  as ImageProvider
+                              : NetworkImage(
+                                  'https://static-00.iconduck.com/assets.00/user-icon-1024x1024-dtzturco.png'),
                     ),
                   ),
                 ),
