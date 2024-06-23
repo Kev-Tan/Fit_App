@@ -43,48 +43,48 @@ class _MainScreenState extends State<MainScreen> {
         body: screens[currentIndex],
         bottomNavigationBar: FlashyTabBar(
           animationDuration: Duration(milliseconds: 300),
-          backgroundColor: Color.fromRGBO(8, 31, 92, 1),
+          backgroundColor: Theme.of(context).colorScheme.primary,
           //color: Color.fromARGB(255, 8, 31, 92),
           selectedIndex: currentIndex,
           items: [
             FlashyTabBarItem(
               icon: Icon(
                 Icons.home,
-                color: Color.fromRGBO(255, 249, 240, 1),
+                color: Theme.of(context).colorScheme.background,
               ),
               title: Text(
                 'Home',
-                style: TextStyle(color: Color.fromRGBO(255, 249, 240, 1)),
+                style: TextStyle(color: Theme.of(context).colorScheme.background),
               ),
             ),
             FlashyTabBarItem(
               icon: Icon(
                 Icons.fitness_center,
-                color: Color.fromRGBO(255, 249, 240, 1),
+                color: Theme.of(context).colorScheme.background,
               ),
               title: Text(
                 'Workout',
-                style: TextStyle(color: Color.fromRGBO(255, 249, 240, 1)),
+                style: TextStyle(color: Theme.of(context).colorScheme.background),
               ),
             ),
             FlashyTabBarItem(
               icon: Icon(
                 Icons.chat,
-                color: Color.fromRGBO(255, 249, 240, 1),
+                color: Theme.of(context).colorScheme.background,
               ),
               title: Text(
                 'Chat',
-                style: TextStyle(color: Color.fromRGBO(255, 249, 240, 1)),
+                style: TextStyle(color: Theme.of(context).colorScheme.background),
               ),
             ),
             FlashyTabBarItem(
               icon: Icon(
                 Icons.person,
-                color: Color.fromRGBO(255, 249, 240, 1),
+                color: Theme.of(context).colorScheme.background,
               ),
               title: Text(
                 'Profile',
-                style: TextStyle(color: Color.fromRGBO(255, 249, 240, 1)),
+                style: TextStyle(color: Theme.of(context).colorScheme.background),
               ),
             ),
           ],

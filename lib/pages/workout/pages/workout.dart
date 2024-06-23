@@ -135,7 +135,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
             color: Color(0xFF00008B),
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.background,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -193,7 +193,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   _workoutPlan,
-                  style: const TextStyle(fontSize: 16, color: Colors.black),
+                  style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary),
                 ),
               ),
             // Display exercise details

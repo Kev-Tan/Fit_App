@@ -26,6 +26,12 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _durationController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
 
+  List<String> genderOptions = ['Male', 'Female'];
+  List<String> goalOptions = ['Lose Weight', 'Gain Weight', 'Get Fit'];
+  List<String> levelOptions = ['Beginner', 'Intermediate', 'Advanced'];
+  List<String> frequencyOptions = ['1-2 times a week', '3-4 times a week', '5-6 times a week'];
+  List<String> durationOptions = ['30 minutes', '60 minutes', '120 minutes'];
+
   @override
   void initState() {
     super.initState();
@@ -55,7 +61,7 @@ class _EditProfileState extends State<EditProfile> {
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.background,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40.0),
             topRight: Radius.circular(40.0),
@@ -71,7 +77,7 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(height: 20),
                 _buildTextField('Email', _emailController),
                 SizedBox(height: 20),
-                _buildTextField('Gender', _genderController),
+                _buildDropdown('Gender', _genderController, genderOptions),
                 SizedBox(height: 20),
                 _buildTextField('Age', _ageController),
                 SizedBox(height: 20),
@@ -85,15 +91,15 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(height: 20),
                 _buildTextField('Hip Circumference', _hipsController),
                 SizedBox(height: 20),
-                _buildTextField('Goal', _goalController),
+                _buildDropdown('Goal', _goalController, goalOptions),
                 SizedBox(height: 20),
-                _buildTextField('Level', _levelController),
+                _buildDropdown('Level', _levelController, levelOptions),
                 SizedBox(height: 20),
-                _buildTextField('Frequency', _frequencyController),
+                _buildDropdown('Frequency', _frequencyController, frequencyOptions),
                 SizedBox(height: 20),
-                _buildTextField('Duration', _durationController),
+                _buildDropdown('Duration', _durationController, durationOptions),
                 SizedBox(height: 20),
-                _buildTextField('Time', _timeController),
+                _buildTimePicker('Time', _timeController, context),
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
@@ -141,6 +147,62 @@ class _EditProfileState extends State<EditProfile> {
         decoration: InputDecoration(
           labelText: labelText,
           border: OutlineInputBorder(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDropdown(String labelText, TextEditingController controller, List<String> options) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: DropdownButtonFormField<String>(
+        value: controller.text,
+        onChanged: (newValue) {
+          setState(() {
+            controller.text = newValue!;
+          });
+        },
+        items: options.map((option) {
+          return DropdownMenuItem<String>(
+            value: option,
+            child: Text(option),
+          );
+        }).toList(),
+        decoration: InputDecoration(
+          labelText: labelText,
+          border: OutlineInputBorder(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTimePicker(String labelText, TextEditingController controller, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: InkWell(
+        onTap: () async {
+          TimeOfDay? selectedTime = await showTimePicker(
+            context: context,
+            initialTime: TimeOfDay.fromDateTime(DateTime.now()),
+          );
+          if (selectedTime != null) {
+            setState(() {
+              controller.text = selectedTime.format(context);
+            });
+          }
+        },
+        child: InputDecorator(
+          decoration: InputDecoration(
+            labelText: labelText,
+            border: OutlineInputBorder(),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(controller.text),
+              Icon(Icons.access_time),
+            ],
+          ),
         ),
       ),
     );

@@ -36,7 +36,7 @@ class WorkoutHomePage extends StatelessWidget {
                             Text(
                               "Hello, $username",
                               style: TextStyle(
-                                color: Color(0xFF081F5C),
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Lato',
@@ -45,7 +45,7 @@ class WorkoutHomePage extends StatelessWidget {
                             Text(
                               "Start your workout",
                               style: TextStyle(
-                                color: Color(0xFF081F5C),
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Lato',
@@ -58,7 +58,7 @@ class WorkoutHomePage extends StatelessWidget {
                           icon: Icon(
                             Icons.notifications,
                             size: 45,
-                            color: Color(0xFF081F5C),
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                           onPressed: () {
                             _showNotification();
@@ -71,7 +71,7 @@ class WorkoutHomePage extends StatelessWidget {
                       margin: EdgeInsets.only(top: 30),
                       padding: EdgeInsets.all(85),
                       decoration: BoxDecoration(
-                        color: Color(0xFF081F5C),
+                        color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.circular(15),
                       ),
                     ),
@@ -83,7 +83,7 @@ class WorkoutHomePage extends StatelessWidget {
                           "Muscle Group",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: Color(0xFF081F5C),
+                            color: Theme.of(context).colorScheme.primary,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Lato',
@@ -96,10 +96,10 @@ class WorkoutHomePage extends StatelessWidget {
                       margin: EdgeInsets.only(top: 15),
                       padding: EdgeInsets.all(25),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.background,
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.primary,
                           width: 2,
                         ),
                       ),
@@ -170,7 +170,7 @@ class WorkoutHomePage extends StatelessWidget {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color(0xFF081F5C),
+                                  color: Theme.of(context).colorScheme.primary,
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 height: 170,
@@ -183,7 +183,7 @@ class WorkoutHomePage extends StatelessWidget {
                                       fontSize: 12,
                                       fontFamily: 'Lato',
                                       fontWeight: FontWeight.normal,
-                                      color: Colors.white,
+                                      color: Theme.of(context).colorScheme.background,
                                     ),
                                   ),
                                 ),
@@ -194,7 +194,7 @@ class WorkoutHomePage extends StatelessWidget {
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Color(0xFF081F5C),
+                                color: Theme.of(context).colorScheme.primary,
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               height: 170,
@@ -207,7 +207,7 @@ class WorkoutHomePage extends StatelessWidget {
                                     fontSize: 12,
                                     fontFamily: 'Lato',
                                     fontWeight: FontWeight.normal,
-                                    color: Colors.white,
+                                    color: Theme.of(context).colorScheme.background,
                                   ),
                                 ),
                               ),
@@ -255,10 +255,10 @@ class CategoryItem extends StatelessWidget {
         padding: EdgeInsets.only(top: 25, bottom: 25),
         width: 100,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.background,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: Colors.black,
+            color: Theme.of(context).colorScheme.primary,
             width: 2,
           ),
         ),
@@ -269,7 +269,7 @@ class CategoryItem extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                color: Color(0xFF081F5C),
+                color: Theme.of(context).colorScheme.primary,
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
