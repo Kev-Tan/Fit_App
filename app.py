@@ -9,10 +9,10 @@ import re
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-openai.api_key = "sk-proj-AVwsIBoXJhdCoNSG4ePZT3BlbkFJFmvUXdAPE1iNgYbGJZkX"
+openai.api_key = ""
 assistant_id = "asst_DJPQpikyE5UYjQZrwdpISoSM"
 threads = {}  # Store thread information
-client = openai.OpenAI(api_key="sk-proj-AVwsIBoXJhdCoNSG4ePZT3BlbkFJFmvUXdAPE1iNgYbGJZkX")
+client = openai.OpenAI(api_key="")
 
 # Function to get exercise details by name
 def get_exercises_by_name(exercise_name):
