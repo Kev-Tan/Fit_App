@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_app/models/user_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'new_page.dart'; // Import the new chat page
 
 class WorkoutHomePage extends StatelessWidget {
   final UserProvider userProvider;
@@ -62,13 +63,21 @@ class WorkoutHomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Container(
-                  width: containerWidth,
-                  margin: EdgeInsets.only(top: 30),
-                  padding: EdgeInsets.all(85),
-                  decoration: BoxDecoration(
-                    color: Color(0xFF081F5C),
-                    borderRadius: BorderRadius.circular(15),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChatPage(userProvider: userProvider)), // Navigate to the new chat page
+                    );
+                  },
+                  child: Container(
+                    width: containerWidth,
+                    margin: EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.all(85),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF081F5C),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                   ),
                 ),
                 Padding(
