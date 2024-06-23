@@ -26,8 +26,8 @@ class WorkoutHomePage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             width: containerWidth,
-            margin: EdgeInsets.only(top: 40),
-            padding: EdgeInsets.all(20),
+            margin: EdgeInsets.only(top: 20, bottom:20),
+            padding: EdgeInsets.only(left:20, right:20, top:20, bottom:100),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
