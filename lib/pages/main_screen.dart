@@ -16,13 +16,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
+  //final screens = [Home(), WorkoutPage(), ChatPage(), ProfilePage(userProvider: UserProvider())];
   late UserProvider userProvider; // Declare userProvider here
 
   final screens = [
     Home(),
-    WorkoutHomePage(userProvider: UserProvider()),
+    WorkoutHomePage(),
     ChatPage(userProvider: UserProvider()),
-    ProfilePage(),
+    ProfilePage(userProvider: UserProvider()),
   ];
 
   @override

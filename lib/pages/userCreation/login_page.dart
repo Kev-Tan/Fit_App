@@ -5,6 +5,7 @@ import 'package:fit_app/pages/userCreation/widgets/email_textfield.dart';
 import 'package:fit_app/pages/userCreation/widgets/password_textfield.dart';
 import 'package:fit_app/pages/userCreation/widgets/signin_button.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -49,6 +50,56 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
       Navigator.pop(context);
+    }
+  }
+
+  void signInWithGoogle() async {
+    try {
+      // Trigger the authentication flow
+      GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+
+      // Create a new credential
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Sign in to Firebase with the Google [UserCredential]
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Check if the user already exists
+      User? user = userCredential.user;
+      if (user != null) {
+        // Check if the user is a new user
+        if (userCredential.additionalUserInfo!.isNewUser) {
+          // Sign out the new user immediately
+          await FirebaseAuth.instance.signOut();
+          await GoogleSignIn().signOut();
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Account does not exist. Please sign up first.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        } else {
+          print("User signed in: ${user.displayName}");
+          // Proceed to your app's main page
+        }
+      }
+    } catch (error) {
+      print('Error signing in with Google: $error');
+      // Handle error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to sign in with Google: $error'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -124,6 +175,35 @@ class _LoginPageState extends State<LoginPage> {
               // Sign in button
               SigninButton(
                 onTap: signUserIn,
+              ),
+
+              const SizedBox(height: 20),
+
+              // Row of Google and Facebook sign-in buttons
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: signInWithGoogle,
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(150, 50), // Button size
+                      ),
+                      child: Text('Google'),
+                    ),
+                    const SizedBox(width: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Add your Facebook sign-in logic here
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(150, 50), // Button size
+                      ),
+                      child: Text('Facebook'),
+                    ),
+                  ],
+                ),
               ),
 
               const SizedBox(height: 50),

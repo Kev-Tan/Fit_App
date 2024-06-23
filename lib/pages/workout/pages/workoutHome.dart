@@ -1,23 +1,24 @@
-import 'package:fit_app/pages/workout/pages/filter.dart';
-import 'package:fit_app/pages/workout/pages/library.dart';
-import 'package:fit_app/pages/workout/pages/workout.dart';
 import 'package:flutter/material.dart';
+import 'package:fit_app/models/user_provider.dart';
+import 'package:fit_app/pages/workout/pages/workout.dart';
+import 'package:fit_app/pages/workout/pages/library.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_app/models/user_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'new_page.dart'; // Import the new chat page
 
 class WorkoutHomePage extends StatelessWidget {
-  final UserProvider userProvider;
-  const WorkoutHomePage({Key? key, required this.userProvider})
-      : super(key: key);
+  const WorkoutHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double containerWidth = screenWidth * 0.9; // 90% of the screen width
-    // final userProvider = Provider.of<UserProvider>(context);
-    String username = userProvider.user?.username ?? "guest";
+    return Consumer<UserProvider>(
+      builder: (context, userProvider, child) {
+        final userModel = userProvider.user; // Access the user model instance
+
+        double screenWidth = MediaQuery.of(context).size.width;
+        double containerWidth = screenWidth * 0.9; // 90% of the screen width
+        final username = userModel?.username ?? "Not A Member";
 
     return Scaffold(
       body: Align(
@@ -197,17 +198,22 @@ class WorkoutHomePage extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
+  }
+
+  void _showNotification() {
+    // Implement your notification logic here
+    // Example: NotificationService().showNotification(id: 0, title: "Sample title", body: "It works!");
   }
 }
 
@@ -225,7 +231,7 @@ class CategoryItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ExerciseLibraryPage(exercisesData: [],),
+            builder: (context) => ExerciseLibraryPage(exercisesData: []),
           ),
         );
       },
