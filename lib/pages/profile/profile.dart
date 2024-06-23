@@ -10,9 +10,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:fit_app/models/user_provider.dart';
 import 'package:fit_app/pages/profile/PickImage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'edit_profile.dart';
 
 class ProfilePage extends StatefulWidget {
-
   final UserProvider userProvider;
 
   const ProfilePage({Key? key, required this.userProvider}) : super(key: key);
@@ -29,26 +29,21 @@ class _ProfilePageState extends State<ProfilePage> {
   void selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
     String base64Image = base64Encode(img);
-    //print(base64Image);
 
     setState(() {
       _image = img;
       _profileImageUrl = base64Image;
     });
-    
   }
 
-  void SaveProfile(String NameOfUser) async{
+  void SaveProfile(String NameOfUser) async {
     String newImageUrl = await widget.userProvider.saveData(_image!, NameOfUser);
-    
-    // Refresh user data in the provider to ensure the profile page displays the latest information
-    //await widget.userProvider.refreshUser();
 
     setState(() {
-      //print(newImageUrl);
       _profileImageUrl = newImageUrl;
     });
 
+    await widget.userProvider.refreshUser();
   }
 
   void signUserOut() {
@@ -59,47 +54,50 @@ class _ProfilePageState extends State<ProfilePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: GoogleFonts.lato(
-            fontWeight: FontWeight.w400,
-            fontSize: 24,
-            color: const Color.fromARGB(255, 112, 150, 209),
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0, top: 10.0),
+          child: Text(
+            label,
+            style: GoogleFonts.lato(
+              fontWeight: FontWeight.w400,
+              fontSize: 24,
+              color: const Color.fromARGB(255, 112, 150, 209),
+            ),
           ),
         ),
         const SizedBox(height: 5),
         Padding(
-          padding: const EdgeInsets.only(left: 3.5),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Container(
             height: 40,
-            width: 334,
+            width: 300,
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 255, 249, 240),
               borderRadius: BorderRadius.circular(20.0),
               border: Border.all(
-                //color: Colors.black,
                 width: 1.0,
+                color: Color.fromRGBO(8, 31, 92, 1),
               ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.8),
                   spreadRadius: 1,
                   blurRadius: 7,
-                  offset: Offset(1, 5), // changes position of shadow
+                  offset: Offset(1, 5),
                 ),
               ],
             ),
-            child: Container(
-              margin: const EdgeInsets.symmetric(
-                vertical: 1,
-                horizontal: 12,
-              ),
-              child: Text(
-                value,
-                style: GoogleFonts.lato(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 24,
-                  color: const Color.fromARGB(255, 0, 0, 0),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  value,
+                  style: GoogleFonts.lato(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 24,
+                    color: Color.fromRGBO(8, 31, 92, 1),
+                  ),
                 ),
               ),
             ),
@@ -112,11 +110,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    double containerWidth = 90.0; // Width of the green container
-    double containerHeight = 180.0; // Height of the green container
+    double containerWidth = 90.0;
+    double containerHeight = 180.0;
 
-    final bottomBarHeightProvider =
-        Provider.of<BottomNavigationBarHeightProvider>(context);
+    final bottomBarHeightProvider = Provider.of<BottomNavigationBarHeightProvider>(context);
     final bottomBarHeight = bottomBarHeightProvider.height;
 
     return Scaffold(
@@ -124,13 +121,19 @@ class _ProfilePageState extends State<ProfilePage> {
         builder: (context, UserProvider, child) {
           final user = UserProvider.user;
           final username = user?.username ?? "Not A Member";
-          //final gender = user?.gender ?? "Undefined Gender (Attack Helicopter)";
+          final gender = user?.gender ?? "Undefined Gender";
           final age = user?.age ?? "Undefined Age";
           final weight = user?.weight ?? "Undefined Weight";
           final height = user?.height ?? "Undefined Height";
           final neckCircumference = user?.neck ?? "Undefined Neck Circumference";
-          _profileImageUrl = user?.profileImageUrl ?? ''; 
-          //final profileImageUrl = user?.profileImageUrl ?? 'https://static-00.iconduck.com/assets.00/user-icon-1024x1024-dtzturco.png';
+          final waistCircumference = user?.waist ?? "Undefined Waist Circumference";
+          final hipCircumference = user?.hips ?? "Undefined Hip Circumference";
+          final goals = user?.goal ?? "Undefined Goal";
+          final level = user?.level ?? "Undefined Level";
+          final frequency = user?.frequency ?? "Undefined Frequency";
+          final duration = user?.duration ?? "Undefined Duration";
+          final time = user?.time ?? "Undefined Time";
+          _profileImageUrl = user?.profileImageUrl ?? '';
 
           return Stack(
             clipBehavior: Clip.none,
@@ -140,12 +143,29 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 150 + containerHeight / 2,
                 color: Color.fromRGBO(8, 31, 92, 1),
               ),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 40.0),
+                    Text(
+                      "PROFILE",
+                      style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 36,
+                        color: Color.fromRGBO(255, 249, 240, 1),
+                      ),
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ),
               Positioned(
                 top: 150,
-                left: (MediaQuery.of(context).size.width - (containerWidth * 4)) / 2, // Center horizontally
-                //left: MediaQuery.of(context).size.width / 8,
+                left: (MediaQuery.of(context).size.width - (containerWidth * 4)) / 2,
                 child: Container(
-                  width: containerWidth * 4, // Adjusted width for centering
+                  width: containerWidth * 4,
                   height: 700,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 255, 249, 240),
@@ -155,7 +175,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 5,
                         blurRadius: 7,
-                        offset: Offset(0, 80), // changes position of shadow
+                        offset: Offset(0, 80),
                       ),
                     ],
                   ),
@@ -171,34 +191,39 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildInfoField("Name", username),
-                          _buildInfoField("Gender", "Attack Helicopter"),
+                          _buildInfoField("Gender", gender),
                           _buildInfoField("Age", age.toString()),
                           _buildInfoField("Weight", "$weight kg"),
                           _buildInfoField("Height", "$height cm"),
                           _buildInfoField("Neck Circumference", "$neckCircumference cm"),
-                          _buildInfoField("Hip Circumference", "90 cm"),
-                          _buildInfoField("Fitness Goals", "Lose Weight"),
-                          _buildInfoField("Fitness Level", "Beginner"),
-                          _buildInfoField("Workout Frequency", "3-4 times / week"),
-                          _buildInfoField("Workout Duration", "30 minutes / workout"),
+                          _buildInfoField("Waist Circumference", "$waistCircumference cm"),
+                          _buildInfoField("Hip Circumference", "$hipCircumference cm"),
+                          _buildInfoField("Fitness Goals", goals),
+                          _buildInfoField("Fitness Level", level),
+                          _buildInfoField("Workout Frequency", frequency),
+                          _buildInfoField("Workout Duration", duration),
+                          _buildInfoField("Workout Time", time),
                           const SizedBox(height: 10),
                           Center(
                             child: ElevatedButton(
                               onPressed: () {
-                                //the edit profile LOGIC HERE
-                                CanEdit = 1;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditProfile(userProvider: widget.userProvider),
+                                  ),
+                                );
                               },
                               child: Text(
                                 "Edit Profile",
                                 style: GoogleFonts.lato(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 24,
-                                  color: const Color.fromARGB(255, 0, 0, 0),
+                                  color: Color.fromRGBO(8, 31, 92, 1),
                                 ),
                               ),
                             ),
                           ),
-          
                           const SizedBox(height: 10),
                           Center(
                             child: ElevatedButton(
@@ -206,34 +231,20 @@ class _ProfilePageState extends State<ProfilePage> {
                                 signUserOut();
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Colors.red, // Change the button color to red
+                                backgroundColor: Colors.red,
                               ),
                               child: Text(
                                 "Logout",
                                 style: GoogleFonts.lato(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 24,
-                                  color: const Color.fromARGB(255, 255, 255, 255),
+                                  color: Color.fromRGBO(255, 249, 240, 1),
                                 ),
                               ),
                             ),
                           ),
-
                           const SizedBox(height: 10),
-
-                          Center(child: 
-                            ElevatedButton(
-                              onPressed: () {
-                                String SomewhatThing = username;
-                                SaveProfile(SomewhatThing);
-                              }, 
-                              child: Text('Save Profile')
-                            )
-                          ),
-                          
                           const SizedBox(height: 20),
-                                            
                           const SizedBox(height: 110),
                         ],
                       ),
@@ -241,65 +252,37 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              
-
               Positioned(
-                left: (MediaQuery.of(context).size.width - 180) / 2,
-                top: 150 + (containerHeight / 2) - 180,
+                left: (MediaQuery.of(context).size.width - 150) / 2,
+                top: 180 + (containerHeight / 2) - 180,
                 child: GestureDetector(
-                  onTap: /*Do something here*/selectImage, //_pickImageFromGallery,
+                  onTap: selectImage,
                   child: Container(
-                    width: 180,
-                    height: 180,
+                    width: 150,
+                    height: 150,
                     decoration: BoxDecoration(
-                      color: Colors.black, // Background color black
+                      color: Colors.black,
                       shape: BoxShape.circle,
                       border: Border.all(
-                        //color: Colors.black,
                         width: 2.0,
                       ),
                     ),
-
                     child: CircleAvatar(
-                        radius: 70,
-                        backgroundColor: Colors.white,
-                         backgroundImage: _image != null
-                          ? MemoryImage(_image!) // Display the selected image
+                      radius: 70,
+                      backgroundColor: Color.fromRGBO(255, 249, 240, 1),
+                      backgroundImage: _image != null
+                          ? MemoryImage(_image!)
                           : _profileImageUrl.isNotEmpty
                               ? CachedNetworkImageProvider(_profileImageUrl) as ImageProvider
                               : NetworkImage('https://static-00.iconduck.com/assets.00/user-icon-1024x1024-dtzturco.png'),
                     ),
-                    
                   ),
-                ),
-              ),
-          
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  //crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AutoSizeText(
-                      "PROFILE",
-                      style: GoogleFonts.lato(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 36,
-                          color: Color.fromRGBO(255, 255, 255, 0.612),
-                      ),
-                      //presetFontSizes: [40, 20, 14],
-                      maxLines: 1,
-                    ),
-                  ],
                 ),
               ),
             ],
           );
-        }
+        },
       ),
-      // bottomNavigationBar: MyBottomNavigationBar(
-      //   activeIndex: 3,
-      // ),
     );
   }
-
 }

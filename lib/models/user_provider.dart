@@ -47,6 +47,7 @@ import 'dart:typed_data';
           await _firestore.collection('users').doc(currentUser.uid).update({
             'profileImageUrl': imageUrl,
           });
+          await refreshUser();
         }
         
         resp = 'success';
@@ -76,6 +77,8 @@ import 'dart:typed_data';
   Future<void> updateUser(UserModel user) async {
     _user = user;
     await _firestore.collection('users').doc(user.uid).set(user.toMap());
+    await refreshUser();
+    notifyListeners();
   }
 
   Future<void> refreshUser() async {
