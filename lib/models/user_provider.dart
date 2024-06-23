@@ -1,14 +1,18 @@
 import 'dart:typed_data';
+  import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fit_app/models/user_model.dart';
+  import 'package:firebase_auth/firebase_auth.dart';
+  //import 'package:fit_app/models/user_model.dart';
+  import 'package:fit_app/models/user_model.dart';
 import 'package:flutter/material.dart';
+  import 'package:firebase_storage/firebase_storage.dart';
+  //import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class UserProvider with ChangeNotifier {
-  UserModel? _user;
+  class UserProvider with ChangeNotifier {
+    UserModel? _user;
 
-  UserModel? get user => _user;
+    UserModel? get user => _user;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -170,6 +174,7 @@ class UserProvider with ChangeNotifier {
     }
     return messages;
   }
+  
 }
 
 class UserModel {
@@ -249,4 +254,16 @@ class UserModel {
       'time': time,
     };
   }
+
+  // UserModel copyWith({
+  //   String? profileImageUrl,
+  //   // Add other fields
+  // }) {
+  //   return UserModel(
+  //     uid: uid,
+  //     profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+  //     // Copy other fields
+  //   );
+  // }
+
 }
