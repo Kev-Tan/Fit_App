@@ -80,8 +80,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
             _isLoading = false;
           });
           Navigator.push(
-            context, 
-            MaterialPageRoute(builder: (context) => ExerciseLibraryPage(exercisesData: [],)),
+            context,
+            MaterialPageRoute(
+                builder: (context) => ExerciseLibraryPage(
+                      exercisesData: [],
+                    )),
           );
         },
         onError: (error) {
@@ -101,7 +104,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   void fetchData(String bodyPart, String limit) async {
     var headers = {
-      'X-RapidAPI-Key': '6ae9d2f9cfmsha7480add98ae68bp1ab1aajsn7ccbd4d54b61',
+      'X-RapidAPI-Key': '7ab947740cmshd323f3c44a46163p15f232jsnaa7e65139c2a',
       'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
     };
 
@@ -193,7 +196,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   _workoutPlan,
-                  style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary),
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.primary),
                 ),
               ),
             // Display exercise details
