@@ -21,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final screens = [
     Home(),
-    WorkoutHomePage(userProvider: UserProvider()),
+    WorkoutHomePage(),
     ChatPage(userProvider: UserProvider()),
     ProfilePage(userProvider: UserProvider()),
   ];
