@@ -198,7 +198,7 @@ class WorkoutHomePage extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ],
+                  ))],
                       ),
                     ),
                   ],
