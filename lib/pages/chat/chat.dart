@@ -127,36 +127,35 @@ class _ChatPageState extends State<ChatPage> {
   Widget _buildChatMessage(Map<String, String> message) {
     bool isUser = message['role'] == 'user';
     return Align(
-      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-        padding: EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-          color: isUser
-              ? Theme.of(context).colorScheme.primary
-              : Color.fromRGBO(200, 200, 200, 1),
-          borderRadius: isUser
-              ? BorderRadius.only(
-                  topLeft: Radius.circular(12.0),
-                  bottomLeft: Radius.circular(12.0),
-                  topRight: Radius.circular(12.0),
-                )
-              : BorderRadius.only(
-                  topRight: Radius.circular(12.0),
-                  bottomRight: Radius.circular(12.0),
-                  topLeft: Radius.circular(12.0),
-                ),
-        ),
-        child: Text(
-          message['content']!,
-          style: TextStyle(
+        alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+          padding: EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            color: isUser
+                ? Theme.of(context).colorScheme.primary
+                : Color.fromRGBO(200, 200, 200, 1),
+            borderRadius: isUser
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(12.0),
+                    bottomLeft: Radius.circular(12.0),
+                    topRight: Radius.circular(12.0),
+                  )
+                : BorderRadius.only(
+                    topRight: Radius.circular(12.0),
+                    bottomRight: Radius.circular(12.0),
+                    topLeft: Radius.circular(12.0),
+                  ),
+          ),
+          child: Text(
+            message['content']!,
+            style: TextStyle(
               color: isUser
                   ? Theme.of(context).colorScheme.background
                   : Color.fromRGBO(8, 31, 92, 1),
+            ),
           ),
-        ),
-      )
-    );
+        ));
   }
 
   @override

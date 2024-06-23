@@ -24,7 +24,6 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   void initState() {
     super.initState();
-    // Fetch data immediately when the page is loaded
     fetchData();
   }
 
@@ -40,8 +39,8 @@ class _CategoryPageState extends State<CategoryPage> {
 
     var uri = Uri.https(
       'exercisedb.p.rapidapi.com',
-      '/exercises/bodyPart/${widget.category}',
-      {'limit': '50'}, // Adjust limit as per your requirement
+      '/exercises/bodyPart/${widget.category.toLowerCase()}',
+      {'limit': '50'},
     );
 
     var response = await http.get(uri, headers: headers);
@@ -56,8 +55,43 @@ class _CategoryPageState extends State<CategoryPage> {
       setState(() {
         _isLoading = false;
       });
-      // Handle error
     }
+  }
+
+  void addToFavorites(String exerciseName) async {
+    setState(() {
+      // Assuming userProvider is accessible and not null
+      widget.userProvider.user!.favorites!.add(exerciseName);
+    });
+
+    UserModel updatedUser = UserModel(
+      uid: widget.userProvider.user!.uid,
+      username: "Kevin",
+      profileImageUrl: widget.userProvider.user!.profileImageUrl,
+      email: widget.userProvider.user!.email,
+      gender: widget.userProvider.user!.gender,
+      age: widget.userProvider.user!.age,
+      height: widget.userProvider.user!.height,
+      weight: widget.userProvider.user!.weight,
+      neck: widget.userProvider.user!.neck,
+      waist: widget.userProvider.user!.waist,
+      hips: widget.userProvider.user!.hips,
+      goal: widget.userProvider.user!.goal,
+      level: widget.userProvider.user!.level,
+      frequency: widget.userProvider.user!.frequency,
+      duration: widget.userProvider.user!.duration,
+      time: widget.userProvider.user!.time,
+      favorites: widget.userProvider.user!.favorites,
+    );
+
+    await widget.userProvider.updateUser(updatedUser);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Exercise added to favorites!'),
+        duration: Duration(seconds: 3),
+      ),
+    );
   }
 
   @override
@@ -83,9 +117,7 @@ class _CategoryPageState extends State<CategoryPage> {
                     padding: const EdgeInsets.all(8.0),
                   ),
                   const SizedBox(height: 10),
-                  // You can add TextFields and buttons here if needed
                   const SizedBox(height: 10),
-                  // Display exercise details
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -93,15 +125,18 @@ class _CategoryPageState extends State<CategoryPage> {
                     itemBuilder: (context, index) {
                       var exercise = exercisesData[index];
                       return ExerciseDetailCard(
-                        number: index + 1, // Add numbering
+                        number: index + 1,
                         exerciseName: exercise['name'],
                         bodyPart: exercise['bodyPart'],
                         target: exercise['target'],
                         equipment: exercise['equipment'],
                         gifUrl: exercise['gifUrl'],
-                        instructions: (exercise['instructions'] as List)
-                            .cast<String>(), // Cast to List<String>
+                        instructions:
+                            (exercise['instructions'] as List).cast<String>(),
                         color: index.isEven ? Colors.blue : Colors.pink,
+                        onPressedFavorite: () {
+                          addToFavorites(exercise['name']);
+                        },
                       );
                     },
                   ),
@@ -121,6 +156,7 @@ class ExerciseDetailCard extends StatelessWidget {
   final String gifUrl;
   final List<String> instructions;
   final Color color;
+  final VoidCallback? onPressedFavorite;
 
   const ExerciseDetailCard({
     Key? key,
@@ -132,6 +168,7 @@ class ExerciseDetailCard extends StatelessWidget {
     required this.gifUrl,
     required this.instructions,
     required this.color,
+    this.onPressedFavorite,
   }) : super(key: key);
 
   @override
@@ -144,9 +181,18 @@ class ExerciseDetailCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '$number. Exercise Name: $exerciseName',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '$number. Exercise Name: $exerciseName',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  icon: Icon(Icons.star, color: Colors.yellow),
+                  onPressed: onPressedFavorite,
+                ),
+              ],
             ),
             SizedBox(height: 8),
             Text('Body Part: $bodyPart'),

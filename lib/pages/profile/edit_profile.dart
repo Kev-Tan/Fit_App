@@ -121,6 +121,7 @@ class _EditProfileState extends State<EditProfile> {
                       frequency: _frequencyController.text.trim(),
                       duration: _durationController.text.trim(),
                       time: _timeController.text.trim(),
+                      favorites: widget.userProvider.user!.favorites,
                     );
 
                     // Call updateUser method of the existing userProvider instance
