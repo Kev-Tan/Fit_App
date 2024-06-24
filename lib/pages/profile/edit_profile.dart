@@ -57,7 +57,15 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile'),
+        title: Text(
+          'Edit Profile',
+          style: TextStyle(
+            fontSize: 24.0,
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.bold,
+          )
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -68,7 +76,7 @@ class _EditProfileState extends State<EditProfile> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(30.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -130,9 +138,22 @@ class _EditProfileState extends State<EditProfile> {
                     // Navigate back to the profile page with updated data
                     Navigator.pop(context);
                   },
-                  child: Text('Update User'),
+                  child: Text(
+                    'Update User',
+                    style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontSize: 22, 
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.background,
+                    )
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),
+                  )
                 ),
-              ],
+              )],
             ),
           ),
         ),
@@ -145,9 +166,25 @@ class _EditProfileState extends State<EditProfile> {
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: TextField(
         controller: controller,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.primary,
+        ),
         decoration: InputDecoration(
           labelText: labelText,
+          labelStyle: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+          ),
           border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.primary,
+            )
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.primary,
+            )
+          )
         ),
       ),
     );
@@ -169,10 +206,19 @@ class _EditProfileState extends State<EditProfile> {
             child: Text(option),
           );
         }).toList(),
+        style: TextStyle(color: Theme.of(context).colorScheme.primary),
         decoration: InputDecoration(
           labelText: labelText,
+          labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
           border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+          ),
         ),
+        dropdownColor: Theme.of(context).colorScheme.background,
       ),
     );
   }
@@ -195,13 +241,23 @@ class _EditProfileState extends State<EditProfile> {
         child: InputDecorator(
           decoration: InputDecoration(
             labelText: labelText,
+            labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
             border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(controller.text),
-              Icon(Icons.access_time),
+              Text(
+                controller.text.isNotEmpty ? controller.text : 'Select Time',
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
+              Icon(Icons.access_time, color: Theme.of(context).colorScheme.primary),
             ],
           ),
         ),

@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 16.0, top: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             label,
             style: GoogleFonts.lato(
@@ -70,53 +70,49 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Container(
-            height: 40,
-            width: 300,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.background,
-              borderRadius: BorderRadius.circular(20.0),
-              border: Border.all(
-                width: 1.0,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.8),
-                  spreadRadius: 1,
-                  blurRadius: 7,
-                  offset: Offset(1, 5),
+          child: Material(
+            elevation: 2,
+            borderRadius: BorderRadius.circular(20.0),
+            child: Container(
+              height: 40,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.background,
+                borderRadius: BorderRadius.circular(20.0),
+                border: Border.all(
+                  width: 1.0,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  value,
-                  style: GoogleFonts.lato(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 24,
-                    color: Theme.of(context).colorScheme.primary,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    value,
+                    style: GoogleFonts.lato(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 24,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 10), // Adjust the spacing here
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    double containerWidth = 90.0;
-    double containerHeight = 180.0;
+    double containerWidth = MediaQuery.of(context).size.width * 0.9;
+    double containerHeight = 700.0;
 
     final bottomBarHeightProvider =
         Provider.of<BottomNavigationBarHeightProvider>(context);
@@ -151,32 +147,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 150 + containerHeight / 2,
                 color: Theme.of(context).colorScheme.primary,
               ),
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 40.0),
-                    Text(
-                      "PROFILE",
-                      style: GoogleFonts.lato(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 36,
-                        color: Theme.of(context).colorScheme.background,
-                      ),
-                      maxLines: 1,
-                    ),
-                  ],
-                ),
-              ),
               Positioned(
-                top: 150,
-                left:
-                    (MediaQuery.of(context).size.width - (containerWidth * 4)) /
-                        2,
+                top: 140, // Adjusted the top position
+                left: 0, // Set left to 0
+                right: 0, // Set right to 0
                 child: Container(
-                  width: containerWidth * 4,
-                  height: 700,
+                  width: double.infinity,
+                  height: containerHeight,
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.background,
                     borderRadius: BorderRadius.circular(20),
@@ -185,15 +162,15 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 5,
                         blurRadius: 7,
-                        offset: Offset(0, 80),
+                        offset: Offset(0, 3),
                       ),
                     ],
                   ),
                   child: Padding(
                     padding: EdgeInsets.only(
                       top: 100.0,
-                      left: 8.0,
-                      right: 8.0,
+                      left: 30.0,
+                      right: 30.0,
                       bottom: bottomBarHeight + 10.0,
                     ),
                     child: SingleChildScrollView(
@@ -235,17 +212,19 @@ class _ProfilePageState extends State<ProfilePage> {
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context).colorScheme.primary,
-                                )
+                                ),
                               ),
                               style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).colorScheme.background,
-                              side: BorderSide(color: Theme.of(context).colorScheme.primary),
-                              padding: EdgeInsets.symmetric(horizontal: 36, vertical: 10),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                //add border 
-                              )
-                            )
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.background,
+                                side: BorderSide(
+                                    color: Theme.of(context).colorScheme.primary),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 36, vertical: 10),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 15),
@@ -254,63 +233,76 @@ class _ProfilePageState extends State<ProfilePage> {
                               onPressed: () {
                                 signUserOut();
                               },
-                              // style: ElevatedButton.styleFrom(
-                              //   backgroundColor: Theme.of(context).colorScheme.primary,
-                              // ),
                               child: Text(
                                 "Logout",
                                 style: TextStyle(
                                   fontFamily: 'Lato',
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.background,
-                                )
+                                  color:
+                                      Theme.of(context).colorScheme.background,
+                                ),
                               ),
                               style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).colorScheme.primary,
-                              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              )
-                            )
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 50, vertical: 10),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
                             ),
                           ),
-                          const SizedBox(height: 10),
-                          const SizedBox(height: 20),
-                          const SizedBox(height: 70),
+                          const SizedBox(height: 100),
                         ],
                       ),
                     ),
                   ),
                 ),
               ),
-              Positioned(
-                left: (MediaQuery.of(context).size.width - 150) / 2,
-                top: 180 + (containerHeight / 2) - 180,
-                child: GestureDetector(
-                  onTap: selectImage,
-                  child: Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        width: 2.0,
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 42.0),
+                    Text(
+                      "PROFILE",
+                      style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 36,
+                        color: Theme.of(context).colorScheme.background,
+                      ),
+                      maxLines: 1,
+                    ),
+                    const SizedBox(height: 5.0), // Moved the avatar closer to the profile text
+                    GestureDetector(
+                      onTap: selectImage,
+                      child: Container(
+                        width: 150,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 2.0,
+                          ),
+                        ),
+                        child: CircleAvatar(
+                          radius: 70,
+                          backgroundColor: Theme.of(context).colorScheme.background,
+                          backgroundImage: _image != null
+                              ? MemoryImage(_image!)
+                              : _profileImageUrl.isNotEmpty
+                                  ? CachedNetworkImageProvider(_profileImageUrl)
+                                      as ImageProvider
+                                  : NetworkImage(
+                                      'https://static-00.iconduck.com/assets.00/user-icon-1024x1024-dtzturco.png'),
+                        ),
                       ),
                     ),
-                    child: CircleAvatar(
-                      radius: 70,
-                      backgroundColor: Theme.of(context).colorScheme.background,
-                      backgroundImage: _image != null
-                          ? MemoryImage(_image!)
-                          : _profileImageUrl.isNotEmpty
-                              ? CachedNetworkImageProvider(_profileImageUrl)
-                                  as ImageProvider
-                              : NetworkImage(
-                                  'https://static-00.iconduck.com/assets.00/user-icon-1024x1024-dtzturco.png'),
-                    ),
-                  ),
+                  ],
                 ),
               ),
             ],

@@ -40,9 +40,17 @@ class _FavoritesPageState extends State<FavoritesPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Exercise removed from favorites!'),
+        backgroundColor: Colors.red,
         duration: Duration(seconds: 3),
       ),
     );
+  }
+
+  String _capitalizeWords(String input) {
+    return input.split(' ').map((word) {
+      if (word.isEmpty) return word;
+      return word[0].toUpperCase() + word.substring(1);
+    }).join(' ');
   }
 
   @override
@@ -52,19 +60,56 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favorites'),
+        title: Text(
+          'Favorites',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
       body: favorites != null && favorites.isNotEmpty
           ? ListView.builder(
               itemCount: favorites.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(favorites[index]),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete, color: Colors.red),
-                    onPressed: () {
-                      _removeFromFavorites(favorites[index]);
-                    },
+                final exerciseName = _capitalizeWords(favorites[index]);
+
+                return Card(
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  elevation: 4, // Add drop shadow
+                  color: Theme.of(context).colorScheme.background,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10), // Optional: Add rounded corners
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          exerciseName,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(height: 4), // Reduced spacing
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: IconButton(
+                            icon: Icon(Icons.delete, color: Color.fromRGBO(200, 200, 200, 1)),
+                            onPressed: () {
+                              _removeFromFavorites(favorites[index]);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

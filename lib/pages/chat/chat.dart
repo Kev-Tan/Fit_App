@@ -185,7 +185,7 @@ class _ChatPageState extends State<ChatPage> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Hi, I am _____. How can I help you today?',
+                  'Hi, I am reActive. How can I help you today?',
                   style: TextStyle(
                     fontSize: 22.0,
                     color: Theme.of(context).colorScheme.secondary,

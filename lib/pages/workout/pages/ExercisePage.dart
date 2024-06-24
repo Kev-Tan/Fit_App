@@ -73,7 +73,7 @@ class _ExercisePageState extends State<ExercisePage> {
 }
 
 class ExerciseService {
-  static const String apiKey = '7ab947740cmshd323f3c44a46163p15f232jsnaa7e65139c2a';
+  static const String apiKey = '3f73d91377msh055a1de13a30dcep13e2f0jsnf2d80950f2f9';
   static const String host = 'exercisedb.p.rapidapi.com';
 
   Future<List<Map<String, dynamic>>> fetchExercises(String exerciseName) async {

@@ -33,7 +33,7 @@ class _CategoryPageState extends State<CategoryPage> {
     });
 
     var headers = {
-      'X-RapidAPI-Key': '7ab947740cmshd323f3c44a46163p15f232jsnaa7e65139c2a',
+      'X-RapidAPI-Key': '3f73d91377msh055a1de13a30dcep13e2f0jsnf2d80950f2f9',
       'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
     };
 
@@ -66,6 +66,7 @@ class _CategoryPageState extends State<CategoryPage> {
         SnackBar(
           content: Text('This exercise is already in your favorites!'),
           duration: Duration(seconds: 3),
+          backgroundColor: Colors.red,
         ),
       );
     } else {
@@ -99,6 +100,7 @@ class _CategoryPageState extends State<CategoryPage> {
         SnackBar(
           content: Text('Exercise added to favorites!'),
           duration: Duration(seconds: 3),
+          backgroundColor: Colors.green,
         ),
       );
     }
@@ -112,7 +114,8 @@ class _CategoryPageState extends State<CategoryPage> {
           widget.category,
           style: TextStyle(
             fontSize: 24.0,
-            color: Color(0xFF00008B),
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.bold,
           ),
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -120,40 +123,45 @@ class _CategoryPageState extends State<CategoryPage> {
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                  ),
-                  const SizedBox(height: 10),
-                  const SizedBox(height: 10),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: exercisesData.length,
-                    itemBuilder: (context, index) {
-                      var exercise = exercisesData[index];
-                      return ExerciseDetailCard(
-                        number: index + 1,
-                        exerciseName: exercise['name'],
-                        bodyPart: exercise['bodyPart'],
-                        target: exercise['target'],
-                        equipment: exercise['equipment'],
-                        gifUrl: exercise['gifUrl'],
-                        instructions:
-                            (exercise['instructions'] as List).cast<String>(),
-                        color: index.isEven ? Colors.blue : Colors.pink,
-                        onPressedFavorite: () {
-                          addToFavorites(exercise['name']);
-                        },
-                      );
-                    },
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(16.0), // Add padding around the column
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: exercisesData.length,
+                      itemBuilder: (context, index) {
+                        var exercise = exercisesData[index];
+                        return ExerciseDetailCard(
+                          number: index + 1,
+                          exerciseName: _capitalizeWords(exercise['name']),
+                          bodyPart: _capitalizeWords(exercise['bodyPart']),
+                          target: _capitalizeWords(exercise['target']),
+                          equipment: _capitalizeWords(exercise['equipment']),
+                          gifUrl: exercise['gifUrl'],
+                          instructions:
+                              (exercise['instructions'] as List).cast<String>(),
+                          color: index.isEven ? Colors.blue : Colors.pink,
+                          onPressedFavorite: () {
+                            addToFavorites(exercise['name']);
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
     );
+  }
+
+  String _capitalizeWords(String input) {
+    return input
+        .split(' ')
+        .map((word) => word[0].toUpperCase() + word.substring(1))
+        .join(' ');
   }
 }
 
@@ -184,10 +192,11 @@ class ExerciseDetailCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      elevation: 2,
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Adjusted margin
+      elevation: 10,
+      color: Theme.of(context).colorScheme.background,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16), // Adjusted padding inside the card
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -196,36 +205,76 @@ class ExerciseDetailCard extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    '$number. Exercise Name: $exerciseName',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    '$number. $exerciseName',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.star, color: Colors.yellow),
+                  icon: Icon(Icons.star, color: Theme.of(context).colorScheme.primary),
                   onPressed: onPressedFavorite,
                 ),
               ],
             ),
             SizedBox(height: 8),
-            Text('Body Part: $bodyPart'),
-            Text('Target: $target'),
-            Text('Equipment: $equipment'),
-            SizedBox(height: 8),
-            Image.network(
-              gifUrl,
-              height: 150,
-              width: double.infinity,
-              fit: BoxFit.cover,
+            Text(
+              'Body Part: $bodyPart',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 18,
+              ),
             ),
-            SizedBox(height: 8),
+            Text(
+              'Target: $target',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              'Equipment: $equipment',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 18,
+              ),
+            ),
+            SizedBox(height: 16),
+            Center(
+              child: Container(
+                height: 150,
+                width: 150,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(
+                    image: NetworkImage(gifUrl),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
             Text(
               'Instructions:',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 18,
+              ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: instructions
-                  .map((instruction) => Text(' - $instruction'))
+                  .map((instruction) => Text(
+                        ' - $instruction',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 18,
+                        ),
+                      ))
                   .toList(),
             ),
           ],

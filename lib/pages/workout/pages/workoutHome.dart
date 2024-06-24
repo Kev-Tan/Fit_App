@@ -63,7 +63,7 @@ class WorkoutHomePage extends StatelessWidget {
                         Icon(
                           Icons.notifications,
                           size: 45,
-                          color: Color(0xFF081F5C),
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ],
                     ),
@@ -92,7 +92,7 @@ class WorkoutHomePage extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Muscle Group",
+                          "Exercise Library",
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
@@ -111,7 +111,7 @@ class WorkoutHomePage extends StatelessWidget {
                         color: Theme.of(context).colorScheme.background,
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.primary,
                           width: 2,
                         ),
                       ),
