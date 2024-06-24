@@ -1,18 +1,18 @@
 import 'dart:typed_data';
-  import 'dart:typed_data';
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
-  import 'package:firebase_auth/firebase_auth.dart';
-  //import 'package:fit_app/models/user_model.dart';
-  import 'package:fit_app/models/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:fit_app/models/user_model.dart';
+import 'package:fit_app/models/user_model.dart';
 import 'package:flutter/material.dart';
-  import 'package:firebase_storage/firebase_storage.dart';
-  //import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-  class UserProvider with ChangeNotifier {
-    UserModel? _user;
+class UserProvider with ChangeNotifier {
+  UserModel? _user;
 
-    UserModel? get user => _user;
+  UserModel? get user => _user;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -174,7 +174,6 @@ import 'package:firebase_storage/firebase_storage.dart';
     }
     return messages;
   }
-  
 }
 
 class UserModel {
@@ -194,6 +193,8 @@ class UserModel {
   final String frequency;
   final String duration;
   final String time;
+  final List<String>? favorites; // New field
+  final List<Timestamp>? completedDays;
 
   UserModel({
     required this.uid,
@@ -212,6 +213,8 @@ class UserModel {
     required this.frequency,
     required this.duration,
     required this.time,
+    this.favorites, // Make favorites nullable here
+    this.completedDays,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map, String uid) {
@@ -232,11 +235,16 @@ class UserModel {
       frequency: map['frequency'],
       duration: map['duration'],
       time: map['time'],
+      favorites: List<String>.from(map['favorites'] ?? []), // Parse favorites
+      completedDays: (map['completedDays'] as List<dynamic>?)
+          ?.map((timestamp) => timestamp as Timestamp)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'uid': uid,
       'username': username,
       'profileImageUrl': profileImageUrl,
       'email': email,
@@ -252,18 +260,8 @@ class UserModel {
       'frequency': frequency,
       'duration': duration,
       'time': time,
+      'favorites': favorites, // Include favorites
+      'completedDays': completedDays,
     };
   }
-
-  // UserModel copyWith({
-  //   String? profileImageUrl,
-  //   // Add other fields
-  // }) {
-  //   return UserModel(
-  //     uid: uid,
-  //     profileImageUrl: profileImageUrl ?? this.profileImageUrl,
-  //     // Copy other fields
-  //   );
-  // }
-
 }

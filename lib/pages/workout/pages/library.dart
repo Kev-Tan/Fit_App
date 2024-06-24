@@ -14,11 +14,11 @@ class _ExerciseLibraryPageState extends State<ExerciseLibraryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(8, 31, 92, 1),
+        backgroundColor: Theme.of(context).colorScheme.primary,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Color.fromRGBO(255, 249, 240, 1),
+            color: Theme.of(context).colorScheme.background,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -27,14 +27,14 @@ class _ExerciseLibraryPageState extends State<ExerciseLibraryPage> {
         title: Text(
           'Back Exercises',
           style: TextStyle(
-            color: Color.fromRGBO(255, 249, 240, 1),
+            color: Theme.of(context).colorScheme.background,
           ),
         ),
         actions: [
           IconButton(
             icon: Icon(
               Icons.search,
-              color: Color.fromRGBO(255, 249, 240, 1),
+              color: Theme.of(context).colorScheme.background,
             ),
             onPressed: () {
               Navigator.pushNamed(context, '/filter');
@@ -65,7 +65,7 @@ class _ExerciseLibraryPageState extends State<ExerciseLibraryPage> {
           ],
         ),
       ),
-      backgroundColor: Color.fromRGBO(255, 249, 240, 1),
+      backgroundColor: Theme.of(context).colorScheme.background,
     );
   }
 }
@@ -102,13 +102,13 @@ class _ExerciseCardState extends State<ExerciseCard> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      color: Color.fromRGBO(255, 249, 240, 1),
+      color: Theme.of(context).colorScheme.background,
       child: ListTile(
         leading: Image.network(widget.imageUrl), // Placeholder for the exercise image
         title: Text(
           widget.title,
           style: TextStyle(
-            color: Color.fromRGBO(8, 31, 92, 1),
+            color: Theme.of(context).colorScheme.primary,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -117,8 +117,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
           icon: Icon(
             isStarred ? Icons.star : Icons.star_border,
             color: isStarred
-                ? Color.fromRGBO(8, 31, 92, 1)
-                : Color.fromRGBO(8, 31, 92, 1),
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.primary,
           ),
           onPressed: () {
             setState(() {

@@ -44,7 +44,7 @@ class _ChatPageState extends State<ChatPage> {
       _messages.add({'role': 'user', 'content': _controller.text});
     });
 
-    const apiKey = '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';
+    const apiKey = '';
     final url = Uri.parse('https://api.openai.com/v1/chat/completions');
     final headers = {
       'Content-Type': 'application/json',
@@ -127,35 +127,35 @@ class _ChatPageState extends State<ChatPage> {
   Widget _buildChatMessage(Map<String, String> message) {
     bool isUser = message['role'] == 'user';
     return Align(
-      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-        padding: EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-          color: isUser
-              ? Color.fromRGBO(8, 31, 92, 1)
-              : Color.fromRGBO(200, 200, 200, 1),
-          borderRadius: isUser
-              ? BorderRadius.only(
-                  topLeft: Radius.circular(12.0),
-                  bottomLeft: Radius.circular(12.0),
-                  topRight: Radius.circular(12.0),
-                )
-              : BorderRadius.only(
-                  topRight: Radius.circular(12.0),
-                  bottomRight: Radius.circular(12.0),
-                  topLeft: Radius.circular(12.0),
-                ),
-        ),
-        child: Text(
-          message['content']!,
-          style: TextStyle(
+        alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+          padding: EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            color: isUser
+                ? Theme.of(context).colorScheme.primary
+                : Color.fromRGBO(200, 200, 200, 1),
+            borderRadius: isUser
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(12.0),
+                    bottomLeft: Radius.circular(12.0),
+                    topRight: Radius.circular(12.0),
+                  )
+                : BorderRadius.only(
+                    topRight: Radius.circular(12.0),
+                    bottomRight: Radius.circular(12.0),
+                    topLeft: Radius.circular(12.0),
+                  ),
+          ),
+          child: Text(
+            message['content']!,
+            style: TextStyle(
               color: isUser
-                  ? Color.fromRGBO(255, 249, 240, 1)
-                  : Color.fromRGBO(8, 31, 92, 1)),
-        ),
-      ),
-    );
+                  ? Theme.of(context).colorScheme.background
+                  : Color.fromRGBO(8, 31, 92, 1),
+            ),
+          ),
+        ));
   }
 
   @override
@@ -167,28 +167,28 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 249, 240, 1),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
           Container(
             padding: const EdgeInsets.all(50.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   'Chat with me',
                   style: TextStyle(
                     fontSize: 36.0,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(8, 31, 92, 1),
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Hi, I am _____. How can I help you today?',
+                  'Hi, I am reActive. How can I help you today?',
                   style: TextStyle(
                     fontSize: 22.0,
-                    color: Color.fromRGBO(112, 150, 209, 1),
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ],
@@ -211,7 +211,7 @@ class _ChatPageState extends State<ChatPage> {
             ),
           Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 100.0),
+                const EdgeInsets.only(bottom: 80.0, left: 20.0, right: 20.0, top:20.0),
             child: Column(
               children: [
                 TextField(
@@ -219,16 +219,16 @@ class _ChatPageState extends State<ChatPage> {
                   decoration: InputDecoration(
                     labelText: 'Type your message here',
                     labelStyle:
-                        const TextStyle(color: Color.fromRGBO(8, 31, 92, 1)),
+                        TextStyle(color: Theme.of(context).colorScheme.primary),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 16.0),
+                    // contentPadding:
+                    //     const EdgeInsets.symmetric(horizontal: 16.0),
                   ),
                   onSubmitted: (_) => _sendMessage(),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 20),
                 // ElevatedButton(
                 //   onPressed: _sendMessage,
                 //   style: ElevatedButton.styleFrom(

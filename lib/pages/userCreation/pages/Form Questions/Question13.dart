@@ -85,7 +85,7 @@ class _QuestionThirteenState extends State<QuestionThirteen> {
                     _selectedTime == null ? 'Select Time' : _selectedTime!,
                     style: TextStyle(
                       fontSize: 18,
-                      color: Colors.white,
+                      color: Color.fromRGBO(255, 249, 240, 1),
                     ),
                   ),
                   style: ElevatedButton.styleFrom(

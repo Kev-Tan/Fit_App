@@ -139,7 +139,9 @@ class _LoginPageState extends State<LoginPage> {
 
               // Password textfield
               PasswordTextField(
-                  controller: passwordController, hintText: 'Password'),
+                controller: passwordController,
+                hintText: 'Password',
+              ),
 
               const SizedBox(height: 10),
 
@@ -162,8 +164,8 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       child: Text(
                         'Forgot Password?',
-                        style:
-                            TextStyle(color: Color.fromRGBO(112, 150, 209, 1)),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary),
                       ),
                     ),
                   ],
@@ -185,23 +187,36 @@ class _LoginPageState extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      onPressed: signInWithGoogle,
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(150, 50), // Button size
+                    GestureDetector(
+                      onTap: signInWithGoogle,
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(8, 31, 92, 1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Sign in with Google",
+                            style: TextStyle(
+                              color: Color.fromRGBO(255, 249, 240, 1),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
                       ),
-                      child: Text('Google'),
                     ),
-                    const SizedBox(width: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Add your Facebook sign-in logic here
-                      },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(150, 50), // Button size
-                      ),
-                      child: Text('Facebook'),
-                    ),
+                    //const SizedBox(width: 20),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     // Add your Facebook sign-in logic here
+                    //   },
+                    //   child: Image.asset(
+                    //     'lib/assets/facebook.png',
+                    //     width: 0,
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -269,7 +284,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       "SIGN UP HERE",
                       style: TextStyle(
-                        color: Color.fromRGBO(112, 150, 209, 1),
+                        color: Theme.of(context).colorScheme.secondary,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),

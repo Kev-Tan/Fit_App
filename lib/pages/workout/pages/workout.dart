@@ -27,7 +27,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
       _workoutPlan = "";
     });
 
-    const apiKey = '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';
+    const apiKey = '';
     final url = Uri.parse('https://api.openai.com/v1/chat/completions');
     final headers = {
       'Content-Type': 'application/json',
@@ -80,8 +80,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
             _isLoading = false;
           });
           Navigator.push(
-            context, 
-            MaterialPageRoute(builder: (context) => ExerciseLibraryPage(exercisesData: [],)),
+            context,
+            MaterialPageRoute(
+                builder: (context) => ExerciseLibraryPage(
+                      exercisesData: [],
+                    )),
           );
         },
         onError: (error) {
@@ -101,7 +104,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   void fetchData(String bodyPart, String limit) async {
     var headers = {
-      'X-RapidAPI-Key': '6ae9d2f9cfmsha7480add98ae68bp1ab1aajsn7ccbd4d54b61',
+      'X-RapidAPI-Key': 'bd42feb2c0msh9d6def32c640a64p129898jsn5e10e71f428b',
       'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
     };
 
@@ -135,7 +138,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
             color: Color(0xFF00008B),
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.background,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -154,7 +157,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
               child: TextField(
                 controller: bodyPartController,
                 decoration: const InputDecoration(
-                  labelText: 'Enter Body Part~~',
+                  labelText: 'Enter the muscle group',
                 ),
               ),
             ),
@@ -163,7 +166,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
               child: TextField(
                 controller: limitController,
                 decoration: const InputDecoration(
-                  labelText: 'Enter Limit',
+                  labelText: 'Enter the number of exercises you want to see',
                 ),
               ),
             ),
@@ -193,7 +196,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   _workoutPlan,
-                  style: const TextStyle(fontSize: 16, color: Colors.black),
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.primary),
                 ),
               ),
             // Display exercise details

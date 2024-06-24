@@ -17,13 +17,13 @@ class SignupButton extends StatelessWidget {
               color: Color.fromRGBO(8, 31, 92, 1),
               borderRadius: BorderRadius.circular(30),
             ),
-            child: const Center(
+            child: Center(
                 child: Text(
               "SIGN UP",
               style: TextStyle(
-                color: Color.fromRGBO(247, 242, 235, 1),
+                color: Color.fromRGBO(255, 249, 240, 1),
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontSize: 20,
               ),
             ))));
   }

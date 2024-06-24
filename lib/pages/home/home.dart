@@ -24,7 +24,7 @@ class Home extends StatelessWidget {
       // bottomNavigationBar: MyBottomNavigationBar(
       //   activeIndex: 0,
       // ),
-      backgroundColor: Color.fromARGB(255, 8, 31, 92),
+      backgroundColor: Theme.of(context).colorScheme.primary,
     );
   }
 }
