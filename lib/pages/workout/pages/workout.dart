@@ -27,7 +27,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
       _workoutPlan = "";
     });
 
-    const apiKey = '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';
+    const apiKey = '';
     final url = Uri.parse('https://api.openai.com/v1/chat/completions');
     final headers = {
       'Content-Type': 'application/json',
