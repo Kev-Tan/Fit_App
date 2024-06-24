@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_app/pages/userCreation/forgot_password_page.dart';
 import 'package:fit_app/pages/userCreation/signup_page.dart';
@@ -119,13 +120,20 @@ class _LoginPageState extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      'Welcome',
-                      style: TextStyle(
-                        color: Color.fromRGBO(8, 31, 92, 1),
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    AnimatedTextKit(
+                      animatedTexts: [
+                        TyperAnimatedText(
+                          'Welcome',
+                          textStyle: TextStyle(
+                            color: Color.fromRGBO(8, 31, 92, 1),
+                            fontSize: 48,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          speed: const Duration(milliseconds: 200),
+                        ),
+                      ],
+                      totalRepeatCount: 1,
+                      pause: const Duration(milliseconds: 1000),
                     ),
                   ],
                 ),
@@ -201,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(
                               color: Color.fromRGBO(255, 249, 240, 1),
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: 24,
                             ),
                           ),
                         ),

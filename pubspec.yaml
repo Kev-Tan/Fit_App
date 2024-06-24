@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   animated_notch_bottom_bar: ^1.0.3
+  animated_text_kit: ^4.2.2
   auto_size_text: ^3.0.0
   cached_network_image: ^3.3.1
   cloud_firestore: ^4.17.5
