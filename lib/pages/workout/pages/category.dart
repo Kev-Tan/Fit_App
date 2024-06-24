@@ -184,9 +184,11 @@ class ExerciseDetailCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '$number. Exercise Name: $exerciseName',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                Flexible(
+                  child: Text(
+                    '$number. Exercise Name: $exerciseName',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
                 IconButton(
                   icon: Icon(Icons.star, color: Colors.yellow),

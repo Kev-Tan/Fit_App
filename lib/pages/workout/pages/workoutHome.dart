@@ -1,5 +1,6 @@
 import 'package:fit_app/pages/workout/pages/ExercisePage.dart';
 import 'package:fit_app/pages/workout/pages/category.dart';
+import 'package:fit_app/pages/workout/pages/favorites.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_app/models/user_provider.dart';
 import 'package:fit_app/pages/workout/pages/workout.dart';
@@ -107,7 +108,7 @@ class WorkoutHomePage extends StatelessWidget {
                       margin: EdgeInsets.only(top: 15),
                       padding: EdgeInsets.all(25),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.background,
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(
                           color: Colors.black,
@@ -188,31 +189,41 @@ class WorkoutHomePage extends StatelessWidget {
                           ),
                           SizedBox(width: 10),
                           Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primary,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              height: 170,
-                              padding:
-                                  EdgeInsets.all(12), // Add padding for text
-                              child: Align(
-                                alignment: Alignment
-                                    .bottomLeft, // Align text to bottom left corner
-                                child: Text(
-                                  "Custom Playlist",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'Lato',
-                                    fontWeight: FontWeight.normal,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .background, // Text color
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FavoritesPage(
+                                          userProvider: userProvider)),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                height: 170,
+                                padding:
+                                    EdgeInsets.all(12), // Add padding for text
+                                child: Align(
+                                  alignment: Alignment
+                                      .bottomLeft, // Align text to bottom left corner
+                                  child: Text(
+                                    "Favorites",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'Lato',
+                                      fontWeight: FontWeight.normal,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .background, // Text color
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
