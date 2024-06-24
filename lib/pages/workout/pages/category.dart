@@ -66,7 +66,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
     UserModel updatedUser = UserModel(
       uid: widget.userProvider.user!.uid,
-      username: "Kevin",
+      username: widget.userProvider.user!.username,
       profileImageUrl: widget.userProvider.user!.profileImageUrl,
       email: widget.userProvider.user!.email,
       gender: widget.userProvider.user!.gender,

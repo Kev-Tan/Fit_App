@@ -27,8 +27,9 @@ class WorkoutHomePage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Container(
                 width: containerWidth,
-                margin: EdgeInsets.only(top: 40),
-                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.only(top: 40, bottom: 40),
+                padding:
+                    EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 80),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -40,7 +41,7 @@ class WorkoutHomePage extends StatelessWidget {
                             Text(
                               "Hello, $username",
                               style: TextStyle(
-                                color: Color(0xFF081F5C),
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Lato',
@@ -49,7 +50,7 @@ class WorkoutHomePage extends StatelessWidget {
                             Text(
                               "Start your workout",
                               style: TextStyle(
-                                color: Color(0xFF081F5C),
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Lato',
@@ -69,7 +70,10 @@ class WorkoutHomePage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ChatPage(userProvider: userProvider)), // Navigate to the new chat page
+                          MaterialPageRoute(
+                              builder: (context) => ChatPage(
+                                  userProvider:
+                                      userProvider)), // Navigate to the new chat page
                         );
                       },
                       child: Container(
@@ -77,7 +81,7 @@ class WorkoutHomePage extends StatelessWidget {
                         margin: EdgeInsets.only(top: 30),
                         padding: EdgeInsets.all(85),
                         decoration: BoxDecoration(
-                          color: Color(0xFF081F5C),
+                          color: Theme.of(context).colorScheme.primary,
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
@@ -90,7 +94,7 @@ class WorkoutHomePage extends StatelessWidget {
                           "Muscle Group",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: Color(0xFF081F5C),
+                            color: Theme.of(context).colorScheme.primary,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Lato',
@@ -121,19 +125,24 @@ class WorkoutHomePage extends StatelessWidget {
                             CategoryItem(
                                 label: "Chest", iconPath: "assets/legs.png"),
                             CategoryItem(
-                                label: "Lower Arms", iconPath: "assets/neck.png"),
+                                label: "Lower Arms",
+                                iconPath: "assets/neck.png"),
                             CategoryItem(
-                                label: "Lower Legs", iconPath: "assets/back.png"),
+                                label: "Lower Legs",
+                                iconPath: "assets/back.png"),
                             CategoryItem(
                                 label: "Neck", iconPath: "assets/arms.png"),
                             CategoryItem(
-                                label: "Shoulders", iconPath: "assets/legs.png"),
+                                label: "Shoulders",
+                                iconPath: "assets/legs.png"),
                             CategoryItem(
                                 label: "Waist", iconPath: "assets/neck.png"),
                             CategoryItem(
-                                label: "Upper Arms", iconPath: "assets/legs.png"),
+                                label: "Upper Arms",
+                                iconPath: "assets/legs.png"),
                             CategoryItem(
-                                label: "Upper Legs", iconPath: "assets/neck.png"),
+                                label: "Upper Legs",
+                                iconPath: "assets/neck.png"),
                           ],
                         ),
                       ),
@@ -148,14 +157,14 @@ class WorkoutHomePage extends StatelessWidget {
                               onTap: () {
                                 // Navigate to ChatPage when pressed
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
+                                    context,
+                                    MaterialPageRoute(
                                       builder: (context) => ExercisePage(),
-                                ));
+                                    ));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color(0xFF081F5C),
+                                  color: Theme.of(context).colorScheme.primary,
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 height: 170,
@@ -168,7 +177,9 @@ class WorkoutHomePage extends StatelessWidget {
                                       fontSize: 12,
                                       fontFamily: 'Lato',
                                       fontWeight: FontWeight.normal,
-                                      color: Colors.white,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .background, // Text color
                                     ),
                                   ),
                                 ),
@@ -179,11 +190,12 @@ class WorkoutHomePage extends StatelessWidget {
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Color(0xFF081F5C), // Set color to white
+                                color: Theme.of(context).colorScheme.primary,
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               height: 170,
-                              padding: EdgeInsets.all(12), // Add padding for text
+                              padding:
+                                  EdgeInsets.all(12), // Add padding for text
                               child: Align(
                                 alignment: Alignment
                                     .bottomLeft, // Align text to bottom left corner
@@ -193,7 +205,9 @@ class WorkoutHomePage extends StatelessWidget {
                                     fontSize: 12,
                                     fontFamily: 'Lato',
                                     fontWeight: FontWeight.normal,
-                                    color: Colors.white, // Text color
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background, // Text color
                                   ),
                                 ),
                               ),
