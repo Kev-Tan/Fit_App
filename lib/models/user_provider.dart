@@ -192,7 +192,7 @@ class UserModel {
   final String level;
   final String frequency;
   final String duration;
-  final String time;
+  //final String time;
   final List<String>? favorites; // New field
   final List<Timestamp>? completedDays;
 
@@ -212,7 +212,7 @@ class UserModel {
     required this.level,
     required this.frequency,
     required this.duration,
-    required this.time,
+    //required this.time,
     this.favorites, // Make favorites nullable here
     this.completedDays,
   });
@@ -234,7 +234,7 @@ class UserModel {
       level: map['level'],
       frequency: map['frequency'],
       duration: map['duration'],
-      time: map['time'],
+      //time: map['time'],
       favorites: List<String>.from(map['favorites'] ?? []), // Parse favorites
       completedDays: (map['completedDays'] as List<dynamic>?)
           ?.map((timestamp) => timestamp as Timestamp)
@@ -259,7 +259,7 @@ class UserModel {
       'level': level,
       'frequency': frequency,
       'duration': duration,
-      'time': time,
+      //'time': time,
       'favorites': favorites, // Include favorites
       'completedDays': completedDays,
     };

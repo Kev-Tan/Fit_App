@@ -3,12 +3,14 @@ import 'package:fit_app/models/user_provider.dart';
 
 class EditProfile extends StatefulWidget {
   final UserProvider userProvider;
+  final void Function(String) onSaveProfile;
 
-  const EditProfile({Key? key, required this.userProvider}) : super(key: key);
+  const EditProfile({Key? key, required this.userProvider, required this.onSaveProfile}) : super(key: key);
 
   @override
   State<EditProfile> createState() => _EditProfileState();
 }
+
 
 class _EditProfileState extends State<EditProfile> {
   TextEditingController _usernameController = TextEditingController();
@@ -24,7 +26,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _levelController = TextEditingController();
   TextEditingController _frequencyController = TextEditingController();
   TextEditingController _durationController = TextEditingController();
-  TextEditingController _timeController = TextEditingController();
+  //TextEditingController _timeController = TextEditingController();
 
   List<String> genderOptions = ['Male', 'Female'];
   List<String> goalOptions = ['Lose Weight', 'Gain Weight', 'Get Fit'];
@@ -54,7 +56,7 @@ class _EditProfileState extends State<EditProfile> {
     _levelController.text = user.level;
     _frequencyController.text = user.frequency;
     _durationController.text = user.duration;
-    _timeController.text = user.time;
+    //_timeController.text = user.time;
   }
 
   @override
@@ -110,8 +112,8 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(height: 20),
                 _buildDropdown(
                     'Duration', _durationController, durationOptions),
-                SizedBox(height: 20),
-                _buildTimePicker('Time', _timeController, context),
+                //SizedBox(height: 20),
+                //_buildTimePicker('Time', _timeController, context),
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
@@ -139,13 +141,16 @@ class _EditProfileState extends State<EditProfile> {
                       level: _levelController.text.trim(),
                       frequency: _frequencyController.text.trim(),
                       duration: _durationController.text.trim(),
-                      time: _timeController.text.trim(),
+                      //time: _timeController.text.trim(),
                       favorites: widget.userProvider.user!.favorites,
                       completedDays: widget.userProvider.user!.completedDays,
                     );
 
                     // Call updateUser method of the existing userProvider instance
                     await widget.userProvider.updateUser(updatedUser);
+
+                    // Use the SaveProfile function
+                    widget.onSaveProfile(updatedUser.username);
 
                     // Navigate back to the profile page with updated data
                     Navigator.pop(context);
@@ -235,49 +240,49 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Widget _buildTimePicker(String labelText, TextEditingController controller,
-      BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: InkWell(
-        onTap: () async {
-          TimeOfDay? selectedTime = await showTimePicker(
-            context: context,
-            initialTime: TimeOfDay.fromDateTime(DateTime.now()),
-          );
-          if (selectedTime != null) {
-            setState(() {
-              controller.text = selectedTime.format(context);
-            });
-          }
-        },
-        child: InputDecorator(
-          decoration: InputDecoration(
-            labelText: labelText,
-            labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
-            border: OutlineInputBorder(),
-            focusedBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: Theme.of(context).colorScheme.primary),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: Theme.of(context).colorScheme.primary),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                controller.text.isNotEmpty ? controller.text : 'Select Time',
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
-              ),
-              Icon(Icons.access_time,
-                  color: Theme.of(context).colorScheme.primary),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildTimePicker(String labelText, TextEditingController controller,
+  //     BuildContext context) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //     child: InkWell(
+  //       onTap: () async {
+  //         TimeOfDay? selectedTime = await showTimePicker(
+  //           context: context,
+  //           initialTime: TimeOfDay.fromDateTime(DateTime.now()),
+  //         );
+  //         if (selectedTime != null) {
+  //           setState(() {
+  //             controller.text = selectedTime.format(context);
+  //           });
+  //         }
+  //       },
+  //       child: InputDecorator(
+  //         decoration: InputDecoration(
+  //           labelText: labelText,
+  //           labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+  //           border: OutlineInputBorder(),
+  //           focusedBorder: OutlineInputBorder(
+  //             borderSide:
+  //                 BorderSide(color: Theme.of(context).colorScheme.primary),
+  //           ),
+  //           enabledBorder: OutlineInputBorder(
+  //             borderSide:
+  //                 BorderSide(color: Theme.of(context).colorScheme.primary),
+  //           ),
+  //         ),
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: <Widget>[
+  //             Text(
+  //               controller.text.isNotEmpty ? controller.text : 'Select Time',
+  //               style: TextStyle(color: Theme.of(context).colorScheme.primary),
+  //             ),
+  //             Icon(Icons.access_time,
+  //                 color: Theme.of(context).colorScheme.primary),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
