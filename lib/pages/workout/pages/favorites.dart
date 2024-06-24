@@ -33,6 +33,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       duration: widget.userProvider.user!.duration,
       time: widget.userProvider.user!.time,
       favorites: widget.userProvider.user!.favorites,
+      completedDays: widget.userProvider.user!.completedDays,
     );
 
     await widget.userProvider.updateUser(updatedUser);
@@ -83,7 +84,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   elevation: 4, // Add drop shadow
                   color: Theme.of(context).colorScheme.background,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // Optional: Add rounded corners
+                    borderRadius: BorderRadius.circular(
+                        10), // Optional: Add rounded corners
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -102,7 +104,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
                         Align(
                           alignment: Alignment.centerRight,
                           child: IconButton(
-                            icon: Icon(Icons.delete, color: Color.fromRGBO(200, 200, 200, 1)),
+                            icon: Icon(Icons.delete,
+                                color: Color.fromRGBO(200, 200, 200, 1)),
                             onPressed: () {
                               _removeFromFavorites(favorites[index]);
                             },

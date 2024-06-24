@@ -29,7 +29,11 @@ class _EditProfileState extends State<EditProfile> {
   List<String> genderOptions = ['Male', 'Female'];
   List<String> goalOptions = ['Lose Weight', 'Gain Weight', 'Get Fit'];
   List<String> levelOptions = ['Beginner', 'Intermediate', 'Advanced'];
-  List<String> frequencyOptions = ['1-2 times a week', '3-4 times a week', '5-6 times a week'];
+  List<String> frequencyOptions = [
+    '1-2 times a week',
+    '3-4 times a week',
+    '5-6 times a week'
+  ];
   List<String> durationOptions = ['30 minutes', '60 minutes', '120 minutes'];
 
   @override
@@ -57,14 +61,12 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Edit Profile',
-          style: TextStyle(
-            fontSize: 24.0,
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.bold,
-          )
-        ),
+        title: Text('Edit Profile',
+            style: TextStyle(
+              fontSize: 24.0,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+            )),
         backgroundColor: Theme.of(context).colorScheme.background,
       ),
       body: Container(
@@ -103,9 +105,11 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(height: 20),
                 _buildDropdown('Level', _levelController, levelOptions),
                 SizedBox(height: 20),
-                _buildDropdown('Frequency', _frequencyController, frequencyOptions),
+                _buildDropdown(
+                    'Frequency', _frequencyController, frequencyOptions),
                 SizedBox(height: 20),
-                _buildDropdown('Duration', _durationController, durationOptions),
+                _buildDropdown(
+                    'Duration', _durationController, durationOptions),
                 SizedBox(height: 20),
                 _buildTimePicker('Time', _timeController, context),
                 SizedBox(height: 20),
@@ -115,21 +119,29 @@ class _EditProfileState extends State<EditProfile> {
                     UserModel updatedUser = UserModel(
                       uid: widget.userProvider.user!.uid,
                       username: _usernameController.text.trim(),
-                      profileImageUrl: widget.userProvider.user!.profileImageUrl,
+                      profileImageUrl:
+                          widget.userProvider.user!.profileImageUrl,
                       email: _emailController.text.trim(),
                       gender: _genderController.text.trim(),
-                      age: int.tryParse(_ageController.text.trim()) ?? widget.userProvider.user!.age,
-                      height: int.tryParse(_heightController.text.trim()) ?? widget.userProvider.user!.height,
-                      weight: int.tryParse(_weightController.text.trim()) ?? widget.userProvider.user!.weight,
-                      neck: int.tryParse(_neckController.text.trim()) ?? widget.userProvider.user!.neck,
-                      waist: int.tryParse(_waistController.text.trim()) ?? widget.userProvider.user!.waist,
-                      hips: int.tryParse(_hipsController.text.trim()) ?? widget.userProvider.user!.hips,
+                      age: int.tryParse(_ageController.text.trim()) ??
+                          widget.userProvider.user!.age,
+                      height: int.tryParse(_heightController.text.trim()) ??
+                          widget.userProvider.user!.height,
+                      weight: int.tryParse(_weightController.text.trim()) ??
+                          widget.userProvider.user!.weight,
+                      neck: int.tryParse(_neckController.text.trim()) ??
+                          widget.userProvider.user!.neck,
+                      waist: int.tryParse(_waistController.text.trim()) ??
+                          widget.userProvider.user!.waist,
+                      hips: int.tryParse(_hipsController.text.trim()) ??
+                          widget.userProvider.user!.hips,
                       goal: _goalController.text.trim(),
                       level: _levelController.text.trim(),
                       frequency: _frequencyController.text.trim(),
                       duration: _durationController.text.trim(),
                       time: _timeController.text.trim(),
                       favorites: widget.userProvider.user!.favorites,
+                      completedDays: widget.userProvider.user!.completedDays,
                     );
 
                     // Call updateUser method of the existing userProvider instance
@@ -138,22 +150,22 @@ class _EditProfileState extends State<EditProfile> {
                     // Navigate back to the profile page with updated data
                     Navigator.pop(context);
                   },
-                  child: Text(
-                    'Update User',
-                    style: TextStyle(
-                      fontFamily: 'Lato',
-                      fontSize: 22, 
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.background,
-                    )
-                  ),
+                  child: Text('Update User',
+                      style: TextStyle(
+                        fontFamily: 'Lato',
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.background,
+                      )),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),
-                  )
-                ),
-              )],
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
+                )
+              ],
             ),
           ),
         ),
@@ -170,27 +182,25 @@ class _EditProfileState extends State<EditProfile> {
           color: Theme.of(context).colorScheme.primary,
         ),
         decoration: InputDecoration(
-          labelText: labelText,
-          labelStyle: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
-          ),
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            labelText: labelText,
+            labelStyle: TextStyle(
               color: Theme.of(context).colorScheme.primary,
-            )
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            ),
+            border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
               color: Theme.of(context).colorScheme.primary,
-            )
-          )
-        ),
+            )),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.primary,
+            ))),
       ),
     );
   }
 
-  Widget _buildDropdown(String labelText, TextEditingController controller, List<String> options) {
+  Widget _buildDropdown(String labelText, TextEditingController controller,
+      List<String> options) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: DropdownButtonFormField<String>(
@@ -212,10 +222,12 @@ class _EditProfileState extends State<EditProfile> {
           labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
           border: OutlineInputBorder(),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+            borderSide:
+                BorderSide(color: Theme.of(context).colorScheme.primary),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+            borderSide:
+                BorderSide(color: Theme.of(context).colorScheme.primary),
           ),
         ),
         dropdownColor: Theme.of(context).colorScheme.background,
@@ -223,7 +235,8 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Widget _buildTimePicker(String labelText, TextEditingController controller, BuildContext context) {
+  Widget _buildTimePicker(String labelText, TextEditingController controller,
+      BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: InkWell(
@@ -244,10 +257,12 @@ class _EditProfileState extends State<EditProfile> {
             labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
             border: OutlineInputBorder(),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.primary),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.primary),
             ),
           ),
           child: Row(
@@ -257,7 +272,8 @@ class _EditProfileState extends State<EditProfile> {
                 controller.text.isNotEmpty ? controller.text : 'Select Time',
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
-              Icon(Icons.access_time, color: Theme.of(context).colorScheme.primary),
+              Icon(Icons.access_time,
+                  color: Theme.of(context).colorScheme.primary),
             ],
           ),
         ),
