@@ -19,7 +19,7 @@ def get_exercises_by_name(exercise_name):
     encoded_name = urllib.parse.quote(exercise_name)
     conn = http.client.HTTPSConnection("exercisedb.p.rapidapi.com")
     headers = {
-        'x-rapidapi-key': "7ab947740cmshd323f3c44a46163p15f232jsnaa7e65139c2a",
+        'x-rapidapi-key': "bd42feb2c0msh9d6def32c640a64p129898jsn5e10e71f428b",
         'x-rapidapi-host': "exercisedb.p.rapidapi.com"
     }
     conn.request("GET", f"/exercises/name/{encoded_name}?offset=0&limit=1", headers=headers)
