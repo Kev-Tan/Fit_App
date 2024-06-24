@@ -59,12 +59,12 @@ class WorkoutHomePage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Spacer(),
-                        Icon(
-                          Icons.notifications,
-                          size: 45,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                        // Spacer(),
+                        // Icon(
+                        //   Icons.notifications,
+                        //   size: 45,
+                        //   color: Theme.of(context).colorScheme.primary,
+                        // ),
                       ],
                     ),
                     GestureDetector(
@@ -242,10 +242,10 @@ class WorkoutHomePage extends StatelessWidget {
     );
   }
 
-  void _showNotification() {
-    // Implement your notification logic here
-    // Example: NotificationService().showNotification(id: 0, title: "Sample title", body: "It works!");
-  }
+  // void _showNotification() {
+  //   // Implement your notification logic here
+  //   // Example: NotificationService().showNotification(id: 0, title: "Sample title", body: "It works!");
+  // }
 }
 
 class CategoryItem extends StatelessWidget {
