@@ -1,10 +1,11 @@
+import 'package:fit_app/pages/workout/pages/ExercisePage.dart';
 import 'package:fit_app/pages/workout/pages/category.dart';
+import 'package:fit_app/pages/workout/pages/favorites.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_app/models/user_provider.dart';
 import 'package:fit_app/pages/workout/pages/workout.dart';
 import 'package:fit_app/pages/workout/pages/library.dart';
 import 'package:provider/provider.dart';
-import 'package:fit_app/models/user_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'new_page.dart'; // Import the new chat page
 
@@ -27,9 +28,9 @@ class WorkoutHomePage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Container(
                 width: containerWidth,
-                margin: EdgeInsets.only(top: 20, bottom: 20),
+                margin: EdgeInsets.only(top: 40, bottom: 40),
                 padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 100),
+                    EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 80),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -62,7 +63,7 @@ class WorkoutHomePage extends StatelessWidget {
                         Icon(
                           Icons.notifications,
                           size: 45,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Color(0xFF081F5C),
                         ),
                       ],
                     ),
@@ -110,7 +111,7 @@ class WorkoutHomePage extends StatelessWidget {
                         color: Theme.of(context).colorScheme.background,
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Colors.black,
                           width: 2,
                         ),
                       ),
@@ -160,14 +161,12 @@ class WorkoutHomePage extends StatelessWidget {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                // Navigate to WorkoutPage when pressed
+                                // Navigate to ChatPage when pressed
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WorkoutPage(
-                                            userProvider: userProvider,
-                                          )),
-                                );
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ExercisePage(),
+                                    ));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -186,7 +185,7 @@ class WorkoutHomePage extends StatelessWidget {
                                       fontWeight: FontWeight.normal,
                                       color: Theme.of(context)
                                           .colorScheme
-                                          .background,
+                                          .background, // Text color
                                     ),
                                   ),
                                 ),
@@ -195,31 +194,41 @@ class WorkoutHomePage extends StatelessWidget {
                           ),
                           SizedBox(width: 10),
                           Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FavoritesPage(
+                                          userProvider: userProvider)),
+                                );
+                              },
                               child: Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary, // Set color to white
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            height: 170,
-                            padding: EdgeInsets.all(12), // Add padding for text
-                            child: Align(
-                              alignment: Alignment
-                                  .bottomLeft, // Align text to bottom left corner
-                              child: Text(
-                                "Custom Playlist",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontFamily: 'Lato',
-                                  fontWeight: FontWeight.normal,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .background, // Text color
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                height: 170,
+                                padding:
+                                    EdgeInsets.all(12), // Add padding for text
+                                child: Align(
+                                  alignment: Alignment
+                                      .bottomLeft, // Align text to bottom left corner
+                                  child: Text(
+                                    "Favorites",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'Lato',
+                                      fontWeight: FontWeight.normal,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .background, // Text color
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ))
+                          ),
                         ],
                       ),
                     ),

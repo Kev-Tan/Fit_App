@@ -59,39 +59,49 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   void addToFavorites(String exerciseName) async {
-    setState(() {
-      // Assuming userProvider is accessible and not null
-      widget.userProvider.user!.favorites!.add(exerciseName);
-    });
+    final favorites = widget.userProvider.user!.favorites ?? [];
 
-    UserModel updatedUser = UserModel(
-      uid: widget.userProvider.user!.uid,
-      username: "Kevin",
-      profileImageUrl: widget.userProvider.user!.profileImageUrl,
-      email: widget.userProvider.user!.email,
-      gender: widget.userProvider.user!.gender,
-      age: widget.userProvider.user!.age,
-      height: widget.userProvider.user!.height,
-      weight: widget.userProvider.user!.weight,
-      neck: widget.userProvider.user!.neck,
-      waist: widget.userProvider.user!.waist,
-      hips: widget.userProvider.user!.hips,
-      goal: widget.userProvider.user!.goal,
-      level: widget.userProvider.user!.level,
-      frequency: widget.userProvider.user!.frequency,
-      duration: widget.userProvider.user!.duration,
-      time: widget.userProvider.user!.time,
-      favorites: widget.userProvider.user!.favorites,
-    );
+    if (favorites.contains(exerciseName)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('This exercise is already in your favorites!'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    } else {
+      setState(() {
+        widget.userProvider.user!.favorites!.add(exerciseName);
+      });
 
-    await widget.userProvider.updateUser(updatedUser);
+      UserModel updatedUser = UserModel(
+        uid: widget.userProvider.user!.uid,
+        username: widget.userProvider.user!.username,
+        profileImageUrl: widget.userProvider.user!.profileImageUrl,
+        email: widget.userProvider.user!.email,
+        gender: widget.userProvider.user!.gender,
+        age: widget.userProvider.user!.age,
+        height: widget.userProvider.user!.height,
+        weight: widget.userProvider.user!.weight,
+        neck: widget.userProvider.user!.neck,
+        waist: widget.userProvider.user!.waist,
+        hips: widget.userProvider.user!.hips,
+        goal: widget.userProvider.user!.goal,
+        level: widget.userProvider.user!.level,
+        frequency: widget.userProvider.user!.frequency,
+        duration: widget.userProvider.user!.duration,
+        time: widget.userProvider.user!.time,
+        favorites: widget.userProvider.user!.favorites,
+      );
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Exercise added to favorites!'),
-        duration: Duration(seconds: 3),
-      ),
-    );
+      await widget.userProvider.updateUser(updatedUser);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Exercise added to favorites!'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   @override
@@ -184,9 +194,11 @@ class ExerciseDetailCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '$number. Exercise Name: $exerciseName',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                Flexible(
+                  child: Text(
+                    '$number. Exercise Name: $exerciseName',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
                 IconButton(
                   icon: Icon(Icons.star, color: Colors.yellow),
