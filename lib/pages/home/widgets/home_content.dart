@@ -1,3 +1,4 @@
+import 'package:fit_app/pages/home/widgets/bar%20graph/bar_graph.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,12 +12,14 @@ class HomeContent extends StatefulWidget {
 }
 
 class _HomeContentState extends State<HomeContent> {
+  List<double> weeklySummary = [40, 25, 42, 10, 70, 88, 65];
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.background,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40.0),
             topRight: Radius.circular(40.0),
@@ -42,10 +45,12 @@ class _HomeContentState extends State<HomeContent> {
                         child: Container(
                           height: 275,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.background,
                             borderRadius: BorderRadius.circular(10.0),
                             border: Border.all(
-                              color: Colors.black, // specify the border color
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary, // specify the border color
                               width: 2.0, // specify the border width
                             ),
                           ),
@@ -58,10 +63,12 @@ class _HomeContentState extends State<HomeContent> {
                           child: Container(
                             height: 275,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.background,
                               borderRadius: BorderRadius.circular(10.0),
                               border: Border.all(
-                                color: Colors.black, // specify the border color
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primary, // specify the border color
                                 width: 2.0, // specify the border width
                               ),
                             ),
@@ -87,11 +94,19 @@ class _HomeContentState extends State<HomeContent> {
                   Container(
                     height: 250,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.background,
                       borderRadius: BorderRadius.circular(10.0),
                       border: Border.all(
-                        color: Colors.black, // specify the border color
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary, // specify the border color
                         width: 2.0, // specify the border width
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                      child: MyBarGraph(
+                        weeklySummary: weeklySummary,
                       ),
                     ),
                   ),

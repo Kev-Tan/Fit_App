@@ -39,35 +39,35 @@
 //     return CurvedNavigationBar(
 //       key: _bottomNavigationKey,
 //       animationDuration: Duration(milliseconds: 300),
-//       backgroundColor: Colors.white,
+//       backgroundColor: Theme.of(context).colorScheme.background,
 //       color: Color.fromARGB(255, 8, 31, 92),
 //       index: _selectedIndex,
 //       items: [
 //         CurvedNavigationBarItem(
 //           child: Icon(
 //             Icons.home,
-//             color: Colors.white,
+//             color: Theme.of(context).colorScheme.background,
 //           ),
 //           // label: 'Home',
 //         ),
 //         CurvedNavigationBarItem(
 //           child: Icon(
 //             Icons.fitness_center,
-//             color: Colors.white,
+//             color: Theme.of(context).colorScheme.background,
 //           ),
 //           // label: 'Search',
 //         ),
 //         CurvedNavigationBarItem(
 //           child: Icon(
 //             Icons.message,
-//             color: Colors.white,
+//             color: Theme.of(context).colorScheme.background,
 //           ),
 //           // label: 'Chat',
 //         ),
 //         CurvedNavigationBarItem(
 //           child: Icon(
 //             Icons.person,
-//             color: Colors.white,
+//             color: Theme.of(context).colorScheme.background,
 //           ),
 //           // label: 'Feed',
 //         ),

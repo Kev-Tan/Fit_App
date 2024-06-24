@@ -1,61 +1,69 @@
 class UserModel {
-  String uid;
-  String? username;
-  String? email;
-  String? gender;
-  int? age;
-  int? height;
-  int? weight;
-  int? neck;
-  int? waist;
-  int? hips;
-  String? goal;
-  String? level;
-  String? frequency;
-  String? duration;
-  String? time;
+  final String uid;
+  final String username;
+  final String? profileImageUrl;
+  final String email;
+  final String gender;
+  final int age;
+  final int height;
+  final int weight;
+  final int neck;
+  final int waist;
+  final int hips;
+  final String goal;
+  final String level;
+  final String frequency;
+  final String duration;
+  final String time;
+  final List<String>? favorites; // New field
 
   UserModel({
     required this.uid,
-    this.username,
-    this.email,
-    this.gender,
-    this.age,
-    this.height,
-    this.weight,
-    this.neck,
-    this.waist,
-    this.hips,
-    this.goal,
-    this.level,
-    this.frequency,
-    this.duration,
-    this.time,
+    required this.username,
+    this.profileImageUrl,
+    required this.email,
+    required this.gender,
+    required this.age,
+    required this.height,
+    required this.weight,
+    required this.neck,
+    required this.waist,
+    required this.hips,
+    required this.goal,
+    required this.level,
+    required this.frequency,
+    required this.duration,
+    required this.time,
+    this.favorites, // Make favorites nullable here
   });
 
-  factory UserModel.fromMap(Map<String, dynamic> data, String uid) {
+  factory UserModel.fromMap(Map<String, dynamic> map, String uid) {
     return UserModel(
       uid: uid,
-      username: data['username'],
-      email: data['email'],
-      gender: data['gender'],
-      age: data['age'],
-      height: data['height'],
-      weight: data['weight'],
-      neck: data['neck'],
-      waist: data['waist'],
-      hips: data['hips'],
-      goal: data['goal'],
-      level: data['level'],
-      frequency: data['frequency'],
-      duration: data['duration'],
-      time: data['time'],
+      username: map['username'],
+      profileImageUrl: map['profileImageUrl'],
+      email: map['email'],
+      gender: map['gender'],
+      age: map['age'],
+      height: map['height'],
+      weight: map['weight'],
+      neck: map['neck'],
+      waist: map['waist'],
+      hips: map['hips'],
+      goal: map['goal'],
+      level: map['level'],
+      frequency: map['frequency'],
+      duration: map['duration'],
+      time: map['time'],
+      favorites: List<String>.from(map['favorites'] ?? []), // Parse favorites
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'uid': uid,
       'username': username,
+      'profileImageUrl': profileImageUrl,
       'email': email,
       'gender': gender,
       'age': age,
@@ -69,6 +77,7 @@ class UserModel {
       'frequency': frequency,
       'duration': duration,
       'time': time,
+      'favorites': favorites, // Include favorites
     };
   }
 }

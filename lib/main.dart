@@ -3,6 +3,7 @@ import 'package:fit_app/pages/userCreation/login_page.dart';
 import 'package:fit_app/pages/userCreation/pages/auth_page.dart';
 import 'package:fit_app/pages/userCreation/pages/form.dart';
 import 'package:fit_app/pages/userCreation/signup_page.dart';
+import 'package:fit_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_app/pages/home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,11 +24,19 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => BottomNavigationBarHeightProvider(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Authpage(), //FormPage to open the Fill In Data page, Authpage to go to the main user page
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => BottomNavigationBarHeightProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: Authpage(), //FormPage to open the Fill In Data page, Authpage to go to the main user page
+            theme: themeProvider.themeData,
+          );
+        },
       ),
     );
   }

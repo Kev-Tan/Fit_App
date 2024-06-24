@@ -77,11 +77,11 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 40,
             width: 300,
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 255, 249, 240),
+              color: Theme.of(context).colorScheme.background,
               borderRadius: BorderRadius.circular(20.0),
               border: Border.all(
                 width: 1.0,
-                color: Color.fromRGBO(8, 31, 92, 1),
+                color: Theme.of(context).colorScheme.primary,
               ),
               boxShadow: [
                 BoxShadow(
@@ -101,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: GoogleFonts.lato(
                     fontWeight: FontWeight.w400,
                     fontSize: 24,
-                    color: Color.fromRGBO(8, 31, 92, 1),
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
@@ -149,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 150 + containerHeight / 2,
-                color: Color.fromRGBO(8, 31, 92, 1),
+                color: Theme.of(context).colorScheme.primary,
               ),
               Center(
                 child: Column(
@@ -162,7 +162,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: GoogleFonts.lato(
                         fontWeight: FontWeight.bold,
                         fontSize: 36,
-                        color: Color.fromRGBO(255, 249, 240, 1),
+                        color: Theme.of(context).colorScheme.background,
                       ),
                       maxLines: 1,
                     ),
@@ -178,7 +178,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: containerWidth * 4,
                   height: 700,
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 249, 240),
+                    color: Theme.of(context).colorScheme.background,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -233,7 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 style: GoogleFonts.lato(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 24,
-                                  color: Color.fromRGBO(8, 31, 92, 1),
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                               ),
                             ),
@@ -252,7 +252,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 style: GoogleFonts.lato(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 24,
-                                  color: Color.fromRGBO(255, 249, 240, 1),
+                                  color: Theme.of(context).colorScheme.background,
                                 ),
                               ),
                             ),
@@ -275,7 +275,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     width: 150,
                     height: 150,
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.primary,
                       shape: BoxShape.circle,
                       border: Border.all(
                         width: 2.0,
@@ -283,7 +283,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     child: CircleAvatar(
                       radius: 70,
-                      backgroundColor: Color.fromRGBO(255, 249, 240, 1),
+                      backgroundColor: Theme.of(context).colorScheme.background,
                       backgroundImage: _image != null
                           ? MemoryImage(_image!)
                           : _profileImageUrl.isNotEmpty

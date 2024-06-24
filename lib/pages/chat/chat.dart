@@ -127,35 +127,35 @@ class _ChatPageState extends State<ChatPage> {
   Widget _buildChatMessage(Map<String, String> message) {
     bool isUser = message['role'] == 'user';
     return Align(
-      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-        padding: EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-          color: isUser
-              ? Color.fromRGBO(8, 31, 92, 1)
-              : Color.fromRGBO(200, 200, 200, 1),
-          borderRadius: isUser
-              ? BorderRadius.only(
-                  topLeft: Radius.circular(12.0),
-                  bottomLeft: Radius.circular(12.0),
-                  topRight: Radius.circular(12.0),
-                )
-              : BorderRadius.only(
-                  topRight: Radius.circular(12.0),
-                  bottomRight: Radius.circular(12.0),
-                  topLeft: Radius.circular(12.0),
-                ),
-        ),
-        child: Text(
-          message['content']!,
-          style: TextStyle(
+        alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+          padding: EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            color: isUser
+                ? Theme.of(context).colorScheme.primary
+                : Color.fromRGBO(200, 200, 200, 1),
+            borderRadius: isUser
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(12.0),
+                    bottomLeft: Radius.circular(12.0),
+                    topRight: Radius.circular(12.0),
+                  )
+                : BorderRadius.only(
+                    topRight: Radius.circular(12.0),
+                    bottomRight: Radius.circular(12.0),
+                    topLeft: Radius.circular(12.0),
+                  ),
+          ),
+          child: Text(
+            message['content']!,
+            style: TextStyle(
               color: isUser
-                  ? Color.fromRGBO(255, 249, 240, 1)
-                  : Color.fromRGBO(8, 31, 92, 1)),
-        ),
-      ),
-    );
+                  ? Theme.of(context).colorScheme.background
+                  : Color.fromRGBO(8, 31, 92, 1),
+            ),
+          ),
+        ));
   }
 
   @override
@@ -167,20 +167,20 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 249, 240, 1),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
           Container(
             padding: const EdgeInsets.all(50.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   'Chat with me',
                   style: TextStyle(
                     fontSize: 36.0,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(8, 31, 92, 1),
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 SizedBox(height: 8),
@@ -188,7 +188,7 @@ class _ChatPageState extends State<ChatPage> {
                   'Hi, I am _____. How can I help you today?',
                   style: TextStyle(
                     fontSize: 22.0,
-                    color: Color.fromRGBO(112, 150, 209, 1),
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ],
@@ -219,7 +219,7 @@ class _ChatPageState extends State<ChatPage> {
                   decoration: InputDecoration(
                     labelText: 'Type your message here',
                     labelStyle:
-                        const TextStyle(color: Color.fromRGBO(8, 31, 92, 1)),
+                        TextStyle(color: Theme.of(context).colorScheme.primary),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),

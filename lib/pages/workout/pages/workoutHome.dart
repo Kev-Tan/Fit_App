@@ -1,4 +1,5 @@
 import 'package:fit_app/pages/workout/pages/ExercisePage.dart';
+import 'package:fit_app/pages/workout/pages/category.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_app/models/user_provider.dart';
 import 'package:fit_app/pages/workout/pages/workout.dart';
@@ -231,7 +232,8 @@ class CategoryItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ExerciseLibraryPage(exercisesData: []),
+            builder: (context) =>
+                CategoryPage(userProvider: UserProvider(), category: label),
           ),
         );
       },
@@ -240,10 +242,10 @@ class CategoryItem extends StatelessWidget {
         padding: EdgeInsets.only(top: 25, bottom: 25),
         width: 100,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.background,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: Colors.black,
+            color: Theme.of(context).colorScheme.primary,
             width: 2,
           ),
         ),
@@ -254,7 +256,7 @@ class CategoryItem extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                color: Color(0xFF081F5C),
+                color: Theme.of(context).colorScheme.primary,
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),

@@ -120,7 +120,7 @@ class _QuestionEightState extends State<QuestionEight> {
                           ? 'Calculating'
                           : '${_bodyFatPercentage.toStringAsFixed(2)}%',
                       style: TextStyle(
-                        color: Color.fromRGBO(247, 242, 235, 1),
+                        color: Color.fromRGBO(255, 249, 240, 1),
                         fontWeight: FontWeight.bold,
                         fontSize: 18, // Adjusted font size
                       ),

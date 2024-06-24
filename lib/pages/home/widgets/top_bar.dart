@@ -1,4 +1,5 @@
 import 'package:fit_app/models/user_provider.dart';
+import 'package:fit_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -16,8 +17,7 @@ class TopBar extends StatelessWidget {
     double containerWidth = screenWidth * 0.8; // 80% of the screen width
 
     return Container(
-      color: Color.fromARGB(
-          255, 8, 31, 92), // Set your desired background color here
+      color: Theme.of(context).colorScheme.primary,
       child: Align(
         alignment: Alignment.topCenter,
         child: Container(
@@ -27,7 +27,6 @@ class TopBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                // Use Expanded instead of Flexible for proper layout
                 flex: 8,
                 child: Consumer<UserProvider>(
                   builder: (context, userProvider, child) {
@@ -40,7 +39,7 @@ class TopBar extends StatelessWidget {
                           style: GoogleFonts.lato(
                             fontWeight: FontWeight.bold,
                             fontSize: 36,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.background,
                           ),
                         ),
                         Text(
@@ -48,7 +47,7 @@ class TopBar extends StatelessWidget {
                           style: GoogleFonts.lato(
                             fontWeight: FontWeight.w400,
                             fontSize: 24,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.background,
                           ),
                         ),
                         Text(
@@ -56,7 +55,7 @@ class TopBar extends StatelessWidget {
                           style: GoogleFonts.lato(
                             fontWeight: FontWeight.w800,
                             fontSize: 24,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.background,
                           ),
                         ),
                       ],
@@ -66,21 +65,18 @@ class TopBar extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: Container(
-                  width: 75,
-                  height: 75,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Image.asset(
-                      'lib/assets/bell.png', // Replace with your image path
-                      width: 45, // Adjust width as needed
-                      height: 45, // Adjust height as needed
-                      color: Color(0xFF081F5C), // Custom icon color
-                    ),
-                  ),
+                child: Consumer<ThemeProvider>(
+                  builder: (context, themeProvider, child) {
+                    return Switch(
+                      value: themeProvider.isDarkMode,
+                      onChanged: (value) {
+                        themeProvider.toggleTheme();
+                      },
+                      activeColor: Theme.of(context).colorScheme.background,
+                      inactiveThumbColor: Theme.of(context).colorScheme.background,
+                      inactiveTrackColor: Theme.of(context).colorScheme.background.withOpacity(0.5),
+                    );
+                  },
                 ),
               ),
             ],
