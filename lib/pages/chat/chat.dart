@@ -211,7 +211,7 @@ class _ChatPageState extends State<ChatPage> {
             ),
           Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 100.0),
+                const EdgeInsets.only(bottom: 80.0, left: 20.0, right: 20.0, top:20.0),
             child: Column(
               children: [
                 TextField(
@@ -223,12 +223,12 @@ class _ChatPageState extends State<ChatPage> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 16.0),
+                    // contentPadding:
+                    //     const EdgeInsets.symmetric(horizontal: 16.0),
                   ),
                   onSubmitted: (_) => _sendMessage(),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 20),
                 // ElevatedButton(
                 //   onPressed: _sendMessage,
                 //   style: ElevatedButton.styleFrom(

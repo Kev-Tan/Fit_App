@@ -157,7 +157,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
               child: TextField(
                 controller: bodyPartController,
                 decoration: const InputDecoration(
-                  labelText: 'Enter Body Part~~',
+                  labelText: 'Enter the muscle group',
                 ),
               ),
             ),
@@ -166,7 +166,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
               child: TextField(
                 controller: limitController,
                 decoration: const InputDecoration(
-                  labelText: 'Enter Limit',
+                  labelText: 'Enter the number of exercises you want to see',
                 ),
               ),
             ),

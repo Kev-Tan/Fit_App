@@ -189,21 +189,34 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     GestureDetector(
                       onTap: signInWithGoogle,
-                      child: Image.asset(
-                        'lib/assets/google.png',
-                        width: 70,
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(8, 31, 92, 1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Sign in with Google",
+                            style: TextStyle(
+                              color: Color.fromRGBO(255, 249, 240, 1),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 20),
-                    GestureDetector(
-                      onTap: () {
-                        // Add your Facebook sign-in logic here
-                      },
-                      child: Image.asset(
-                        'lib/assets/facebook.png',
-                        width: 70,
-                      ),
-                    ),
+                    //const SizedBox(width: 20),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     // Add your Facebook sign-in logic here
+                    //   },
+                    //   child: Image.asset(
+                    //     'lib/assets/facebook.png',
+                    //     width: 0,
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

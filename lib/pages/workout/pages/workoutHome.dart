@@ -119,33 +119,38 @@ class WorkoutHomePage extends StatelessWidget {
                         child: Row(
                           children: [
                             CategoryItem(
-                                label: "back", iconPath: "assets/back.png"),
+                                label: "Back", 
+                                iconPath: "lib/assets/back.png"),
                             CategoryItem(
-                                label: "cardio", iconPath: "assets/arms.png"),
+                                label: "Cardio", 
+                                iconPath: "lib/assets/cardio.png"),
                             CategoryItem(
-                                label: "chest", iconPath: "assets/legs.png"),
+                                label: "Chest", 
+                                iconPath: "lib/assets/chest.png"),
                             CategoryItem(
-                                label: "lower arms",
-                                iconPath: "assets/neck.png"),
+                                label: "Lower Arms",
+                                iconPath: "lib/assets/lower_arms.png"),
                             CategoryItem(
-                                label: "lower legs",
-                                iconPath: "assets/back.png"),
+                                label: "Lower Legs",
+                                iconPath: "lib/assets/lower_legs.png"),
                             CategoryItem(
-                                label: "neck", iconPath: "assets/arms.png"),
+                                label: "Neck", 
+                                iconPath: "lib/assets/neck.png"),
                             CategoryItem(
-                                label: "shoulders",
-                                iconPath: "assets/legs.png"),
+                                label: "Shoulders",
+                                iconPath: "lib/assets/shoulders.png"),
                             CategoryItem(
-                                label: "waist", iconPath: "assets/neck.png"),
+                                label: "Waist", 
+                                iconPath: "lib/assets/waist.png"),
                             CategoryItem(
-                                label: "upper arms",
-                                iconPath: "assets/legs.png"),
+                                label: "Upper Arms",
+                                iconPath: "lib/assets/upper_arms.png"),
                             CategoryItem(
-                                label: "upper legs",
-                                iconPath: "assets/neck.png"),
+                                label: "Upper Legs",
+                                iconPath: "lib/assets/upper_legs.png"),
                           ],
                         ),
-                      ),
+                      ), 
                     ),
                     Container(
                       width: containerWidth,
@@ -255,7 +260,7 @@ class CategoryItem extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 6),
-        padding: EdgeInsets.only(top: 25, bottom: 25),
+        padding: EdgeInsets.only(top: 25, bottom: 25),//.all(8)
         width: 100,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.background,
@@ -268,7 +273,12 @@ class CategoryItem extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 4),
+            Image.asset(
+              iconPath,
+              height: 50,
+              fit: BoxFit.contain,
+            ),
+            SizedBox(height: 8),
             Text(
               label,
               style: TextStyle(
@@ -276,6 +286,7 @@ class CategoryItem extends StatelessWidget {
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),

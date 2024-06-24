@@ -29,20 +29,65 @@ class ConfirmationPage extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "Submit?",
+                    "COMPLETE",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily:
-                          'Lato', // Ensure you have added the Lato font to your project
-                      fontSize: 26,
+                          'Lato', 
+                      fontSize: 36,
                       fontWeight: FontWeight.bold,
+                      color:Color.fromARGB(255, 8, 31, 92),
                     ),
                   ),
                 ),
-                SizedBox(height: 20), // Add spacing below the text
+                SizedBox(height: 30), 
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Thank you for completing your basic information!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontSize: 24, 
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 8, 31, 92),
+                    )
+                  )
+                ),
+                SizedBox(height: 30), 
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Generating workout...",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontSize: 24, 
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 8, 31, 92),
+                    )
+                  )
+                ),
+                SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: onPressed,
-                  child: Text('Submit Data'), // Customize the button text here
+                  child: Text(
+                    'Done',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(255, 249, 240, 1),
+                    )
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 8, 31, 92),
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                  )
                 ),
               ],
             ),

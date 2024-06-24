@@ -41,11 +41,11 @@ class MyBarGraph extends StatelessWidget {
                   toY: data.y,
                   width: 25, // Specify your desired width here
                   borderRadius: BorderRadius.circular(4),
-                  color: Colors.blueAccent,
+                  color: Theme.of(context).colorScheme.primary,
                   backDrawRodData: BackgroundBarChartRodData(
                     show: true,
                     toY: 100,
-                    color: Colors.grey[200],
+                    color: Color.fromRGBO(200, 200, 200, 1),
                   )),
             ],
           );

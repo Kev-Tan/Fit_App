@@ -70,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Container(
@@ -108,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -230,36 +230,54 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                               child: Text(
                                 "Edit Profile",
-                                style: GoogleFonts.lato(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 24,
+                                style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
                                   color: Theme.of(context).colorScheme.primary,
-                                ),
+                                )
                               ),
+                              style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).colorScheme.background,
+                              side: BorderSide(color: Theme.of(context).colorScheme.primary),
+                              padding: EdgeInsets.symmetric(horizontal: 36, vertical: 10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                //add border 
+                              )
+                            )
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 15),
                           Center(
                             child: ElevatedButton(
                               onPressed: () {
                                 signUserOut();
                               },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red,
-                              ),
+                              // style: ElevatedButton.styleFrom(
+                              //   backgroundColor: Theme.of(context).colorScheme.primary,
+                              // ),
                               child: Text(
                                 "Logout",
-                                style: GoogleFonts.lato(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 24,
+                                style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
                                   color: Theme.of(context).colorScheme.background,
-                                ),
+                                )
                               ),
+                              style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).colorScheme.primary,
+                              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              )
+                            )
                             ),
                           ),
                           const SizedBox(height: 10),
                           const SizedBox(height: 20),
-                          const SizedBox(height: 110),
+                          const SizedBox(height: 70),
                         ],
                       ),
                     ),
