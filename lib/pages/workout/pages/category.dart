@@ -33,7 +33,7 @@ class _CategoryPageState extends State<CategoryPage> {
     });
 
     var headers = {
-      'X-RapidAPI-Key': '3f73d91377msh055a1de13a30dcep13e2f0jsnf2d80950f2f9',
+      'X-RapidAPI-Key': 'bd42feb2c0msh9d6def32c640a64p129898jsn5e10e71f428b',
       'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
     };
 
@@ -92,6 +92,7 @@ class _CategoryPageState extends State<CategoryPage> {
         duration: widget.userProvider.user!.duration,
         time: widget.userProvider.user!.time,
         favorites: widget.userProvider.user!.favorites,
+        completedDays: widget.userProvider.user!.completedDays,
       );
 
       await widget.userProvider.updateUser(updatedUser);
@@ -124,7 +125,8 @@ class _CategoryPageState extends State<CategoryPage> {
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(16.0), // Add padding around the column
+                padding:
+                    const EdgeInsets.all(16.0), // Add padding around the column
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -192,7 +194,8 @@ class ExerciseDetailCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Adjusted margin
+      margin:
+          EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Adjusted margin
       elevation: 10,
       color: Theme.of(context).colorScheme.background,
       child: Padding(
@@ -214,7 +217,8 @@ class ExerciseDetailCard extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.star, color: Theme.of(context).colorScheme.primary),
+                  icon: Icon(Icons.star,
+                      color: Theme.of(context).colorScheme.primary),
                   onPressed: onPressedFavorite,
                 ),
               ],

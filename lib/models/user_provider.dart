@@ -194,6 +194,7 @@ class UserModel {
   final String duration;
   final String time;
   final List<String>? favorites; // New field
+  final List<Timestamp>? completedDays;
 
   UserModel({
     required this.uid,
@@ -213,6 +214,7 @@ class UserModel {
     required this.duration,
     required this.time,
     this.favorites, // Make favorites nullable here
+    this.completedDays,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map, String uid) {
@@ -234,6 +236,9 @@ class UserModel {
       duration: map['duration'],
       time: map['time'],
       favorites: List<String>.from(map['favorites'] ?? []), // Parse favorites
+      completedDays: (map['completedDays'] as List<dynamic>?)
+          ?.map((timestamp) => timestamp as Timestamp)
+          .toList(),
     );
   }
 
@@ -256,6 +261,7 @@ class UserModel {
       'duration': duration,
       'time': time,
       'favorites': favorites, // Include favorites
+      'completedDays': completedDays,
     };
   }
 }
