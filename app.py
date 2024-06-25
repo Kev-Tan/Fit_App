@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 openai.api_key = ""
-# assistant_id = "asst_DJPQpikyE5UYjQZrwdpISoSM"
+
 assistant_id = ""
 threads = {}  # Store thread information
 client = openai.OpenAI(api_key="")
