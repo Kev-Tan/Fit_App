@@ -347,14 +347,6 @@ print(instructions);
       },
     );
   }
-<<<<<<< HEAD
-=======
-
-  // void _showNotification() {
-  //   // Implement your notification logic here
-  //   // Example: NotificationService().showNotification(id: 0, title: "Sample title", body: "It works!");
-  // }
->>>>>>> 7595fd7c77754348628f1207edf32ceb91bedaee
 }
 
 

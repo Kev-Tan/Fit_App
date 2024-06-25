@@ -224,7 +224,6 @@ class ExerciseCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-<<<<<<< HEAD
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -240,15 +239,6 @@ class ExerciseCard extends StatelessWidget {
                   onPressed: () => _addToFavorites(context),
                 ),
               ],
-=======
-            Text(
-              _capitalizeFirstLetterOfEachWord(exercise['name'] ?? ''),
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-              ),
->>>>>>> 7595fd7c77754348628f1207edf32ceb91bedaee
             ),
             SizedBox(height: 10),
             Text('Body Part: ${exercise['bodyPart'] ?? ''}', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
