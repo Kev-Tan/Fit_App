@@ -3,7 +3,7 @@ import 'package:fit_app/pages/home/widgets/heatmap/heat_map.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_app/pages/home/widgets/bar%20graph/bar_graph.dart';
-
+import 'package:fit_app/pages/home/widgets/clock_widget.dart';
 
 class HomeContent extends StatefulWidget {
   const HomeContent({Key? key}) : super(key: key);
@@ -57,8 +57,8 @@ class _HomeContentState extends State<HomeContent> {
                 children: [
                   Row(
                     children: [
-                      Expanded(
-                        flex: 4,
+                      Flexible(
+                        flex: 1,
                         child: Container(
                           height: 275,
                           decoration: BoxDecoration(
@@ -76,41 +76,42 @@ class _HomeContentState extends State<HomeContent> {
                           ),
                         ),
                       ),
+                      SizedBox(width: 10),
                       Flexible(
                         flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Container(
-                            height: 275,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.background,
-                              borderRadius: BorderRadius.circular(10.0),
-                              border: Border.all(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 2.0,
-                              ),
-                            ),
-                            child: Consumer<UserProvider>(
-                              builder: (context, userProvider, child) {
-                                List<String> exerciseNames = userProvider.exercises.map((exercise) => exercise['name'] as String).toList();
-
-                                return ListView.builder(
-                                  itemCount: exerciseNames.length,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      title: Text(
-                                        exerciseNames[index],
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+                        child: Container(
+                          height: 275,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.background,
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: 2.0,
                             ),
                           ),
+                          child: Center(
+                            child: ClockWidget(), // Replace with ClockWidget
+                          ),
+                          // child: Consumer<UserProvider>(
+                          //   builder: (context, userProvider, child) {
+                          //     List<String> exerciseNames = userProvider.exercises.map((exercise) => exercise['name'] as String).toList();
+
+                          //     return ListView.builder(
+                          //       itemCount: exerciseNames.length,
+                          //       itemBuilder: (context, index) {
+                          //         return ListTile(
+                          //           title: Text(
+                          //             exerciseNames[index],
+                          //             style: TextStyle(
+                          //               fontSize: 16.0,
+                          //               fontWeight: FontWeight.bold,
+                          //             ),
+                          //           ),
+                          //         );
+                          //       },
+                          //     );
+                          //   },
+                          // ),
                         ),
                       ),
                     ],
@@ -178,21 +179,27 @@ class BarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: data.asMap().entries.map((entry) {
-        return Column(
-          children: [
-            Text('${entry.value}'),
-            Container(
-              height: entry.value.toDouble() * 10,
-              width: 20,
-              color: Colors.blue,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: data.asMap().entries.map((entry) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Column(
+              children: [
+                Text('${entry.value}'),
+                Container(
+                  height: entry.value.toDouble() * 10,
+                  width: 20,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                Text(labels[entry.key]),
+              ],
             ),
-            Text(labels[entry.key]),
-          ],
-        );
-      }).toList(),
+          );
+        }).toList(),
+      ),
     );
   }
 }

@@ -33,7 +33,7 @@ class _CategoryPageState extends State<CategoryPage> {
     });
 
     var headers = {
-      'X-RapidAPI-Key': 'bd42feb2c0msh9d6def32c640a64p129898jsn5e10e71f428b',
+      'X-RapidAPI-Key': '974042ae32mshd59274468328cd6p13e485jsn8464669d0d81',
       'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
     };
 
@@ -90,7 +90,7 @@ class _CategoryPageState extends State<CategoryPage> {
         level: widget.userProvider.user!.level,
         frequency: widget.userProvider.user!.frequency,
         duration: widget.userProvider.user!.duration,
-        time: widget.userProvider.user!.time,
+        // time: widget.userProvider.user!.time,
         favorites: widget.userProvider.user!.favorites,
         completedDays: widget.userProvider.user!.completedDays,
       );

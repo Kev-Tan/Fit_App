@@ -117,7 +117,7 @@ class _ExercisePageState extends State<ExercisePage> {
 }
 
 class ExerciseService {
-  static const String apiKey = 'bd42feb2c0msh9d6def32c640a64p129898jsn5e10e71f428b';
+  static const String apiKey = '974042ae32mshd59274468328cd6p13e485jsn8464669d0d81';
   static const String host = 'exercisedb.p.rapidapi.com';
 
   Future<List<Map<String, dynamic>>> fetchExercises(String exerciseName) async {
@@ -191,7 +191,7 @@ class ExerciseCard extends StatelessWidget {
         level: user.level,
         frequency: user.frequency,
         duration: user.duration,
-        time: user.time,
+        // time: user.time,
         favorites: user.favorites,
       );
 

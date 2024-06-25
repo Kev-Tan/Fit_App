@@ -109,7 +109,7 @@ print(instructions);
   }
 
   Future<void> _sendMessage(String message, String userId) async {
-    final url = 'https://a1f6-140-114-87-235.ngrok-free.app/chat';
+    final url = 'https://e217-140-114-87-235.ngrok-free.app/chat';
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -151,23 +151,45 @@ print(instructions);
         'Age: ${user?.age}, Weight: ${user?.weight ?? 'N/A'}kg, Height: ${user?.height ?? 'N/A'}cm, Neck circumference: ${user?.neck ?? 'N/A'}cm, '
         'Waist circumference: ${user?.waist ?? 'N/A'}cm, Hip circumference: ${user?.hips ?? 'N/A'}cm, Gender: ${user?.gender ?? 'N/A'}, '
         'Goal: ${user?.goal ?? 'N/A'}, Level: ${user?.level ?? 'N/A'}, Frequency: ${user?.frequency ?? 'N/A'}, '
-        'Duration: ${user?.duration ?? 'N/A'}, Preferred Time: ${user?.time ?? 'N/A'}.';
+        'Duration: ${user?.duration ?? 'N/A'}}.';
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat with AI'),
+        title: Text(
+          'Workout for Today',
+          style: TextStyle(
+            fontSize: 24.0,
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (_showGenerateButton)
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(20.0),
               child: ElevatedButton(
                 onPressed: () {
                   _sendMessage(defaultMessage, '${user?.uid ?? 'N/A'}'); // Pass user id
                 },
-                child: Text('Generate'),
+                child: Text(
+                  'Generate Workout',
+                  style: TextStyle(
+                  fontSize: 24.0,
+                  color: Theme.of(context).colorScheme.background,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Lato',
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  padding: EdgeInsets.all(20),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),
+                  ),
+                )
               ),
             ),
           
@@ -190,25 +212,38 @@ print(instructions);
                             ],
                           ),
                           trailing: SizedBox(
-                            width: 100,
-                            height: 100,
+                            width: 50,
+                            height: 50,
                             child: Image.network(exercise['gifUrl']),
                           ),
                         ),
                       );
                     },
                   )
-                : Center(child: Text('No exercises')),
+                : Center(child: 
+                Text(
+                  'No exercises',
+                  style: TextStyle(
+                  fontFamily: 'Lato',
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                  ))),
           ),
           if (_showDropdown)
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Rest Time', // Explanation of the dropdown button
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontFamily: 'Lato',
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
                   ),
                   DropdownButton<int>(
                     value: _selectedNumber,
@@ -237,7 +272,21 @@ print(instructions);
                     ),
                   );
                 },
-                child: Text('Start Workout'),
+                child: Text(
+                  'Start Workout',
+                  style: TextStyle(
+                  fontFamily: 'Lato',
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.background,
+                  )
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  padding: EdgeInsets.all(20),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),
+                  ),
+                )
               ),
             ),
         ],
@@ -313,7 +362,14 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   return Scaffold(
     appBar: AppBar(
-      title: Text('Workout'),
+      title: Text('Workout',
+      style: TextStyle(
+              fontSize: 24.0,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+            )
+      ),
+      backgroundColor: Theme.of(context).colorScheme.background,
     ),
     body: _showTimer
         ? Center(
@@ -322,7 +378,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
               children: [
                 Text(
                   'Rest for',
-                  style: TextStyle(fontSize: 24.0),
+                  style: TextStyle(
+              fontSize: 24.0,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+            )
                 ),
                 SizedBox(height: 20.0),
                 Stack(
@@ -334,7 +394,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                       child: CircularProgressIndicator(
                         value: progress,
                         strokeWidth: 10.0,
-                        backgroundColor: Colors.blue[300],
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         valueColor: AlwaysStoppedAnimation<Color>(const Color.fromARGB(255, 212, 199, 199)),
                       ),
                     ),
@@ -347,7 +407,19 @@ class _WorkoutPageState extends State<WorkoutPage> {
                 SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: _moveToNextExercise,
-                  child: Text(lastIdx == _currentPageIndex ? 'Finish' : 'Done'),
+                  child: Text(lastIdx == _currentPageIndex ? 'Finish' : 'Done',
+                      style: TextStyle(
+                  fontSize: 24.0,
+                  color: Theme.of(context).colorScheme.background,
+                  fontWeight: FontWeight.bold,
+                )),
+                style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
                 ),
               ],
             ),
@@ -399,7 +471,19 @@ class _WorkoutPageState extends State<WorkoutPage> {
                         _startTimer();
                       }
                     },
-                    child: Text(lastIdx == _currentPageIndex ? 'Finish' : 'Next'),
+                    child: Text(lastIdx == _currentPageIndex ? 'Finish' : 'Next',
+                    style: TextStyle(
+              fontSize: 24.0,
+              color: Theme.of(context).colorScheme.background,
+              fontWeight: FontWeight.bold,
+            )),
+            style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
                   ),
                 ),
               ),
@@ -408,4 +492,3 @@ class _WorkoutPageState extends State<WorkoutPage> {
   );
 }
 }
-

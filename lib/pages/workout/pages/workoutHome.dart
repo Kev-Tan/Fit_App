@@ -44,9 +44,9 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
         'Age: ${user.age}, Weight: ${user.weight}kg, Height: ${user.height}cm, Neck circumference: ${user.neck}cm, '
         'Waist circumference: ${user.waist}cm, Hip circumference: ${user.hips}cm, Gender: ${user.gender}, '
         'Goal: ${user.goal}, Level: ${user.level}, Frequency: ${user.frequency}, '
-        'Duration: ${user.duration}, Preferred Time: ${user.time}.';
+        'Duration: ${user.duration}}.';
 
-    final url = 'https://a1f6-140-114-87-235.ngrok-free.app/chat'; // Replace with your server URL
+    final url = 'https://0824-140-114-87-235.ngrok-free.app/chat'; // Replace with your server URL
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -197,6 +197,7 @@ print(instructions);
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
+                      
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),

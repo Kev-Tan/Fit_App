@@ -11,12 +11,11 @@ class UserProvider with ChangeNotifier {
   UserModel? _user;
   List<Map<String, dynamic>> _exercises = [];
   List<Map<String, dynamic>> _doneExercises = [];
-  
 
   UserModel? get user => _user;
   List<Map<String, dynamic>> get exercises => _exercises;
-  List<Map<String, dynamic>> get doneExercises => _doneExercises; // Add this line
-  
+  List<Map<String, dynamic>> get doneExercises => _doneExercises;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
@@ -41,18 +40,6 @@ class UserProvider with ChangeNotifier {
       'upper legs': 0,
     };
 
-    Future<void> saveDoneExercise(Map<String, dynamic> exercise) async {
-    _doneExercises.add(exercise);
-    notifyListeners();
-    
-    User? currentUser = _auth.currentUser;
-    if (currentUser != null) {
-      await _firestore.collection('users').doc(currentUser.uid).update({
-        'doneExercises': FieldValue.arrayUnion([exercise]),
-      });
-    }
-  }
-
     for (var exercise in _exercises) {
       String bodyPart = exercise['bodyPart'];
       if (bodyPartCounts.containsKey(bodyPart)) {
@@ -63,9 +50,21 @@ class UserProvider with ChangeNotifier {
     return bodyPartCounts;
   }
 
-  Future<String> uploadImageToStorage(String ChildName, Uint8List file, String nameForTheUser) async {
+  Future<void> saveDoneExercise(Map<String, dynamic> exercise) async {
+    _doneExercises.add(exercise);
+    notifyListeners();
+
+    User? currentUser = _auth.currentUser;
+    if (currentUser != null) {
+      await _firestore.collection('users').doc(currentUser.uid).update({
+        'doneExercises': FieldValue.arrayUnion([exercise]),
+      });
+    }
+  }
+
+  Future<String> uploadImageToStorage(String childName, Uint8List file, String nameForTheUser) async {
     print('Username for file: $nameForTheUser');
-    Reference ref = _storage.ref().child(ChildName).child('ImageOf$nameForTheUser');
+    Reference ref = _storage.ref().child(childName).child('ImageOf$nameForTheUser');
     UploadTask uploadTask = ref.putData(file);
 
     uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
@@ -80,10 +79,10 @@ class UserProvider with ChangeNotifier {
     return downloadUrl;
   }
 
-  Future<String> saveData(Uint8List file, String NameOfTheUser) async {
+  Future<String> saveData(Uint8List file, String nameOfTheUser) async {
     String resp = "Some error occurred";
     try {
-      String imageUrl = await uploadImageToStorage('ProfileImage', file, NameOfTheUser);
+      String imageUrl = await uploadImageToStorage('ProfileImage', file, nameOfTheUser);
 
       User? currentUser = _auth.currentUser;
 
@@ -162,20 +161,21 @@ class UserProvider with ChangeNotifier {
       notifyListeners();
 
       // Schedule the reset based on user's time
-      if (_user != null) {
-        _scheduleExerciseReset(_user!.time);
-      }
+      // if (_user != null) {
+      //   _scheduleExerciseReset(_user!.time);
+      // }
 
       // Set up a listener for the user's document
       _firestore.collection('users').doc(currentUser.uid).snapshots().listen((snapshot) {
         if (snapshot.exists) {
           _user = UserModel.fromMap(snapshot.data() as Map<String, dynamic>, currentUser.uid);
+          _exercises = List<Map<String, dynamic>>.from(snapshot.data()?['exercises'] ?? []);
           notifyListeners();
 
-          // Reschedule the reset if the user's time changes
-          if (_user != null) {
-            _scheduleExerciseReset(_user!.time);
-          }
+          // // Reschedule the reset if the user's time changes
+          // if (_user != null) {
+          //   _scheduleExerciseReset(_user!.time);
+          // }
         }
       });
     }
@@ -184,6 +184,7 @@ class UserProvider with ChangeNotifier {
   Future<void> updateUser(UserModel user) async {
     _user = user;
     await _firestore.collection('users').doc(user.uid).set(user.toMap());
+    notifyListeners();
   }
 
   Future<void> refreshUser() async {
@@ -259,7 +260,7 @@ class UserModel {
   final String level;
   final String frequency;
   final String duration;
-  final String time;
+  //final String time;
   final List<String>? favorites; // New field
   final List<Timestamp>? completedDays;
   
@@ -280,7 +281,7 @@ class UserModel {
     required this.level,
     required this.frequency,
     required this.duration,
-    required this.time,
+    //required this.time,
     this.favorites, // Make favorites nullable here
     this.completedDays,
   });
@@ -302,7 +303,7 @@ class UserModel {
       level: map['level'],
       frequency: map['frequency'],
       duration: map['duration'],
-      time: map['time'],
+      //time: map['time'],
       favorites: List<String>.from(map['favorites'] ?? []), // Parse favorites
       completedDays: (map['completedDays'] as List<dynamic>?)
           ?.map((timestamp) => timestamp as Timestamp)
@@ -327,7 +328,7 @@ class UserModel {
       'level': level,
       'frequency': frequency,
       'duration': duration,
-      'time': time,
+      //'time': time,
       'favorites': favorites, // Include favorites
       'completedDays': completedDays,
     };
