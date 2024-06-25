@@ -109,7 +109,7 @@ print(instructions);
   }
 
   Future<void> _sendMessage(String message, String userId) async {
-    final url = 'https://4a1b-140-114-87-235.ngrok-free.app/chat';
+    final url = 'https://a1f6-140-114-87-235.ngrok-free.app/chat';
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -118,6 +118,9 @@ print(instructions);
 
     if (response.statusCode == 200) {
       setState(() {
+        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+        widget.userProvider.resetExercises();
+        print('resetting');
         _parsedMessages.clear();
         _parsedMessages = _parseResponse(response.body);
         print("NINCOMPOOP");

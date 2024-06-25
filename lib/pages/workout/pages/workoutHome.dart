@@ -46,7 +46,7 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
         'Goal: ${user.goal}, Level: ${user.level}, Frequency: ${user.frequency}, '
         'Duration: ${user.duration}, Preferred Time: ${user.time}.';
 
-    final url = 'http://127.0.0.1:5000/chat'; // Replace with your server URL
+    final url = 'https://a1f6-140-114-87-235.ngrok-free.app/chat'; // Replace with your server URL
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},

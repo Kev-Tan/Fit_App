@@ -116,7 +116,7 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  Future<void> _resetExercises() async {
+  Future<void> resetExercises() async {
     _exercises = [];
     notifyListeners();
     User? currentUser = _auth.currentUser;
@@ -148,7 +148,7 @@ class UserProvider with ChangeNotifier {
     Duration timeUntilReset = nextResetTime.difference(now);
 
     _exerciseResetTimer = Timer(timeUntilReset, () async {
-      await _resetExercises();
+      await resetExercises();
       _scheduleExerciseReset(resetTime); // Schedule the next reset
     });
   }
