@@ -26,7 +26,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _levelController = TextEditingController();
   TextEditingController _frequencyController = TextEditingController();
   TextEditingController _durationController = TextEditingController();
-  //TextEditingController _timeController = TextEditingController();
+  TextEditingController _timeController = TextEditingController();
 
   List<String> genderOptions = ['Male', 'Female'];
   List<String> goalOptions = ['Lose Weight', 'Gain Weight', 'Get Fit'];
@@ -141,7 +141,7 @@ class _EditProfileState extends State<EditProfile> {
                       level: _levelController.text.trim(),
                       frequency: _frequencyController.text.trim(),
                       duration: _durationController.text.trim(),
-                      //time: _timeController.text.trim(),
+                      time: _timeController.text.trim(),
                       favorites: widget.userProvider.user!.favorites,
                       completedDays: widget.userProvider.user!.completedDays,
                     );
