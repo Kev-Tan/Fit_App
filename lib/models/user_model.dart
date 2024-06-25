@@ -83,7 +83,7 @@ class UserModel {
       'level': level,
       'frequency': frequency,
       'duration': duration,
-      'time': time,
+      //'time': time,
       'favorites': favorites, // Include favorites
       'completedDays': completedDays,
     };

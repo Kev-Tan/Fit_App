@@ -148,7 +148,7 @@ print(instructions);
         'Age: ${user?.age}, Weight: ${user?.weight ?? 'N/A'}kg, Height: ${user?.height ?? 'N/A'}cm, Neck circumference: ${user?.neck ?? 'N/A'}cm, '
         'Waist circumference: ${user?.waist ?? 'N/A'}cm, Hip circumference: ${user?.hips ?? 'N/A'}cm, Gender: ${user?.gender ?? 'N/A'}, '
         'Goal: ${user?.goal ?? 'N/A'}, Level: ${user?.level ?? 'N/A'}, Frequency: ${user?.frequency ?? 'N/A'}, '
-        'Duration: ${user?.duration ?? 'N/A'}, Preferred Time: ${user?.time ?? 'N/A'}.';
+        'Duration: ${user?.duration ?? 'N/A'}.';
 
     return Scaffold(
       appBar: AppBar(

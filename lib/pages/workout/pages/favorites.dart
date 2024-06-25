@@ -31,7 +31,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       level: widget.userProvider.user!.level,
       frequency: widget.userProvider.user!.frequency,
       duration: widget.userProvider.user!.duration,
-      time: widget.userProvider.user!.time,
+      //time: widget.userProvider.user!.time,
       favorites: widget.userProvider.user!.favorites,
       completedDays: widget.userProvider.user!.completedDays,
     );

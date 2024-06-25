@@ -32,13 +32,29 @@ class _ExercisePageState extends State<ExercisePage> {
     }
   }
 
+  String _capitalizeFirstLetterOfEachWord(String input) {
+    return input
+        .split(' ')
+        .map((word) => word[0].toUpperCase() + word.substring(1))
+        .join(' ');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fetch Exercise'),
+        title: Text(
+          'Fetch Exercise',
+          style: TextStyle(
+            fontSize: 24.0,
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
       ),
-      body: Padding(
+      body: Container(
+        color: Theme.of(context).colorScheme.background,
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -46,25 +62,48 @@ class _ExercisePageState extends State<ExercisePage> {
               controller: _controller,
               decoration: InputDecoration(
                 labelText: 'Enter Exercise Name',
+                labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
                 _fetchExerciseInfo(_controller.text);
               },
-              child: Text('Fetch Exercise Info'),
+              child: Text(
+                'Fetch Exercise Info',
+                style: TextStyle(
+                  fontFamily: 'Lato',
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.background,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                padding: EdgeInsets.all(20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             _exercises.isEmpty
-                ? Text('No exercise data found')
+                ? Text(
+                    'No exercise data found',
+                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                  )
                 : Expanded(
                     child: ListView.builder(
                       itemCount: _exercises.length,
                       itemBuilder: (context, index) {
                         final exercise = _exercises[index];
                         if (exercise.containsKey('error')) {
-                          return Text(exercise['error'] ?? 'Error');
+                          return Text(
+                            exercise['error'] ?? 'Error',
+                            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                          );
                         }
                         return ExerciseCard(exercise: exercise, userProvider: widget.userProvider);
                       },
@@ -167,15 +206,25 @@ class ExerciseCard extends StatelessWidget {
     }
   }
 
+  String _capitalizeFirstLetterOfEachWord(String input) {
+    return input
+        .split(' ')
+        .map((word) => word[0].toUpperCase() + word.substring(1))
+        .join(' ');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10),
+      color: Theme.of(context).colorScheme.background,
+      elevation: 10,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+<<<<<<< HEAD
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -191,10 +240,19 @@ class ExerciseCard extends StatelessWidget {
                   onPressed: () => _addToFavorites(context),
                 ),
               ],
+=======
+            Text(
+              _capitalizeFirstLetterOfEachWord(exercise['name'] ?? ''),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+>>>>>>> 7595fd7c77754348628f1207edf32ceb91bedaee
             ),
             SizedBox(height: 10),
-            Text('Body Part: ${exercise['bodyPart'] ?? ''}'),
-            Text('Target: ${exercise['target'] ?? ''}'),
+            Text('Body Part: ${exercise['bodyPart'] ?? ''}', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+            Text('Target: ${exercise['target'] ?? ''}', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
             SizedBox(height: 10),
             exercise['gifUrl'] != null && exercise['gifUrl'].isNotEmpty
                 ? Image.network(exercise['gifUrl'])
@@ -204,10 +262,11 @@ class ExerciseCard extends StatelessWidget {
               'Instructions:',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             ...?exercise['instructions']?.map(
-              (instruction) => Text(instruction),
+              (instruction) => Text(instruction, style: TextStyle(color: Theme.of(context).colorScheme.primary)),
             ),
           ],
         ),

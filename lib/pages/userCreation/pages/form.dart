@@ -49,7 +49,7 @@ class _FormPageState extends State<FormPage> {
   String? _selectedLevel;
   String? _selectedFrequency;
   String? _selectedDuration;
-  String? _selectedTime;
+  //String? _selectedTime;
 
   Future<void> addUserDetails(
       String username,
@@ -65,7 +65,7 @@ class _FormPageState extends State<FormPage> {
       String level,
       String frequency,
       String duration,
-      String time) async {
+      /*String time*/) async {
     try {
       await FirebaseFirestore.instance.collection('users').doc(widget.UID).set({
         'username': username,
@@ -81,7 +81,7 @@ class _FormPageState extends State<FormPage> {
         'level': level,
         'frequency': frequency,
         'duration': duration,
-        'time': time,
+        //'time': time,
       });
     } catch (error) {
       print('Error adding user details: $error');
@@ -102,7 +102,7 @@ class _FormPageState extends State<FormPage> {
     final level = _selectedLevel;
     final frequency = _selectedFrequency;
     final duration = _selectedDuration;
-    final time = _selectedTime;
+    //final time = _selectedTime;
 
     if (username.isNotEmpty &&
         email.isNotEmpty &&
@@ -116,9 +116,9 @@ class _FormPageState extends State<FormPage> {
         goal != null &&
         level != null &&
         frequency != null &&
-        duration != null &&
-        time != null) {
-      await addUserDetails(username, email, gender, age, height, weight, neck, waist, hip ?? 0, goal, level, frequency, duration, time);
+        duration != null
+        /*time != null*/) {
+      await addUserDetails(username, email, gender, age, height, weight, neck, waist, hip ?? 0, goal, level, frequency, duration);
 
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -222,14 +222,14 @@ class _FormPageState extends State<FormPage> {
         },
         selectedDuration: _selectedDuration,
       ),
-      QuestionThirteen(
-        onTimeSelected: (time) {
-          setState(() {
-            _selectedTime = time;
-          });
-        },
-        selectedTime: _selectedTime,
-      ),
+      // QuestionThirteen(
+      //   onTimeSelected: (time) {
+      //     setState(() {
+      //       _selectedTime = time;
+      //     });
+      //   },
+      //   selectedTime: _selectedTime,
+      // ),
       ConfirmationPage(
         onPressed: handleConfirmation,
       ),

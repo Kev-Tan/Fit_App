@@ -16,6 +16,9 @@ class MyHeatMap extends StatelessWidget {
       convertedDates = userProvider.user!.completedDays!
           .map((timestamp) => timestamp.toDate())
           .toList();
+    } else {
+      // Add today's date if no dates are detected
+      convertedDates.add(DateTime.now());
     }
 
     return HeatMap(
