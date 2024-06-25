@@ -104,7 +104,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   void fetchData(String bodyPart, String limit) async {
     var headers = {
-      'X-RapidAPI-Key': 'bd42feb2c0msh9d6def32c640a64p129898jsn5e10e71f428b',
+      'X-RapidAPI-Key': '974042ae32mshd59274468328cd6p13e485jsn8464669d0d81',
       'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
     };
 

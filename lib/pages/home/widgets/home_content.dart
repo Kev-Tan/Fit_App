@@ -1,8 +1,9 @@
+import 'package:fit_app/models/user_provider.dart';
+import 'package:fit_app/pages/home/widgets/heatmap/heat_map.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fit_app/pages/home/widgets/bar graph/bar_graph.dart';
-import 'package:fit_app/pages/home/widgets/heatmap/heat_map.dart';
-import 'package:fit_app/models/user_provider.dart'; // Import your UserProvider class
+import 'package:fit_app/pages/home/widgets/bar%20graph/bar_graph.dart';
+import 'package:fit_app/pages/home/widgets/clock_widget.dart';
 
 class HomeContent extends StatefulWidget {
   const HomeContent({Key? key}) : super(key: key);
@@ -12,12 +13,26 @@ class HomeContent extends StatefulWidget {
 }
 
 class _HomeContentState extends State<HomeContent> {
-  List<double> weeklySummary = [40, 25, 42, 10, 70, 88, 65];
-
   @override
   Widget build(BuildContext context) {
-    // Access the UserProvider instance from the context
     final userProvider = Provider.of<UserProvider>(context);
+
+    // Get the count of body parts from the provider
+    Map<String, int> bodyPartCounts = userProvider.countBodyParts();
+    
+    // Create a list from the counts
+    List<int> weeklySummary = [
+      bodyPartCounts['back'] ?? 0,
+      bodyPartCounts['cardio'] ?? 0,
+      bodyPartCounts['chest'] ?? 0,
+      bodyPartCounts['lower arms'] ?? 0,
+      bodyPartCounts['lower legs'] ?? 0,
+      bodyPartCounts['neck'] ?? 0,
+      bodyPartCounts['shoulders'] ?? 0,
+      bodyPartCounts['waist'] ?? 0,
+      bodyPartCounts['upper arms'] ?? 0,
+      bodyPartCounts['upper legs'] ?? 0,
+    ];
 
     return Expanded(
       child: Container(
@@ -42,8 +57,8 @@ class _HomeContentState extends State<HomeContent> {
                 children: [
                   Row(
                     children: [
-                      Expanded(
-                        flex: 4,
+                      Flexible(
+                        flex: 1,
                         child: Container(
                           height: 275,
                           decoration: BoxDecoration(
@@ -62,8 +77,8 @@ class _HomeContentState extends State<HomeContent> {
                         ),
                       ),
                       SizedBox(width: 10),
-                      Expanded(
-                        flex: 5,
+                      Flexible(
+                        flex: 1,
                         child: Container(
                           height: 275,
                           decoration: BoxDecoration(
@@ -75,11 +90,28 @@ class _HomeContentState extends State<HomeContent> {
                             ),
                           ),
                           child: Center(
-                            child: Text(
-                              "Another Widget",
-                              style: TextStyle(fontSize: 18.0),
-                            ),
+                            child: ClockWidget(), // Replace with ClockWidget
                           ),
+                          // child: Consumer<UserProvider>(
+                          //   builder: (context, userProvider, child) {
+                          //     List<String> exerciseNames = userProvider.exercises.map((exercise) => exercise['name'] as String).toList();
+
+                          //     return ListView.builder(
+                          //       itemCount: exerciseNames.length,
+                          //       itemBuilder: (context, index) {
+                          //         return ListTile(
+                          //           title: Text(
+                          //             exerciseNames[index],
+                          //             style: TextStyle(
+                          //               fontSize: 16.0,
+                          //               fontWeight: FontWeight.bold,
+                          //             ),
+                          //           ),
+                          //         );
+                          //       },
+                          //     );
+                          //   },
+                          // ),
                         ),
                       ),
                     ],
@@ -107,6 +139,66 @@ class _HomeContentState extends State<HomeContent> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class MyBarGraph extends StatelessWidget {
+  final List<int> weeklySummary;
+
+  const MyBarGraph({required this.weeklySummary, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final bodyPartLabels = [
+      'Back',
+      'Cardio',
+      'Chest',
+      'Lower Arms',
+      'Lower Legs',
+      'Neck',
+      'Shoulders',
+      'Waist',
+      'Upper Arms',
+      'Upper Legs'
+    ];
+
+    return BarChart(
+      data: weeklySummary,
+      labels: bodyPartLabels,
+    );
+  }
+}
+
+class BarChart extends StatelessWidget {
+  final List<int> data;
+  final List<String> labels;
+
+  const BarChart({required this.data, required this.labels, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: data.asMap().entries.map((entry) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Column(
+              children: [
+                Text('${entry.value}'),
+                Container(
+                  height: entry.value.toDouble() * 10,
+                  width: 20,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                Text(labels[entry.key]),
+              ],
+            ),
+          );
+        }).toList(),
       ),
     );
   }

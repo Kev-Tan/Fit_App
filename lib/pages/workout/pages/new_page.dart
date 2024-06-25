@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:fit_app/models/user_provider.dart';
 import 'dart:async';
+import 'package:fit_app/models/user_provider.dart';
 
 class ChatPage extends StatefulWidget {
   final UserProvider userProvider;
@@ -18,7 +19,7 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _controller = TextEditingController();
   List<Map<String, dynamic>> _parsedMessages = [];
   bool _showGenerateButton = true;
-  bool _showDropdown = false; // Control visibility of the Rest Time dropdown
+  bool _showDropdown = true; // Control visibility of the Rest Time dropdown
   int _selectedNumber = 1; // Variable to hold selected dropdown value
 
   List<Map<String, dynamic>> _parseResponse(String input) {
@@ -108,7 +109,7 @@ print(instructions);
   }
 
   Future<void> _sendMessage(String message, String userId) async {
-    final url = 'http://127.0.0.1:5000/chat';
+    final url = 'https://e217-140-114-87-235.ngrok-free.app/chat';
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -117,13 +118,20 @@ print(instructions);
 
     if (response.statusCode == 200) {
       setState(() {
+        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+        widget.userProvider.resetExercises();
+        print('resetting');
         _parsedMessages.clear();
         _parsedMessages = _parseResponse(response.body);
         print("NINCOMPOOP");
         print(response.body);
         _showGenerateButton = false;
         _showDropdown = true; // Show the Rest Time dropdown after generating exercises
-      });
+        
+        widget.userProvider.updateExercises(_parsedMessages);
+
+      // Save to Firebase
+        widget. userProvider.saveExercisesToFirebase(_parsedMessages);      });
     } else {
       setState(() {
         _parsedMessages.clear();
@@ -135,39 +143,62 @@ print(instructions);
   @override
   Widget build(BuildContext context) {
     UserModel? user = widget.userProvider.user;
+    List<Map<String, dynamic>> exercises = widget.userProvider.exercises;
 
     String defaultMessage =
-        'Generate back workout for today in JSON format, where each exercise includes the name, the reps and the duration, please say nothing but directly the json format based on the file, make it "name". '
-        'Please create a workout plan for a person with the following details: '
+        'Generate workout for today in JSON format, and please make sure none of the excercises are the same and that they are varied, where each exercise includes the name, the reps and the duration, please give me a maximum of only FIVE as I will NOT accept more than 5 exercises and please say nothing but directly the json format based on the file, make it "name". '
+        'Please create a workout plan with 5 exercises only for a person with the following details: '
         'Age: ${user?.age}, Weight: ${user?.weight ?? 'N/A'}kg, Height: ${user?.height ?? 'N/A'}cm, Neck circumference: ${user?.neck ?? 'N/A'}cm, '
         'Waist circumference: ${user?.waist ?? 'N/A'}cm, Hip circumference: ${user?.hips ?? 'N/A'}cm, Gender: ${user?.gender ?? 'N/A'}, '
         'Goal: ${user?.goal ?? 'N/A'}, Level: ${user?.level ?? 'N/A'}, Frequency: ${user?.frequency ?? 'N/A'}, '
-        'Duration: ${user?.duration ?? 'N/A'}.';
+        'Duration: ${user?.duration ?? 'N/A'}}.';
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat with AI'),
+        title: Text(
+          'Workout for Today',
+          style: TextStyle(
+            fontSize: 24.0,
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (_showGenerateButton)
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(20.0),
               child: ElevatedButton(
                 onPressed: () {
                   _sendMessage(defaultMessage, '${user?.uid ?? 'N/A'}'); // Pass user id
                 },
-                child: Text('Generate'),
+                child: Text(
+                  'Generate Workout',
+                  style: TextStyle(
+                  fontSize: 24.0,
+                  color: Theme.of(context).colorScheme.background,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Lato',
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  padding: EdgeInsets.all(20),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),
+                  ),
+                )
               ),
             ),
           
           Expanded(
-            child: _parsedMessages.isNotEmpty
+            child: exercises.isNotEmpty
                 ? ListView.builder(
-                    itemCount: _parsedMessages.length,
+                    itemCount: exercises.length,
                     itemBuilder: (context, index) {
-                      final exercise = _parsedMessages[index];
+                      final exercise = exercises[index];
                       return Card(
                         margin: EdgeInsets.all(8.0),
                         child: ListTile(
@@ -181,25 +212,38 @@ print(instructions);
                             ],
                           ),
                           trailing: SizedBox(
-                            width: 100,
-                            height: 100,
+                            width: 50,
+                            height: 50,
                             child: Image.network(exercise['gifUrl']),
                           ),
                         ),
                       );
                     },
                   )
-                : Center(child: Text('No exercises')),
+                : Center(child: 
+                Text(
+                  'No exercises',
+                  style: TextStyle(
+                  fontFamily: 'Lato',
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                  ))),
           ),
           if (_showDropdown)
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Rest Time', // Explanation of the dropdown button
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontFamily: 'Lato',
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
                   ),
                   DropdownButton<int>(
                     value: _selectedNumber,
@@ -216,7 +260,7 @@ print(instructions);
                 ],
               ),
             ),
-          if (_parsedMessages.isNotEmpty)
+          if (exercises.isNotEmpty)
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
@@ -224,11 +268,25 @@ print(instructions);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WorkoutPage(exercises: _parsedMessages, duration: _selectedNumber),
+                      builder: (context) => WorkoutPage(exercises:exercises, duration: _selectedNumber),
                     ),
                   );
                 },
-                child: Text('Start Workout'),
+                child: Text(
+                  'Start Workout',
+                  style: TextStyle(
+                  fontFamily: 'Lato',
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.background,
+                  )
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  padding: EdgeInsets.all(20),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),
+                  ),
+                )
               ),
             ),
         ],
@@ -304,7 +362,14 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   return Scaffold(
     appBar: AppBar(
-      title: Text('Workout'),
+      title: Text('Workout',
+      style: TextStyle(
+              fontSize: 24.0,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+            )
+      ),
+      backgroundColor: Theme.of(context).colorScheme.background,
     ),
     body: _showTimer
         ? Center(
@@ -313,7 +378,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
               children: [
                 Text(
                   'Rest for',
-                  style: TextStyle(fontSize: 24.0),
+                  style: TextStyle(
+              fontSize: 24.0,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+            )
                 ),
                 SizedBox(height: 20.0),
                 Stack(
@@ -325,7 +394,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                       child: CircularProgressIndicator(
                         value: progress,
                         strokeWidth: 10.0,
-                        backgroundColor: Colors.blue[300],
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         valueColor: AlwaysStoppedAnimation<Color>(const Color.fromARGB(255, 212, 199, 199)),
                       ),
                     ),
@@ -338,7 +407,19 @@ class _WorkoutPageState extends State<WorkoutPage> {
                 SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: _moveToNextExercise,
-                  child: Text(lastIdx == _currentPageIndex ? 'Finish' : 'Done'),
+                  child: Text(lastIdx == _currentPageIndex ? 'Finish' : 'Done',
+                      style: TextStyle(
+                  fontSize: 24.0,
+                  color: Theme.of(context).colorScheme.background,
+                  fontWeight: FontWeight.bold,
+                )),
+                style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
                 ),
               ],
             ),
@@ -390,7 +471,19 @@ class _WorkoutPageState extends State<WorkoutPage> {
                         _startTimer();
                       }
                     },
-                    child: Text(lastIdx == _currentPageIndex ? 'Finish' : 'Next'),
+                    child: Text(lastIdx == _currentPageIndex ? 'Finish' : 'Next',
+                    style: TextStyle(
+              fontSize: 24.0,
+              color: Theme.of(context).colorScheme.background,
+              fontWeight: FontWeight.bold,
+            )),
+            style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
                   ),
                 ),
               ),

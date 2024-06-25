@@ -44,7 +44,7 @@ class _ChatPageState extends State<ChatPage> {
       _messages.add({'role': 'user', 'content': _controller.text});
     });
 
-    const apiKey = '';
+    const apiKey = 'sk-proj-0U72a4mwFljjx7HI1SjbT3BlbkFJ0BLr6ePWciJIzGw2k9Nc';
     final url = Uri.parse('https://api.openai.com/v1/chat/completions');
     final headers = {
       'Content-Type': 'application/json',
