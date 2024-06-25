@@ -7,10 +7,125 @@ import 'package:fit_app/pages/workout/pages/workout.dart';
 import 'package:fit_app/pages/workout/pages/library.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'new_page.dart'; // Import the new chat page
 
-class WorkoutHomePage extends StatelessWidget {
+class WorkoutHomePage extends StatefulWidget {
   const WorkoutHomePage({Key? key}) : super(key: key);
+
+  @override
+  _WorkoutHomePageState createState() => _WorkoutHomePageState();
+}
+
+class _WorkoutHomePageState extends State<WorkoutHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    _generateAndStoreWorkout();
+    print("1");
+  }
+
+  Future<void> _generateAndStoreWorkout() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    UserModel? user = userProvider.user;
+
+    if (user == null) return;
+    print("go in");
+
+    if(userProvider.exercises.isNotEmpty){
+      print("exist already");
+      return;
+    }
+
+    String defaultMessage =
+        'Generate workouts for today in JSON format, where each exercise includes the name, the reps and the duration, please say nothing but directly the json format based on the file, make it "name". '
+        'Please create a workout plan for a person with the following details: '
+        'Age: ${user.age}, Weight: ${user.weight}kg, Height: ${user.height}cm, Neck circumference: ${user.neck}cm, '
+        'Waist circumference: ${user.waist}cm, Hip circumference: ${user.hips}cm, Gender: ${user.gender}, '
+        'Goal: ${user.goal}, Level: ${user.level}, Frequency: ${user.frequency}, '
+        'Duration: ${user.duration}, Preferred Time: ${user.time}.';
+
+    final url = 'http://127.0.0.1:5000/chat'; // Replace with your server URL
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'message': defaultMessage, 'user_id': user.uid}),
+    );
+
+    if (response.statusCode == 200) {
+      List<Map<String, dynamic>> exercises = _parseResponse(response.body);
+
+      // Update provider
+      userProvider.updateExercises(exercises);
+
+      // Save to Firebase
+      await userProvider.saveExercisesToFirebase(exercises);
+    } else {
+      print("Failed to fetch exercises");
+    }
+  }
+
+  List<Map<String, dynamic>> _parseResponse(String input) {
+    List<Map<String, dynamic>> exercises = [];
+
+    List<String> exerciseStrings = input.split("}");
+    exerciseStrings = exerciseStrings.map((e) => e.replaceAll(RegExp(r'[\[\]]'), '').trim()).toList();
+
+    for (String exerciseString in exerciseStrings) {
+      if (exerciseString.isEmpty) continue;
+
+      final name = RegExp(r'"name": "([^"]*)"').firstMatch(exerciseString)?.group(1) ?? '';
+      final bodyPart = RegExp(r'"bodyPart": "([^"]*)"').firstMatch(exerciseString)?.group(1) ?? '';
+      final gifUrl = RegExp(r'"gifUrl": "([^"]*)"').firstMatch(exerciseString)?.group(1) ?? '';
+      final target = RegExp(r'"target": "([^"]*)"').firstMatch(exerciseString)?.group(1) ?? '';
+      // Find the index of the word "instructions"
+  int startIndex = exerciseString.indexOf("instructions");
+   String result='';
+   List<String> instructions = [];
+  if (startIndex != -1) {
+    // Move the start index to the end of the word "instructions"
+    startIndex += "instructions".length;
+
+    // Find the index of the closing
+    int endIndex = exerciseString.indexOf("name", startIndex);
+    if (endIndex != -1) {
+      // Extract the substring between startIndex and endIndex
+       result = exerciseString.substring(startIndex, endIndex).trim();
+       result = result.replaceAll('"', '')
+                     .replaceAll(',', '')
+                     .replaceAll('[', '')
+                     .replaceAll(']', '')
+                     .replaceAll('\'', '')
+                     .replaceAll(':', '');
+      print(result); // Output: "this is the part we want"
+      instructions.add(result);
+    } else {
+      print('Closing bracket not found');
+    }
+  } else {
+    print('Word "instructions" not found');
+  }
+      // final instructo = RegExp(r'"instructions": "([^"]*)"').firstMatch(exerciseString)?.group(1) ?? '';
+      
+      // RegExp instructionsRegExp = RegExp(r'"instructions":\s*\[([^\]]*?)\]', multiLine: true);
+RegExp itemsRegExp = RegExp(r'"([^"]+)"');
+
+
+print("NINCOMPOOP-i");
+print(instructions);
+
+      exercises.add({
+        'name': name,
+        'bodyPart': bodyPart,
+        'gifUrl': gifUrl,
+        'target': target,
+        'instructions': instructions,
+      });
+    }
+
+    return exercises;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +144,7 @@ class WorkoutHomePage extends StatelessWidget {
               child: Container(
                 width: containerWidth,
                 margin: EdgeInsets.only(top: 40, bottom: 40),
-                padding:
-                    EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 80),
+                padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 80),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -71,10 +185,7 @@ class WorkoutHomePage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ChatPage(
-                                  userProvider:
-                                      userProvider)), // Navigate to the new chat page
+                          MaterialPageRoute(builder: (context) => ChatPage(userProvider: userProvider)),
                         );
                       },
                       child: Container(
@@ -161,12 +272,13 @@ class WorkoutHomePage extends StatelessWidget {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                // Navigate to ChatPage when pressed
+                                // Navigate to ExercisePage when pressed
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ExercisePage(),
-                                    ));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ExercisePage(userProvider: userProvider),
+                                  ),
+                                );
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -183,9 +295,7 @@ class WorkoutHomePage extends StatelessWidget {
                                       fontSize: 12,
                                       fontFamily: 'Lato',
                                       fontWeight: FontWeight.normal,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .background, // Text color
+                                      color: Theme.of(context).colorScheme.background, // Text color
                                     ),
                                   ),
                                 ),
@@ -199,8 +309,8 @@ class WorkoutHomePage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => FavoritesPage(
-                                          userProvider: userProvider)),
+                                    builder: (context) => FavoritesPage(userProvider: userProvider),
+                                  ),
                                 );
                               },
                               child: Container(
@@ -209,20 +319,16 @@ class WorkoutHomePage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 height: 170,
-                                padding:
-                                    EdgeInsets.all(12), // Add padding for text
+                                padding: EdgeInsets.all(12), // Add padding for text
                                 child: Align(
-                                  alignment: Alignment
-                                      .bottomLeft, // Align text to bottom left corner
+                                  alignment: Alignment.bottomLeft, // Align text to bottom left corner
                                   child: Text(
                                     "Favorites",
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontFamily: 'Lato',
                                       fontWeight: FontWeight.normal,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .background, // Text color
+                                      color: Theme.of(context).colorScheme.background, // Text color
                                     ),
                                   ),
                                 ),
@@ -241,12 +347,8 @@ class WorkoutHomePage extends StatelessWidget {
       },
     );
   }
-
-  void _showNotification() {
-    // Implement your notification logic here
-    // Example: NotificationService().showNotification(id: 0, title: "Sample title", body: "It works!");
-  }
 }
+
 
 class CategoryItem extends StatelessWidget {
   final String label;

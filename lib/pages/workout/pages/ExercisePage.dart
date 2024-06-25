@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:fit_app/models/user_provider.dart';
+
 class ExercisePage extends StatefulWidget {
+  final UserProvider userProvider;
+  const ExercisePage({super.key, required this.userProvider});
+
   @override
   _ExercisePageState createState() => _ExercisePageState();
 }
@@ -14,7 +19,7 @@ class _ExercisePageState extends State<ExercisePage> {
 
   void _fetchExerciseInfo(String exerciseName) async {
     try {
-      List<Map<String, dynamic>> exercises = await _exerciseService.fetchExercises(exerciseName);
+      List<Map<String, dynamic>> exercises = await _exerciseService.fetchExercises(exerciseName.toLowerCase());
       setState(() {
         _exercises = exercises;
       });
@@ -61,7 +66,7 @@ class _ExercisePageState extends State<ExercisePage> {
                         if (exercise.containsKey('error')) {
                           return Text(exercise['error'] ?? 'Error');
                         }
-                        return ExerciseCard(exercise: exercise);
+                        return ExerciseCard(exercise: exercise, userProvider: widget.userProvider);
                       },
                     ),
                   ),
@@ -78,7 +83,7 @@ class ExerciseService {
 
   Future<List<Map<String, dynamic>>> fetchExercises(String exerciseName) async {
     final encodedName = Uri.encodeComponent(exerciseName);
-    final url = 'https://exercisedb.p.rapidapi.com/exercises/name/$encodedName?offset=0&limit=10';
+    final url = 'https://exercisedb.p.rapidapi.com/exercises/name/$encodedName?offset=0&limit=50';
     final headers = {
       'x-rapidapi-key': apiKey,
       'x-rapidapi-host': host,
@@ -106,12 +111,12 @@ class ExerciseService {
     if (jsonData is List) {
       exercises = jsonData.map((exerciseJson) {
         return {
-          'name': exerciseJson['name'],
-          'bodyPart': exerciseJson['bodyPart'],
-          'gifUrl': exerciseJson['gifUrl'],
-          'target': exerciseJson['target'],
+          'name': (exerciseJson['name'] as String).toLowerCase(),
+          'bodyPart': (exerciseJson['bodyPart'] as String).toLowerCase(),
+          'gifUrl': (exerciseJson['gifUrl'] as String),
+          'target': (exerciseJson['target'] as String).toLowerCase(),
           'instructions': exerciseJson['instructions'] != null
-              ? List<String>.from(exerciseJson['instructions'])
+              ? List<String>.from(exerciseJson['instructions'].map((instr) => (instr as String).toLowerCase()))
               : [],
         };
       }).toList();
@@ -120,11 +125,47 @@ class ExerciseService {
     return exercises;
   }
 }
-
 class ExerciseCard extends StatelessWidget {
   final Map<String, dynamic> exercise;
+  final UserProvider userProvider;
 
-  ExerciseCard({required this.exercise});
+  ExerciseCard({required this.exercise, required this.userProvider});
+
+  void _addToFavorites(BuildContext context) async {
+    final user = userProvider.user!;
+    if (!user.favorites!.contains(exercise['name'])) {
+      user.favorites!.add(exercise['name']);
+
+      UserModel updatedUser = UserModel(
+        uid: user.uid,
+        username: user.username,
+        profileImageUrl: user.profileImageUrl,
+        email: user.email,
+        gender: user.gender,
+        age: user.age,
+        height: user.height,
+        weight: user.weight,
+        neck: user.neck,
+        waist: user.waist,
+        hips: user.hips,
+        goal: user.goal,
+        level: user.level,
+        frequency: user.frequency,
+        duration: user.duration,
+        time: user.time,
+        favorites: user.favorites,
+      );
+
+      await userProvider.updateUser(updatedUser);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Exercise added to favorites!'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,12 +176,21 @@ class ExerciseCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              exercise['name'] ?? '',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  exercise['name'] ?? '',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.star, color: Colors.red),
+                  onPressed: () => _addToFavorites(context),
+                ),
+              ],
             ),
             SizedBox(height: 10),
             Text('Body Part: ${exercise['bodyPart'] ?? ''}'),

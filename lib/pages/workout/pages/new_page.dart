@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:fit_app/models/user_provider.dart';
 import 'dart:async';
+import 'package:fit_app/models/user_provider.dart';
 
 class ChatPage extends StatefulWidget {
   final UserProvider userProvider;
@@ -18,7 +19,7 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _controller = TextEditingController();
   List<Map<String, dynamic>> _parsedMessages = [];
   bool _showGenerateButton = true;
-  bool _showDropdown = false; // Control visibility of the Rest Time dropdown
+  bool _showDropdown = true; // Control visibility of the Rest Time dropdown
   int _selectedNumber = 1; // Variable to hold selected dropdown value
 
   List<Map<String, dynamic>> _parseResponse(String input) {
@@ -108,7 +109,7 @@ print(instructions);
   }
 
   Future<void> _sendMessage(String message, String userId) async {
-    final url = 'http://127.0.0.1:5000/chat';
+    final url = 'https://4a1b-140-114-87-235.ngrok-free.app/chat';
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -123,7 +124,11 @@ print(instructions);
         print(response.body);
         _showGenerateButton = false;
         _showDropdown = true; // Show the Rest Time dropdown after generating exercises
-      });
+        
+        widget.userProvider.updateExercises(_parsedMessages);
+
+      // Save to Firebase
+        widget. userProvider.saveExercisesToFirebase(_parsedMessages);      });
     } else {
       setState(() {
         _parsedMessages.clear();
@@ -135,10 +140,11 @@ print(instructions);
   @override
   Widget build(BuildContext context) {
     UserModel? user = widget.userProvider.user;
+    List<Map<String, dynamic>> exercises = widget.userProvider.exercises;
 
     String defaultMessage =
-        'Generate back workout for today in JSON format, where each exercise includes the name, the reps and the duration, please say nothing but directly the json format based on the file, make it "name". '
-        'Please create a workout plan for a person with the following details: '
+        'Generate workout for today in JSON format, and please make sure none of the excercises are the same and that they are varied, where each exercise includes the name, the reps and the duration, please give me a maximum of only FIVE as I will NOT accept more than 5 exercises and please say nothing but directly the json format based on the file, make it "name". '
+        'Please create a workout plan with 5 exercises only for a person with the following details: '
         'Age: ${user?.age}, Weight: ${user?.weight ?? 'N/A'}kg, Height: ${user?.height ?? 'N/A'}cm, Neck circumference: ${user?.neck ?? 'N/A'}cm, '
         'Waist circumference: ${user?.waist ?? 'N/A'}cm, Hip circumference: ${user?.hips ?? 'N/A'}cm, Gender: ${user?.gender ?? 'N/A'}, '
         'Goal: ${user?.goal ?? 'N/A'}, Level: ${user?.level ?? 'N/A'}, Frequency: ${user?.frequency ?? 'N/A'}, '
@@ -163,11 +169,11 @@ print(instructions);
             ),
           
           Expanded(
-            child: _parsedMessages.isNotEmpty
+            child: exercises.isNotEmpty
                 ? ListView.builder(
-                    itemCount: _parsedMessages.length,
+                    itemCount: exercises.length,
                     itemBuilder: (context, index) {
-                      final exercise = _parsedMessages[index];
+                      final exercise = exercises[index];
                       return Card(
                         margin: EdgeInsets.all(8.0),
                         child: ListTile(
@@ -216,7 +222,7 @@ print(instructions);
                 ],
               ),
             ),
-          if (_parsedMessages.isNotEmpty)
+          if (exercises.isNotEmpty)
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
@@ -224,7 +230,7 @@ print(instructions);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WorkoutPage(exercises: _parsedMessages, duration: _selectedNumber),
+                      builder: (context) => WorkoutPage(exercises:exercises, duration: _selectedNumber),
                     ),
                   );
                 },
@@ -285,9 +291,21 @@ class _WorkoutPageState extends State<WorkoutPage> {
     _cancelTimer();
     setState(() {
       _showTimer = false;
-      _currentPageIndex = (_currentPageIndex + 1) % widget.exercises.length;
-      _timeRemaining = widget.duration * 60; // Reset time for next exercise
+
+      if (_currentPageIndex < widget.exercises.length - 1) {
+        _currentPageIndex++;
+        _timeRemaining = widget.duration * 60; // Reset time for next exercise
+      } else {
+        // Workout complete, you can add additional logic here if needed
+      }
     });
+  }
+
+  void _markExerciseAsDone() {
+    final exercise = widget.exercises[_currentPageIndex];
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    //userProvider.saveDoneExercise(exercise);
+    _moveToNextExercise();
   }
 
   @override
@@ -298,104 +316,101 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   @override
   Widget build(BuildContext context) {
-  final exercise = widget.exercises[_currentPageIndex];
-  int lastIdx = widget.exercises.length - 1;
-  final double progress = (((widget.duration * 60.0) - _timeRemaining) / (widget.duration * 60.0));
+    final exercise = widget.exercises[_currentPageIndex];
+    int lastIdx = widget.exercises.length - 1;
+    final double progress = (((widget.duration * 60.0) - _timeRemaining) / (widget.duration * 60.0));
 
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('Workout'),
-    ),
-    body: _showTimer
-        ? Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Rest for',
-                  style: TextStyle(fontSize: 24.0),
-                ),
-                SizedBox(height: 20.0),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      height: 150,
-                      child: CircularProgressIndicator(
-                        value: progress,
-                        strokeWidth: 10.0,
-                        backgroundColor: Colors.blue[300],
-                        valueColor: AlwaysStoppedAnimation<Color>(const Color.fromARGB(255, 212, 199, 199)),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Workout'),
+      ),
+      body: _showTimer
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Rest for',
+                    style: TextStyle(fontSize: 24.0),
+                  ),
+                  SizedBox(height: 20.0),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: CircularProgressIndicator(
+                          value: progress,
+                          strokeWidth: 10.0,
+                          backgroundColor: Colors.blue[300],
+                          valueColor: AlwaysStoppedAnimation<Color>(const Color.fromARGB(255, 212, 199, 199)),
+                        ),
                       ),
+                      Text(
+                        '$_timeRemaining s',
+                        style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.0),
+                  ElevatedButton(
+                    onPressed: _markExerciseAsDone,
+                    child: Text(lastIdx == _currentPageIndex ? 'Finish' : 'Done'),
+                  ),
+                ],
+              ),
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    exercise['name'],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(
-                      '$_timeRemaining s',
-                      style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                  ),
                 ),
-                SizedBox(height: 20.0),
-                ElevatedButton(
-                  onPressed: _moveToNextExercise,
-                  child: Text(lastIdx == _currentPageIndex ? 'Finish' : 'Done'),
+                ListTile(
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Body Part: ${exercise['bodyPart']}"),
+                      Text("Target: ${exercise['target']}"),
+                      Text("Instructions: ${exercise['instructions'].join(", ")}"),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Image.network(exercise['gifUrl']),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_currentPageIndex == lastIdx) {
+                          Navigator.pop(context);
+                        } else {
+                          _startTimer();
+                        }
+                      },
+                      child: Text(lastIdx == _currentPageIndex ? 'Finish' : 'Next'),
+                    ),
+                  ),
                 ),
               ],
             ),
-          )
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  exercise['name'],
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              ListTile(
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Body Part: ${exercise['bodyPart']}"),
-                    Text("Target: ${exercise['target']}"),
-                    Text("Instructions: ${exercise['instructions'].join(", ")}"),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: Image.network(exercise['gifUrl']),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_currentPageIndex == lastIdx) {
-                        // Perform actions to exit the page or finish the workout
-                        // For example:
-                        Navigator.pop(context); // Pop current page
-                        // You might also want to reset or finalize your workout session
-                      } else {
-                        _startTimer();
-                      }
-                    },
-                    child: Text(lastIdx == _currentPageIndex ? 'Finish' : 'Next'),
-                  ),
-                ),
-              ),
-            ],
-          ),
-  );
-}
+    );
+  }
 }
